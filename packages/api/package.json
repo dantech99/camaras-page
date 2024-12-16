@@ -1,0 +1,16 @@
+{
+  "name": "@camaras/api",
+  "version": "1.0.50",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@elysiajs/eden": "^1.1.3",
+    "elysia": "latest"
+  },
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "module": "src/index.js"
+}

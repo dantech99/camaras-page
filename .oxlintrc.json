@@ -1,0 +1,27 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["import", "typescript", "unicorn", "eslint-plugin-next", "eslint-plugin-react", "eslint-plugin-react-hooks"],
+  "env": {
+    "browser": true
+  },
+  "globals": {
+    "foo": "readonly"
+  },
+  "settings": {},
+  "ignorePatterns": ["node_modules", "dist", "build", "public"],
+  "rules": {
+    "eqeqeq": "warn",
+    "import/no-cycle": "error"
+  },
+  "overrides": [
+    {
+      "files": ["*.test.ts", "*.spec.ts"],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off",
+        "eslint/no-unused-vars": "error",
+        "react/react-in-jsx-scope": "off",
+        "import/no-relative-parent-imports": "error"
+      }
+    }
+  ]
+}
