@@ -5,3 +5,5 @@ export const api = new Elysia({
 }).get("/", () => {
   return "Hello world";
 });
+
+export type api = typeof api;
