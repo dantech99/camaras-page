@@ -2,8 +2,8 @@ import React from 'react'
 
 export function SomosPage() {
   return (
-    <div>
-        hola mundo tsx tsx
+    <div className="text-2xl">
+        hola mundo tsx tsx dsda
     </div>
   )
 }
