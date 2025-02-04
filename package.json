@@ -3,15 +3,16 @@
   "private": true,
   "scripts": {
     "build": "turbo build",
+    "envs": "turbo envs",
     "dev": "turbo dev",
     "lint": "oxlint",
     "check-types": "turbo check-types"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "oxlint": "^0.15.2",
-    "prettier": "^3.2.5",
-    "turbo": "^2.3.3",
+    "oxlint": "^0.15.8",
+    "prettier": "^3.4.2",
+    "turbo": "^2.3.4",
     "typescript": "5.5.4"
   },
   "engines": {
@@ -20,7 +21,6 @@
   "packageManager": "bun@1.1.39",
   "workspaces": ["apps/*", "packages/*"],
   "dependencies": {
-    "@nextui-org/chip": "^2.2.4",
     "eslint-plugin-oxlint": "^0.15.2",
     "nextui-cli": "^0.5.0"
   },
