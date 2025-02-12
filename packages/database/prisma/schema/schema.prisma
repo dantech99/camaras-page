@@ -1,7 +1,7 @@
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["prismaSchemaFolder"]
-  output          = "../generated/database"
+  output          = "../../generated/database"
 }
 
 datasource db {
@@ -31,7 +31,6 @@ model User {
   members             Member[]
   invitations         Invitation[]
   sales               Sale[]            @relation("Buyer")
-  salesAsPhotographer Sale[]            @relation("Photographer")
   favorites           Favorite[]
   changeLogs          ChangeLog[]
   reviewsWritten      Review[]
@@ -39,7 +38,6 @@ model User {
   PhotoPackage        PhotoPackage[]
   TransactionLogsTo   TransactionLogs[] @relation("userTo")
   TransactionLogsFrom TransactionLogs[] @relation("userFrom")
-  Sale                Sale[]
 
   @@unique([email])
   @@unique([phoneNumber])
