@@ -19,6 +19,7 @@
     "typescript": "5.5.4"
   },
   "dependencies": {
+    "@react-spring/web": "^9.7.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   }

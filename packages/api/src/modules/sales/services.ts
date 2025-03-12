@@ -45,5 +45,4 @@ export class Sales {
             where: { packageId },
         });
     }
-
 }

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
+import { LayoutHome } from "../../../../packages/ui/src/home/layout";
+import { FuturisticFooter } from "@camaras/ui/src/home/components/footer/footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,7 +30,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Providers>{children}</Providers>
+        <Providers>
+          <LayoutHome>{children}</LayoutHome>
+        </Providers>
       </body>
     </html>
   );
