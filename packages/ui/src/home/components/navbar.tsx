@@ -2,17 +2,18 @@
 
 import React, { useState } from "react";
 import { Home, Search, Menu, X, Images, CalendarCheck, Users, Contact, CircleUserIcon } from "lucide-react";
+import  Link  from "next/link";
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navItems = [
-    { name: "Inicio", icon: Home },
-    { name: "Somos", icon: CircleUserIcon },
-    { name: "Fotógrafos", icon: Users },
-    { name: "Agenda", icon: CalendarCheck },
-    { name: "Galería", icon: Images },
-    { name: "Contacto", icon: Contact },
+    { name: "Inicio", icon: Home, href: "/inicio" },
+    { name: "Somos", icon: CircleUserIcon, href: "/somos" },
+    { name: "Fotógrafos", icon: Users, href: "/fotografos" },
+    { name: "Agenda", icon: CalendarCheck, href: "/agenda" },
+    { name: "Galería", icon: Images, href: "/galeria" },
+    { name: "Contacto", icon: Contact, href: "/contacto" },
   ];
 
   return (
@@ -38,14 +39,14 @@ export const Navbar = () => {
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-8">
               {navItems.map((item) => (
-                <a
+                <Link
                   key={item.name}
-                  href="/"
+                  href={item.href}
                   className="nav-item flex items-center space-x-1 text-gray-300 hover:text-white transition-colors duration-200 group"
                 >
                   <item.icon className="w-5 h-5" />
                   <span>{item.name}</span>
-                </a>
+                </Link>
               ))}
             </div>
           </div>
@@ -78,16 +79,15 @@ export const Navbar = () => {
         </div>
         <div className="flex flex-col items-center justify-center h-[calc(100%-5rem)] px-4">
           {navItems.map((item) => (
-            // biome-ignore lint/a11y/useValidAnchor: <explanation>
-            <a
+            <Link
               key={item.name}
-              href="#"
+              href={item.href}
               className="mobile-nav-item flex items-center space-x-3 text-gray-300 hover:text-white py-6 px-8 rounded-lg transition-colors duration-200 text-xl w-full max-w-sm justify-center"
               onClick={() => setIsMenuOpen(false)}
             >
               <item.icon className="w-7 h-7" />
               <span>{item.name}</span>
-            </a>
+            </Link>
           ))}
         </div>
       </div>

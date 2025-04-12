@@ -19,3 +19,38 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 3s infinite;
+}
+
+@keyframes borderPulse {
+  0% {
+    border-color: rgba(0, 112, 243, 0.4);
+  }
+  50% {
+    border-color: rgba(0, 112, 243, 0.9);
+  }
+  100% {
+    border-color: rgba(0, 112, 243, 0.4);
+  }
+}
+
+.animate-border-pulse {
+  animation: borderPulse 2s infinite;
+}
+

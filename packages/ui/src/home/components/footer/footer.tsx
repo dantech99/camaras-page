@@ -19,7 +19,7 @@ export function FuturisticFooter() {
                   className="object-cover"
                 />
               </div>
-              <span className="text-xl font-bold tracking-tight">FutureSpace</span>
+              <span className="text-xl font-bold tracking-tight">Las Cámaras del Dragón</span>
             </div>
             <p className="text-gray-400 text-sm">
               Creating innovative solutions for tomorrow's challenges. Join us on our journey to the future.
@@ -110,7 +110,7 @@ export function FuturisticFooter() {
         </div>
 
         <div className="mt-12 pt-6 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-500 text-sm">© {new Date().getFullYear()} FutureSpace. All rights reserved.</p>
+          <p className="text-gray-500 text-sm">© {new Date().getFullYear()} Las Cámaras del Dragón. Todos los derechos reservados.</p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <Link href="#" className="text-gray-500 hover:text-white text-sm transition-colors">
               Privacy Policy
