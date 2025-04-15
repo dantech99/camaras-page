@@ -2,6 +2,7 @@ import { auth } from "@camaras/auth";
 import { cors } from "@elysiajs/cors";
 import { swagger } from "@elysiajs/swagger";
 import { type Context, Elysia } from "elysia";
+import orderRouter from "./modules/order/router";
 import "./utils/envs";
 
 const betterAuthView = (context: Context) => {
@@ -17,8 +18,8 @@ export const api = new Elysia({
   prefix: "/api",
 })
   .use(cors())
-  .use(swagger())
   .all("/auth/*", betterAuthView)
-  .get("/hola", () => "hola");
+  .get("/hola", () => "hola")
+  .use(swagger());
 
 export type Api = typeof api;

@@ -17,7 +17,6 @@ export const HomeScreen = () => {
         <PhotographerGrid />
       </div>
 
-
       <GalleryPhotographer />
 
       <AnimatedTestimonialCarousel />
