@@ -6,6 +6,7 @@ import {
   anonymous,
   organization,
   phoneNumber,
+  openAPI,
 } from "better-auth/plugins";
 
 const prisma = new PrismaClient();
@@ -18,9 +19,9 @@ export const auth = betterAuth({
   secret: process.env.AUTH_SECRET,
   baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
   plugins: [
+    openAPI(),
     phoneNumber({
-      sendOTP(data, request) {//TODO: Implementar el envio de mensajes de texto
-      },
+      sendOTP(data, request) {},
     }),
     organization({
       async allowUserToCreateOrganization(user) {
