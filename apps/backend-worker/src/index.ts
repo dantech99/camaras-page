@@ -1,8 +1,9 @@
 import { api } from "@camaras/api/src";
+import { auth } from "@camaras/auth";
 import { Elysia } from "elysia";
 
-const app = api.listen(8080);
+const app = api.mount(auth.handler).listen(8080);
 
 console.log(
-  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`,
+  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
 );
