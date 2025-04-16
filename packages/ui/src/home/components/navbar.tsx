@@ -8,7 +8,7 @@ export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navItems = [
-    { name: "Inicio", icon: Home, href: "/inicio" },
+    { name: "Inicio", icon: Home, href: "/" },
     { name: "Somos", icon: CircleUserIcon, href: "/somos" },
     { name: "Fotógrafos", icon: Users, href: "/fotografos" },
     { name: "Agenda", icon: CalendarCheck, href: "/agenda" },

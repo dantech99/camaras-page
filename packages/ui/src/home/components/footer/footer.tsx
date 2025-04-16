@@ -1,6 +1,15 @@
 import Link from "next/link"
 import Image from "next/image"
-import { Github, Twitter, Instagram, Linkedin, ChevronRight } from "lucide-react"
+import { Twitter, Instagram, ChevronRight, Facebook } from "lucide-react"
+
+const quickLinks = [
+  { name: "Inicio", href: "/" },
+  { name: "Somos", href: "/somos" },
+  { name: "Fotógrafos", href: "/fotografos" },
+  { name: "Agenda", href: "/agenda" },
+  { name: "Galeria", href: "/galeria" },
+  { name: "Contacto", href: "/contacto" }
+]
 
 export function FuturisticFooter() {
   return (
@@ -25,22 +34,22 @@ export function FuturisticFooter() {
               Creating innovative solutions for tomorrow's challenges. Join us on our journey to the future.
             </p>
             <div className="flex space-x-4 pt-2">
+
               <Link href="#" className="text-gray-400 hover:text-white transition-colors">
-                <Twitter className="h-5 w-5" />
-                <span className="sr-only">Twitter</span>
+                <Facebook className="h-5 w-5" />
+                <span className="sr-only">Instagram</span>
               </Link>
+
               <Link href="#" className="text-gray-400 hover:text-white transition-colors">
                 <Instagram className="h-5 w-5" />
                 <span className="sr-only">Instagram</span>
               </Link>
+
               <Link href="#" className="text-gray-400 hover:text-white transition-colors">
-                <Github className="h-5 w-5" />
-                <span className="sr-only">GitHub</span>
+                <Twitter className="h-5 w-5" />
+                <span className="sr-only">Twitter</span>
               </Link>
-              <Link href="#" className="text-gray-400 hover:text-white transition-colors">
-                <Linkedin className="h-5 w-5" />
-                <span className="sr-only">LinkedIn</span>
-              </Link>
+            
             </div>
           </div>
 
@@ -51,14 +60,14 @@ export function FuturisticFooter() {
               <span className="absolute -bottom-1 left-0 w-12 h-0.5 bg-gradient-to-r from-purple-500 to-blue-500" />
             </h3>
             <ul className="space-y-2">
-              {["Home", "About", "Services", "Portfolio", "Blog"].map((item) => (
-                <li key={item} className="group">
+              {quickLinks.map((item) => (
+                <li key={item.name} className="group">
                   <Link
-                    href="#"
+                    href={item.href}
                     className="text-gray-400 hover:text-white transition-colors flex items-center group-hover:translate-x-1 duration-200"
                   >
                     <ChevronRight className="h-3 w-3 mr-1 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    {item}
+                    {item.name}
                   </Link>
                 </li>
               ))}

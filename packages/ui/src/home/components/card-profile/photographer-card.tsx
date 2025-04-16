@@ -111,7 +111,7 @@ export function PhotographerCard({ name, image, role }: PhotographerCardProps) {
 
   return (
     <motion.div
-      className="relative overflow-hidden rounded-2xl bg-gradient-to-b from-gray-900/80 to-gray-900 aspect-[3/4] cursor-pointer"
+      className="relative overflow-hidden rounded-2xl bg-gradient-to-b from-gray-900/80 to-gray-900 aspect-[3/4] w-full cursor-pointer"
       variants={cardVariants}
       whileHover="hover"
       whileTap="tap"

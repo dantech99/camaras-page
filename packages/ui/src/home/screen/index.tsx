@@ -1,5 +1,5 @@
 import React from "react";
-import { HeroSlider } from "../components/slider-hero";
+import { HeroSection } from "../components/slider-hero/slider";
 import { AboutSection } from "../components/about-us/about-us";
 import { PhotographerGrid } from "../components/card-profile/photographer-grid";
 import { GalleryGeneral } from "../components/gallery-general/gallery-general";
@@ -9,18 +9,19 @@ import AnimatedTestimonialCarousel from "../components/testimonial-card/animated
 export const HomeScreen = () => {
   return (
     <>
-      <HeroSlider />
+      <div className="max-w-8xl mx-auto">
+        <HeroSection />
 
-      <AboutSection />
+        <AboutSection />
 
-      <div className="min-h-[550] flex items-center justify-center">
-        <PhotographerGrid />
+        <div className="min-h-[550] flex items-center justify-center">
+          <PhotographerGrid />
+        </div>
+
+        <GalleryPhotographer />
+
+        <AnimatedTestimonialCarousel />
       </div>
-
-      <GalleryPhotographer />
-
-      <AnimatedTestimonialCarousel />
-      
     </>
   );
 };

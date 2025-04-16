@@ -5,26 +5,28 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { PhotographerCard } from './photographer-card';
 
 const photographers = [
+  
   {
-    name: "Ana Silva",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1000",
-    role: "Fotógrafa de Retratos"
+    name: "Carlos Mendoza",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000",
+    role: "Fotógrafo Cosplay"
   },
   {
     name: "Carlos Mendoza",
     image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000",
-    role: "Fotógrafo de Bodas"
+    role: "Fotógrafo Cosplay"
   },
   {
-    name: "María González",
-    image: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=1000",
-    role: "Fotógrafa de Eventos"
+    name: "Carlos Mendoza",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000",
+    role: "Fotógrafo Cosplay"
   },
   {
-    name: "Juan Pérez",
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1000",
-    role: "Fotógrafo de Naturaleza"
+    name: "Carlos Mendoza",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000",
+    role: "Fotógrafo Cosplay"
   }
+
 ];
 
 const containerVariants = {
@@ -77,7 +79,7 @@ export function PhotographerGrid() {
 
   if (isMobile) {
     return (
-      <div className="w-full px-4 py-8">
+      <div className="w-full px-3 py-1">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentIndex}
@@ -118,7 +120,7 @@ export function PhotographerGrid() {
 
   return (
     <motion.div
-      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-8 w-full max-w-7xl"
+      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-8 w-full"
       variants={containerVariants}
       initial="hidden"
       animate="show"
