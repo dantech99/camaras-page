@@ -7,10 +7,10 @@ import { AnimatedButton } from "../../../shared/components/button/animated-butto
 
 // Imágenes de ejemplo - puedes reemplazarlas con tus propias URLs
 const images = [
-  "/placeholder.svg?height=600&width=500",
-  "/placeholder.svg?height=600&width=500",
-  "/placeholder.svg?height=600&width=500",
-  "/placeholder.svg?height=600&width=500",
+  "/images/about-us/1.jpg",
+  "/images/about-us/2.jpg",
+  "/images/about-us/3.jpg",
+  "/images/about-us/4.jpg",
 ]
 
 export function AboutSection() {
@@ -43,7 +43,7 @@ export function AboutSection() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.8 }}
-                  className="aspect-[3/4] w-full"
+                  className="aspect-[1/1] w-full"
                 >
                   <img
                     src={images[currentImageIndex] || "/placeholder.svg"}
