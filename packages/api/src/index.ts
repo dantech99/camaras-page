@@ -24,16 +24,6 @@ const betterAuth = new Elysia({ name: "better-auth" })
     },
   });
 
-const betterAuthView = (context: Context) => {
-  const BETTER_AUTH_ACCEPT_METHODS = ["POST", "GET"];
-
-  if (BETTER_AUTH_ACCEPT_METHODS.includes(context.request.method)) {
-    return auth.handler(context.request);
-  }
-
-  return context.error(405);
-};
-
 export const api = new Elysia({
   prefix: "/api",
 })
@@ -45,7 +35,6 @@ export const api = new Elysia({
       allowedHeaders: ["Authorization", "Content-Type"],
     })
   )
-  .use(betterAuth)
-  .all("/auth/*", betterAuthView);
+  .use(betterAuth);
 
 export type Api = typeof api;
