@@ -1,96 +1,172 @@
 'use client'
 
-import React, { useState } from "react";
-import { Home, Search, Menu, X, Images, CalendarCheck, Users, Contact, CircleUserIcon } from "lucide-react";
-import  Link  from "next/link";
+import React, { useState, useEffect } from "react";
+import { Search, Menu, X } from "lucide-react";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@camaras/ui/src/components/ui/dialog";
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   const navItems = [
-    { name: "Inicio", icon: Home, href: "/" },
-    { name: "Somos", icon: CircleUserIcon, href: "/somos" },
-    { name: "Fotógrafos", icon: Users, href: "/fotografos" },
-    { name: "Agenda", icon: CalendarCheck, href: "/agenda" },
-    { name: "Galería", icon: Images, href: "/galeria" },
-    { name: "Contacto", icon: Contact, href: "/contacto" },
+    { name: "Somos", href: "/somos" },
+    { name: "Fotógrafos", href: "/fotografos" },
+    { name: "Agenda", href: "/agenda" },
+    { name: "Galería", href: "/galeria" },
+    { name: "Contacto", href: "/contacto" },
   ];
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 180);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 flex items-center justify-center p-4 z-50">
-        <div className="backdrop-blur-md bg-white/10 border border-white/20 shadow-lg rounded-full px-8 py-3">
-          <div className="flex items-center space-x-6">
-            {/* Mobile Menu Button */}
-            <button
-              type="button"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden text-white hover:text-purple-400 transition-colors duration-200"
-            >
-              <Menu className="w-6 h-6" />
-            </button>
+      <motion.nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-black/20 backdrop-blur-md border-cyan-500/20' : 'bg-transparent'
+          }`}
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            {/* Left section - Logo and Search */}
+            <div className="flex items-center space-x-4">
+              <Link href="/" className="flex items-center">
+                <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-cyan-600">
+                  Logo
+                </span>
+              </Link>
 
-            <div className="flex-shrink-0">
-              <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-pink-500">
-                Logo
-              </span>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <button className="flex items-center space-x-2 text-gray-300 hover:text-cyan-400 transition-colors duration-200">
+                    <Search className="h-5 w-5" />
+                  </button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px] bg-gray-900 border-cyan-500/20">
+                  <DialogHeader>
+                    <DialogTitle className="text-cyan-400">Busca tu ticket</DialogTitle>
+                  </DialogHeader>
+                  <div className="relative mt-4">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Search className="h-5 w-5 text-cyan-400" />
+                    </div>
+                    <input
+                      type="text"
+                      placeholder="Ingresa tu número de ticket..."
+                      className="block w-full pl-10 pr-3 py-2 border border-cyan-500/30 rounded-md bg-black/30 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-transparent"
+                    />
+                  </div>
+                </DialogContent>
+              </Dialog>
             </div>
 
-            {/* Desktop Menu */}
+            {/* Center section - Navigation links */}
             <div className="hidden md:flex items-center space-x-8">
               {navItems.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="nav-item flex items-center space-x-1 text-gray-300 hover:text-white transition-colors duration-200 group"
+                  className="group text-gray-300 hover:text-cyan-400 transition-colors duration-200"
                 >
-                  <item.icon className="w-5 h-5" />
-                  <span>{item.name}</span>
+                  <span className="text-sm font-medium">{item.name}</span>
+                  <div className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-cyan-500/0 via-cyan-500/50 to-cyan-500/0 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
                 </Link>
               ))}
             </div>
+
+            {/* Right section - Login button */}
+            <div className="flex items-center">
+              <button className="px-4 py-2 rounded-md border border-cyan-500/30 bg-black/30 text-cyan-400 hover:bg-cyan-500/10 transition-colors duration-200">
+                Iniciar sesión
+              </button>
+            </div>
+
+            {/* Mobile menu button */}
+            <div className="md:hidden">
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="text-gray-300 hover:text-cyan-400 focus:outline-none"
+              >
+                <Menu className="h-6 w-6" />
+              </button>
+            </div>
           </div>
         </div>
-      </nav>
+      </motion.nav>
 
-      {/* Mobile Menu Overlay */}
-      {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
-      <div
-        className={`fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300 md:hidden ${
-          isMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`}
-        onClick={() => setIsMenuOpen(false)}
-      />
-
-      {/* Mobile Menu Sidebar - Now Fullscreen */}
-      <div
-        className={`fixed inset-0 bg-gradient-to-b from-gray-900 via-purple-900 to-violet-900 z-50 transform transition-transform duration-300 ease-in-out md:hidden ${
-          isMenuOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
+      {/* Mobile menu */}
+      <motion.div
+        className={`fixed inset-0 z-50 md:hidden ${isMenuOpen ? 'block' : 'hidden'
+          }`}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isMenuOpen ? 1 : 0 }}
+        transition={{ duration: 0.3 }}
       >
-        <div className="flex justify-end p-6">
-          <button
-            type="button"
-            onClick={() => setIsMenuOpen(false)}
-            className="text-white hover:text-purple-400 transition-colors duration-200"
-          >
-            <X className="w-8 h-8" />
-          </button>
-        </div>
-        <div className="flex flex-col items-center justify-center h-[calc(100%-5rem)] px-4">
-          {navItems.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className="mobile-nav-item flex items-center space-x-3 text-gray-300 hover:text-white py-6 px-8 rounded-lg transition-colors duration-200 text-xl w-full max-w-sm justify-center"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              <item.icon className="w-7 h-7" />
-              <span>{item.name}</span>
-            </Link>
-          ))}
-        </div>
-      </div>
+        <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setIsMenuOpen(false)} />
+
+        <motion.div
+          className="relative h-full w-full"
+          initial={{ x: '100%' }}
+          animate={{ x: isMenuOpen ? '0%' : '100%' }}
+          transition={{ duration: 0.3 }}
+        >
+          <div className="absolute right-0 top-0 h-full w-full max-w-sm bg-gradient-to-b from-gray-900 via-purple-900 to-violet-900">
+            <div className="flex justify-end p-4">
+              <button
+                onClick={() => setIsMenuOpen(false)}
+                className="text-gray-300 hover:text-cyan-400"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+
+            <div className="px-4 py-6">
+              <div className="relative mb-6">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Search className="h-5 w-5 text-cyan-400" />
+                </div>
+                <input
+                  type="text"
+                  placeholder="Buscar..."
+                  className="block w-full pl-10 pr-3 py-2 border border-cyan-500/30 rounded-full bg-black/30 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-transparent"
+                />
+              </div>
+
+              <div className="space-y-4">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className="block text-gray-300 hover:text-cyan-400 transition-colors duration-200 text-sm font-medium"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+                <button className="w-full px-4 py-2 rounded-md border border-cyan-500/30 bg-black/30 text-cyan-400 hover:bg-cyan-500/10 transition-colors duration-200">
+                  Iniciar sesión
+                </button>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </motion.div>
     </>
   );
 };
