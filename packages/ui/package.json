@@ -8,7 +8,8 @@
   "scripts": {
     "lint": "eslint . --max-warnings 0",
     "generate:component": "turbo gen react-component",
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "shadcn": "bunx --bun --stdio shadcn@latest"
   },
   "devDependencies": {
     "@camaras/typescript-config": "*",
@@ -19,7 +20,9 @@
     "typescript": "5.5.4"
   },
   "dependencies": {
+    "@radix-ui/react-slot": "^1.2.0",
     "@react-spring/web": "^9.7.4",
+    "class-variance-authority": "^0.7.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   }
