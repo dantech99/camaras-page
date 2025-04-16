@@ -6,7 +6,8 @@
     "envs": "turbo envs",
     "dev": "turbo dev",
     "lint": "oxlint",
-    "check-types": "turbo check-types"
+    "check-types": "turbo check-types",
+    "shadcn": "bun --filter @camaras/ui shadcn"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
@@ -19,7 +20,10 @@
     "node": ">=18"
   },
   "packageManager": "bun@1.1.39",
-  "workspaces": ["apps/*", "packages/*"],
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "dependencies": {
     "@heroui/button": "^2.2.16",
     "@react-spring/web": "^9.7.5",

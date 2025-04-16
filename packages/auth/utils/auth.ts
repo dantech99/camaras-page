@@ -1,7 +1,7 @@
 import { PrismaClient } from "@camaras/database";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { openAPI } from "better-auth/plugins";
+import { admin, anonymous, openAPI, organization } from "better-auth/plugins";
 
 const prisma = new PrismaClient();
 
@@ -29,7 +29,22 @@ export const auth = betterAuth({
       clientSecret: process.env.TWITTER_CLIENT_SECRET as string,
     },
   },
-  plugins: [openAPI()],
+  plugins: [
+    openAPI(),
+    organization({
+      async allowUserToCreateOrganization(user) {
+        const finalUser = await prisma.user.findUnique({
+          where: {
+            id: user.id,
+          },
+        });
+
+        return finalUser?.role === "admin";
+      },
+    }),
+    anonymous(),
+    admin(),
+  ],
   advanced: {
     crossSubDomainCookies: {
       enabled: true,
