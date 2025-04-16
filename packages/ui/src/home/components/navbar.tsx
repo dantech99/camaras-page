@@ -91,7 +91,7 @@ export const Navbar = () => {
             </div>
 
             {/* Right section - Login button */}
-            <div className="flex items-center">
+            <div className="hidden md:flex items-center">
               <button className="px-4 py-2 rounded-md border border-cyan-500/30 bg-black/30 text-cyan-400 hover:bg-cyan-500/10 transition-colors duration-200">
                 Iniciar sesión
               </button>
