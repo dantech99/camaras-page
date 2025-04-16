@@ -1,28 +1,10 @@
-import { auth } from "@camaras/auth";
 import { cors } from "@elysiajs/cors";
 import { swagger } from "@elysiajs/swagger";
-import { type Context, Elysia } from "elysia";
-import orderRouter from "./modules/order/router";
+import { Elysia } from "elysia";
 import "./utils/envs";
+import { betterAuth } from "./utils/betteAuthPlugin";
 
-const betterAuth = new Elysia({ name: "better-auth" })
-  .mount(auth.handler)
-  .macro({
-    auth: {
-      async resolve({ error, request: { headers } }) {
-        const session = await auth.api.getSession({
-          headers,
-        });
-
-        if (!session) return error(401);
-
-        return {
-          user: session.user,
-          session: session.session,
-        };
-      },
-    },
-  });
+import orderRouter from "./modules/order/router";
 
 export const api = new Elysia({
   prefix: "/api",
@@ -35,6 +17,8 @@ export const api = new Elysia({
       allowedHeaders: ["Authorization", "Content-Type"],
     })
   )
-  .use(betterAuth);
+  .use(swagger())
+  .use(betterAuth)
+  .use(orderRouter);
 
 export type Api = typeof api;
