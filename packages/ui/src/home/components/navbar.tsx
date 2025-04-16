@@ -47,7 +47,7 @@ export const Navbar = () => {
             {/* Left section - Logo and Search */}
             <div className="flex items-center space-x-4">
               <Link href="/" className="flex items-center">
-                <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-cyan-600">
+                <span className="text-2xl font-bold bg-clip-text text-transparent bg-linear-to-r from-cyan-400 to-cyan-600">
                   Logo
                 </span>
               </Link>
@@ -69,7 +69,7 @@ export const Navbar = () => {
                     <input
                       type="text"
                       placeholder="Ingresa tu número de ticket..."
-                      className="block w-full pl-10 pr-3 py-2 border border-cyan-500/30 rounded-md bg-black/30 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-transparent"
+                      className="block w-full pl-10 pr-3 py-2 border border-cyan-500/30 rounded-md bg-black/30 text-white placeholder-gray-400 focus:outline-hidden focus:ring-2 focus:ring-cyan-500/50 focus:border-transparent"
                     />
                   </div>
                 </DialogContent>
@@ -85,7 +85,7 @@ export const Navbar = () => {
                   className="group text-gray-300 hover:text-cyan-400 transition-colors duration-200"
                 >
                   <span className="text-sm font-medium">{item.name}</span>
-                  <div className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-cyan-500/0 via-cyan-500/50 to-cyan-500/0 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
+                  <div className="absolute -bottom-1 left-0 w-full h-0.5 bg-linear-to-r from-cyan-500/0 via-cyan-500/50 to-cyan-500/0 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
                 </Link>
               ))}
             </div>
@@ -101,7 +101,7 @@ export const Navbar = () => {
             <div className="md:hidden">
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="text-gray-300 hover:text-cyan-400 focus:outline-none"
+                className="text-gray-300 hover:text-cyan-400 focus:outline-hidden"
               >
                 <Menu className="h-6 w-6" />
               </button>
@@ -118,7 +118,7 @@ export const Navbar = () => {
         animate={{ opacity: isMenuOpen ? 1 : 0 }}
         transition={{ duration: 0.3 }}
       >
-        <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setIsMenuOpen(false)} />
+        <div className="absolute inset-0 bg-black/80 backdrop-blur-xs" onClick={() => setIsMenuOpen(false)} />
 
         <motion.div
           className="relative h-full w-full"
@@ -126,7 +126,7 @@ export const Navbar = () => {
           animate={{ x: isMenuOpen ? '0%' : '100%' }}
           transition={{ duration: 0.3 }}
         >
-          <div className="absolute right-0 top-0 h-full w-full max-w-sm bg-gradient-to-b from-gray-900 via-purple-900 to-violet-900">
+          <div className="absolute right-0 top-0 h-full w-full max-w-sm bg-linear-to-b from-gray-900 via-purple-900 to-violet-900">
             <div className="flex justify-end p-4">
               <button
                 onClick={() => setIsMenuOpen(false)}
@@ -144,7 +144,7 @@ export const Navbar = () => {
                 <input
                   type="text"
                   placeholder="Buscar..."
-                  className="block w-full pl-10 pr-3 py-2 border border-cyan-500/30 rounded-full bg-black/30 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-transparent"
+                  className="block w-full pl-10 pr-3 py-2 border border-cyan-500/30 rounded-full bg-black/30 text-white placeholder-gray-400 focus:outline-hidden focus:ring-2 focus:ring-cyan-500/50 focus:border-transparent"
                 />
               </div>
 

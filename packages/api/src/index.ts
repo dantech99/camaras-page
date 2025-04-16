@@ -15,7 +15,7 @@ export const api = new Elysia({
       methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
       credentials: true,
       allowedHeaders: ["Authorization", "Content-Type"],
-    })
+    }),
   )
   .use(swagger())
   .use(betterAuth)

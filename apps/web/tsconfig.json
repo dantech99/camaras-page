@@ -20,8 +20,8 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@camaras/ui/src/*": ["../../packages/ui/src/*"],
-      "@camaras/api/src/enden": ["../../packages/api/src/enden"]
+      "@camaras/ui/*": ["../../packages/ui/*"],
+      "@camaras/api/*": ["../../packages/api/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

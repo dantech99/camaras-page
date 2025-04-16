@@ -227,7 +227,7 @@ export const SignUp: React.FC = () => {
             <motion.div className="relative">
               <motion.button
                 type="button"
-                className="flex items-center h-[42px] px-3 border border-gray-300 rounded-full bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                className="flex items-center h-[42px] px-3 border border-gray-300 rounded-full bg-gray-50 focus:outline-hidden focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm"
                 onClick={() => setShowCountryDropdown(!showCountryDropdown)}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
@@ -243,7 +243,7 @@ export const SignUp: React.FC = () => {
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
-                  className="absolute z-10 mt-1 w-52 bg-white shadow-lg max-h-48 rounded-xl py-1 text-sm overflow-auto focus:outline-none border border-gray-200"
+                  className="absolute z-10 mt-1 w-52 bg-white shadow-lg max-h-48 rounded-xl py-1 text-sm overflow-auto focus:outline-hidden border border-gray-200"
                 >
                   {countryCodes.map((country) => (
                     <motion.button
@@ -253,7 +253,7 @@ export const SignUp: React.FC = () => {
                       onClick={() => selectCountry(country)}
                       whileHover={{ backgroundColor: "#f3f4f6" }}
                     >
-                      <span className="w-6 h-4 flex-shrink-0">
+                      <span className="w-6 h-4 shrink-0">
                         {country.flag && React.createElement(country.flag)}
                       </span>
                       <span className="flex-1 truncate">{country.country}</span>
@@ -396,7 +396,7 @@ export const SignUp: React.FC = () => {
             type="checkbox"
             checked={agreeToTerms}
             onChange={() => setAgreeToTerms(!agreeToTerms)}
-            className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+            className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded-sm"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
           />
@@ -407,7 +407,7 @@ export const SignUp: React.FC = () => {
         
         <motion.button
           type="submit"
-          className="w-full bg-indigo-600 text-white py-2 px-4 rounded-full hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors text-sm"
+          className="w-full bg-indigo-600 text-white py-2 px-4 rounded-full hover:bg-indigo-700 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors text-sm"
           whileHover={{ scale: 1.02, backgroundColor: "#4338ca" }}
           whileTap={{ scale: 0.98 }}
           disabled={!agreeToTerms}
