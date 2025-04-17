@@ -1,5 +1,4 @@
-import { HomeScreen } from "@camaras/ui/src/home/screen";
-import Image from "next/image";
+import { HomeScreen } from "@/modules/global/home-screen";
 
 export default function Home() {
   return <HomeScreen />;
