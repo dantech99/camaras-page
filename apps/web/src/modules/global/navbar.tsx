@@ -67,7 +67,7 @@ export const Navbar = () => {
 
             {/* Right section - Login button */}
             <div className="hidden md:flex items-center">
-              <Button >
+              <Button className="cursor-pointer">
                 Iniciar sesión
               </Button>
             </div>
