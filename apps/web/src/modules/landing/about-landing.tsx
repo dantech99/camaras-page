@@ -7,10 +7,9 @@ import { ChevronsRight } from "lucide-react"
 
 // Imágenes de ejemplo - puedes reemplazarlas con tus propias URLs
 const images = [
-    "/images/about-us/1.jpg",
-    "/images/about-us/2.jpg",
-    "/images/about-us/3.jpg",
-    "/images/about-us/4.jpg",
+    "/images/about-us/1.webp",
+    "/images/about-us/2.webp",
+    "/images/about-us/3.webp",
 ]
 
 export function AboutLanding() {
@@ -43,7 +42,7 @@ export function AboutLanding() {
                                     animate={{ opacity: 1 }}
                                     exit={{ opacity: 0 }}
                                     transition={{ duration: 0.8 }}
-                                    className="aspect-1/1 w-full"
+                                    className="aspect-1/1"
                                 >
                                     <img
                                         src={images[currentImageIndex] || "/placeholder.svg"}
