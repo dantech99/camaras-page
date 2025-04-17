@@ -13,19 +13,19 @@ export const HeroSection = () => {
     const slides = [
         {
             id: 1,
-            image: "/images/hero-1.webp",
+            image: "/images/slider-hero/1.webp",
             title: "Transform Your Digital Experience",
             description: "Create stunning websites with our innovative platform",
         },
         {
             id: 2,
-            image: "/images/hero-1.webp",
+            image: "/images/slider-hero/2.webp",
             title: "Build Without Limits",
             description: "Powerful tools for modern web development",
         },
         {
             id: 3,
-            image: "/images/hero-1.webp",
+            image: "/images/slider-hero/3.webp",
             title: "Design for the Future",
             description: "Stay ahead with cutting-edge technology",
         },
