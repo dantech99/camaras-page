@@ -41,7 +41,7 @@ export default function CosplayShowcase() {
         {cosplayCards.map((card) => (
           <motion.div
             key={card.id}
-            className={`relative overflow-hidden rounded-xl sm:rounded-2xl cursor-pointer ${card.backgroundColor} w-full aspect-[3/4]`}
+            className={`relative overflow-hidden rounded-xl sm:rounded-2xl cursor-pointer ${card.backgroundColor} w-full aspect-3/4`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: card.id * 0.1 }}
@@ -53,7 +53,7 @@ export default function CosplayShowcase() {
             }}
           >
             <motion.div
-              className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10"
+              className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent z-10"
               initial={{ opacity: 0.6 }}
               animate={{
                 opacity: hoveredCard === card.id ? 0.8 : 0.6,
@@ -70,7 +70,7 @@ export default function CosplayShowcase() {
               transition={{ duration: 0.3 }}
             >
               <motion.div
-                className="relative w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full overflow-hidden border-2 border-white bg-gray-800 flex items-center justify-center flex-shrink-0"
+                className="relative w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full overflow-hidden border-2 border-white bg-gray-800 flex items-center justify-center shrink-0"
                 animate={{
                   scale: hoveredCard === card.id ? 1.1 : 1,
                   rotate: hoveredCard === card.id ? 10 : 0,
@@ -111,7 +111,7 @@ export default function CosplayShowcase() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 mix-blend-overlay" />
+                <div className="absolute inset-0 bg-linear-to-r from-purple-500/20 to-pink-500/20 mix-blend-overlay" />
                 <div className="absolute -inset-[100px] bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.2),transparent_60%)]" />
               </motion.div>
             )}

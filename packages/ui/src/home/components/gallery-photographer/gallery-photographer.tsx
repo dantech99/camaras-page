@@ -18,37 +18,37 @@ export function GalleryPhotographer() {
   const cosplayCards = [
     {
       id: 1,
-      backgroundColor: "bg-gradient-to-r from-red-500 to-red-700",
+      backgroundColor: "bg-linear-to-r from-red-500 to-red-700",
       photographer: "Cosplay Photographer",
       name: "Leslie Alexander",
     },
     {
       id: 2,
-      backgroundColor: "bg-gradient-to-r from-purple-500 to-purple-700",
+      backgroundColor: "bg-linear-to-r from-purple-500 to-purple-700",
       photographer: "Cosplay Photographer",
       name: "Leslie Alexander",
     },
     {
       id: 3,
-      backgroundColor: "bg-gradient-to-r from-blue-500 to-blue-700",
+      backgroundColor: "bg-linear-to-r from-blue-500 to-blue-700",
       photographer: "Cosplay Photographer",
       name: "Leslie Alexander",
     },
     {
       id: 4,
-      backgroundColor: "bg-gradient-to-r from-green-500 to-green-700",
+      backgroundColor: "bg-linear-to-r from-green-500 to-green-700",
       photographer: "Cosplay Photographer",
       name: "Leslie Alexander",
     },
     {
       id: 5,
-      backgroundColor: "bg-gradient-to-r from-yellow-500 to-yellow-700",
+      backgroundColor: "bg-linear-to-r from-yellow-500 to-yellow-700",
       photographer: "Cosplay Photographer",
       name: "Leslie Alexander",
     },
     {
       id: 6,
-      backgroundColor: "bg-gradient-to-r from-pink-500 to-pink-700",
+      backgroundColor: "bg-linear-to-r from-pink-500 to-pink-700",
       photographer: "Cosplay Photographer",
       name: "Leslie Alexander",
     },
@@ -191,7 +191,7 @@ export function GalleryPhotographer() {
               {cosplayCards.map((card, index) => (
                 <div
                   key={card.id}
-                  className="w-full flex-shrink-0 px-1"
+                  className="w-full shrink-0 px-1"
                   style={{
                     opacity: isDragging ? 1 : index === activeIndex ? 1 : 0.8,
                     scale: isDragging ? 1 : index === activeIndex ? 1 : 0.95,
@@ -199,7 +199,7 @@ export function GalleryPhotographer() {
                   }}
                 >
                   <div
-                    className={`${card.backgroundColor} w-full aspect-[16/7] rounded-lg relative overflow-hidden`}
+                    className={`${card.backgroundColor} w-full aspect-16/7 rounded-lg relative overflow-hidden`}
                     style={{
                       boxShadow: index === activeIndex ? "0 10px 25px -5px rgba(0, 0, 0, 0.3)" : "none",
                       transition: "box-shadow 500ms",
@@ -207,7 +207,7 @@ export function GalleryPhotographer() {
                   >
                     {/* Efecto de paralaje en el fondo */}
                     <div
-                      className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent"
+                      className="absolute inset-0 bg-linear-to-r from-black/60 via-black/30 to-transparent"
                       style={{
                         transform: isDragging ? `translateX(${dragOffset * -0.1}%)` : "translateX(0%)",
                         transition: isDragging ? "none" : "transform 500ms",
@@ -266,11 +266,11 @@ export function GalleryPhotographer() {
           {cosplayCards.map((card) => (
             <div
               key={card.id}
-              className={`${card.backgroundColor} aspect-[16/7] rounded-lg relative overflow-hidden hover:scale-[1.02] transition-transform duration-300`}
+              className={`${card.backgroundColor} aspect-16/7 rounded-lg relative overflow-hidden hover:scale-[1.02] transition-transform duration-300`}
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent"/>
+              <div className="absolute inset-0 bg-linear-to-r from-black/60 via-black/30 to-transparent"/>
               <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 flex items-center gap-2 sm:gap-3">
-                <div className="relative w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden border-2 border-white bg-gray-800 flex items-center justify-center flex-shrink-0">
+                <div className="relative w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden border-2 border-white bg-gray-800 flex items-center justify-center shrink-0">
                   <User className="text-white w-5 h-5 sm:w-6 sm:h-6" />
                 </div>
 

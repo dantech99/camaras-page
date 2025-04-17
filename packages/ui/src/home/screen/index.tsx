@@ -14,7 +14,7 @@ export const HomeScreen = () => {
 
         <AboutSection />
 
-        <div className="min-h-[550] flex items-center justify-center">
+        <div className="min-h-550 flex items-center justify-center">
           <PhotographerGrid />
         </div>
 

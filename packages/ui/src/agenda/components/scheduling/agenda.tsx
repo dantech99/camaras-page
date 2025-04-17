@@ -317,7 +317,7 @@ export function Scheduling() {
               className="space-y-4"
             >
               <motion.div
-                className="h-px bg-gradient-to-r from-transparent via-[#10b981]/40 to-transparent my-8"
+                className="h-px bg-linear-to-r from-transparent via-[#10b981]/40 to-transparent my-8"
                 variants={itemVariants}
               />
               <motion.div
@@ -325,7 +325,7 @@ export function Scheduling() {
                 className="relative flex flex-col items-center justify-center mb-8 mt-6"
               >
                 <div className="w-full max-w-md relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#10b981]/0 via-[#10b981]/20 to-[#10b981]/0 blur-md transform -skew-y-3" />
+                  <div className="absolute inset-0 bg-linear-to-r from-[#10b981]/0 via-[#10b981]/20 to-[#10b981]/0 blur-md transform -skew-y-3" />
                   <div className="flex items-center justify-center gap-3 py-3 relative">
                     <motion.div
                       initial={{ scale: 0, opacity: 0 }}
@@ -335,11 +335,11 @@ export function Scheduling() {
                         stiffness: 300,
                         damping: 15,
                       }}
-                      className="bg-gradient-to-br from-[#10b981]/80 to-[#10b981]/20 rounded-full p-2 flex-shrink-0 shadow-lg shadow-[#10b981]/20"
+                      className="bg-linear-to-br from-[#10b981]/80 to-[#10b981]/20 rounded-full p-2 shrink-0 shadow-lg shadow-[#10b981]/20"
                     >
                       <Camera className="w-6 h-6 text-white" />
                     </motion.div>
-                    <h2 className="text-2xl font-bold uppercase tracking-wider text-center text-transparent bg-clip-text bg-gradient-to-r from-white via-[#10b981] to-white">
+                    <h2 className="text-2xl font-bold uppercase tracking-wider text-center text-transparent bg-clip-text bg-linear-to-r from-white via-[#10b981] to-white">
                       SELECCIONE EL FOTÓGRAFO
                     </h2>
                   </div>
@@ -352,7 +352,7 @@ export function Scheduling() {
                 />
               </motion.div>
               <motion.div
-                className="h-px bg-gradient-to-r from-transparent via-[#10b981]/40 to-transparent mb-8"
+                className="h-px bg-linear-to-r from-transparent via-[#10b981]/40 to-transparent mb-8"
                 variants={itemVariants}
               />
 
@@ -396,7 +396,7 @@ export function Scheduling() {
                       />
                       {/* Overlay para mejorar legibilidad del texto */}
                       <div
-                        className={`absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/30 ${
+                        className={`absolute inset-0 bg-linear-to-t from-black via-black/70 to-black/30 ${
                           selectedPhotographer === photographer
                             ? "opacity-70"
                             : "opacity-80"
@@ -404,7 +404,7 @@ export function Scheduling() {
                       />
                     </div>
 
-                    <div className="relative z-10 p-3 text-center w-full bg-black/50 backdrop-blur-sm">
+                    <div className="relative z-10 p-3 text-center w-full bg-black/50 backdrop-blur-xs">
                       <span className="text-base font-medium">
                         {photographer}
                       </span>
@@ -460,7 +460,7 @@ export function Scheduling() {
               className="space-y-4 mt-12"
             >
               <motion.div
-                className="h-px bg-gradient-to-r from-transparent via-[#10b981]/40 to-transparent my-8"
+                className="h-px bg-linear-to-r from-transparent via-[#10b981]/40 to-transparent my-8"
                 variants={itemVariants}
               />
               <motion.div
@@ -468,7 +468,7 @@ export function Scheduling() {
                 className="relative flex flex-col items-center justify-center mb-8 mt-6"
               >
                 <div className="w-full max-w-md relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#10b981]/0 via-[#10b981]/20 to-[#10b981]/0 blur-md transform -skew-y-3" />
+                  <div className="absolute inset-0 bg-linear-to-r from-[#10b981]/0 via-[#10b981]/20 to-[#10b981]/0 blur-md transform -skew-y-3" />
                   <div className="flex items-center justify-center gap-3 py-3 relative">
                     <motion.div
                       initial={{ scale: 0, opacity: 0 }}
@@ -478,11 +478,11 @@ export function Scheduling() {
                         stiffness: 300,
                         damping: 15,
                       }}
-                      className="bg-gradient-to-br from-[#10b981]/80 to-[#10b981]/20 rounded-full p-2 flex-shrink-0 shadow-lg shadow-[#10b981]/20"
+                      className="bg-linear-to-br from-[#10b981]/80 to-[#10b981]/20 rounded-full p-2 shrink-0 shadow-lg shadow-[#10b981]/20"
                     >
                       <Package className="w-6 h-6 text-white" />
                     </motion.div>
-                    <h2 className="text-2xl font-bold uppercase tracking-wider text-center text-transparent bg-clip-text bg-gradient-to-r from-white via-[#10b981] to-white">
+                    <h2 className="text-2xl font-bold uppercase tracking-wider text-center text-transparent bg-clip-text bg-linear-to-r from-white via-[#10b981] to-white">
                       SELECCIONE EL PAQUETE
                     </h2>
                   </div>
@@ -530,13 +530,13 @@ export function Scheduling() {
                       />
                       {/* Overlay para mejorar legibilidad del texto */}
                       <div
-                        className={`absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/30 ${
+                        className={`absolute inset-0 bg-linear-to-t from-black via-black/70 to-black/30 ${
                           selectedPackage === pkg ? "opacity-70" : "opacity-80"
                         }`}
                       />
                     </div>
 
-                    <div className="relative z-10 p-3 text-center w-full bg-black/50 backdrop-blur-sm">
+                    <div className="relative z-10 p-3 text-center w-full bg-black/50 backdrop-blur-xs">
                       <span className="text-base font-medium">{pkg}</span>
                       <div className="flex justify-between items-center mt-1">
                         <span className="text-xs text-white/80">
@@ -594,7 +594,7 @@ export function Scheduling() {
               className="space-y-4 mt-12"
             >
               <motion.div
-                className="h-px bg-gradient-to-r from-transparent via-[#10b981]/40 to-transparent my-8"
+                className="h-px bg-linear-to-r from-transparent via-[#10b981]/40 to-transparent my-8"
                 variants={itemVariants}
               />
               <motion.div
@@ -602,7 +602,7 @@ export function Scheduling() {
                 className="relative flex flex-col items-center justify-center mb-8 mt-6"
               >
                 <div className="w-full max-w-md relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#10b981]/0 via-[#10b981]/20 to-[#10b981]/0 blur-md transform -skew-y-3" />
+                  <div className="absolute inset-0 bg-linear-to-r from-[#10b981]/0 via-[#10b981]/20 to-[#10b981]/0 blur-md transform -skew-y-3" />
                   <div className="flex items-center justify-center gap-3 py-3 relative">
                     <motion.div
                       initial={{ scale: 0, opacity: 0 }}
@@ -612,11 +612,11 @@ export function Scheduling() {
                         stiffness: 300,
                         damping: 15,
                       }}
-                      className="bg-gradient-to-br from-[#10b981]/80 to-[#10b981]/20 rounded-full p-2 flex-shrink-0 shadow-lg shadow-[#10b981]/20"
+                      className="bg-linear-to-br from-[#10b981]/80 to-[#10b981]/20 rounded-full p-2 shrink-0 shadow-lg shadow-[#10b981]/20"
                     >
                       <CreditCard className="w-6 h-6 text-white" />
                     </motion.div>
-                    <h2 className="text-2xl font-bold uppercase tracking-wider text-center text-transparent bg-clip-text bg-gradient-to-r from-white via-[#10b981] to-white">
+                    <h2 className="text-2xl font-bold uppercase tracking-wider text-center text-transparent bg-clip-text bg-linear-to-r from-white via-[#10b981] to-white">
                       MÉTODO DE PAGO
                     </h2>
                   </div>
@@ -709,7 +709,7 @@ export function Scheduling() {
               className="space-y-4 mt-12"
             >
               <motion.div
-                className="h-px bg-gradient-to-r from-transparent via-[#10b981]/40 to-transparent my-8"
+                className="h-px bg-linear-to-r from-transparent via-[#10b981]/40 to-transparent my-8"
                 variants={itemVariants}
               />
               <motion.div
@@ -717,7 +717,7 @@ export function Scheduling() {
                 className="relative flex flex-col items-center justify-center mb-8 mt-6"
               >
                 <div className="w-full max-w-md relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#10b981]/0 via-[#10b981]/20 to-[#10b981]/0 blur-md transform -skew-y-3" />
+                  <div className="absolute inset-0 bg-linear-to-r from-[#10b981]/0 via-[#10b981]/20 to-[#10b981]/0 blur-md transform -skew-y-3" />
                   <div className="flex items-center justify-center gap-3 py-3 relative">
                     <motion.div
                       initial={{ scale: 0, opacity: 0 }}
@@ -727,11 +727,11 @@ export function Scheduling() {
                         stiffness: 300,
                         damping: 15,
                       }}
-                      className="bg-gradient-to-br from-[#10b981]/80 to-[#10b981]/20 rounded-full p-2 flex-shrink-0 shadow-lg shadow-[#10b981]/20"
+                      className="bg-linear-to-br from-[#10b981]/80 to-[#10b981]/20 rounded-full p-2 shrink-0 shadow-lg shadow-[#10b981]/20"
                     >
                       <CheckCircle className="w-6 h-6 text-white" />
                     </motion.div>
-                    <h2 className="text-2xl font-bold uppercase tracking-wider text-center text-transparent bg-clip-text bg-gradient-to-r from-white via-[#10b981] to-white">
+                    <h2 className="text-2xl font-bold uppercase tracking-wider text-center text-transparent bg-clip-text bg-linear-to-r from-white via-[#10b981] to-white">
                       CONFIRMACIÓN
                     </h2>
                   </div>
@@ -792,7 +792,7 @@ export function Scheduling() {
               className="space-y-4 mt-12"
             >
               <motion.div
-                className="h-px bg-gradient-to-r from-transparent via-[#10b981]/70 to-transparent my-6"
+                className="h-px bg-linear-to-r from-transparent via-[#10b981]/70 to-transparent my-6"
                 variants={itemVariants}
               />
               <motion.div
@@ -804,7 +804,7 @@ export function Scheduling() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.5, delay: 0.3 }}
-                    className="absolute inset-0 bg-gradient-to-r from-[#10b981]/0 via-[#10b981]/30 to-[#10b981]/0 blur-md transform -skew-y-3"
+                    className="absolute inset-0 bg-linear-to-r from-[#10b981]/0 via-[#10b981]/30 to-[#10b981]/0 blur-md transform -skew-y-3"
                   />
                   <div className="flex items-center justify-center gap-3 py-3 relative">
                     <motion.div
@@ -815,11 +815,11 @@ export function Scheduling() {
                         stiffness: 300,
                         damping: 15,
                       }}
-                      className="bg-gradient-to-br from-[#10b981]/80 to-[#10b981]/20 rounded-full p-2 flex-shrink-0 shadow-lg shadow-[#10b981]/20"
+                      className="bg-linear-to-br from-[#10b981]/80 to-[#10b981]/20 rounded-full p-2 shrink-0 shadow-lg shadow-[#10b981]/20"
                     >
                       <CheckCircle className="w-6 h-6 text-white" />
                     </motion.div>
-                    <h2 className="text-2xl font-bold uppercase tracking-wider text-center text-transparent bg-clip-text bg-gradient-to-r from-white via-[#10b981] to-white">
+                    <h2 className="text-2xl font-bold uppercase tracking-wider text-center text-transparent bg-clip-text bg-linear-to-r from-white via-[#10b981] to-white">
                       PEDIDO REALIZADO
                     </h2>
                   </div>
@@ -877,7 +877,7 @@ export function Scheduling() {
 
                 <div className="space-y-4 text-left mt-6 border-t border-[#10b981]/20 pt-4">
                   <div className="flex items-start gap-3">
-                    <div className="w-20 h-20 relative rounded-md overflow-hidden flex-shrink-0">
+                    <div className="w-20 h-20 relative rounded-md overflow-hidden shrink-0">
                       <img
                         src={
                           selectedPhotographer
@@ -904,7 +904,7 @@ export function Scheduling() {
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <div className="w-20 h-20 relative rounded-md overflow-hidden flex-shrink-0">
+                    <div className="w-20 h-20 relative rounded-md overflow-hidden shrink-0">
                       <img
                         src={
                           selectedPackage
@@ -1032,7 +1032,7 @@ export function Scheduling() {
               whileTap={{ scale: 0.95 }}
               className={`py-3 px-12 rounded-md text-sm font-medium relative overflow-hidden group ${
                 canProceedToStep(currentStep + 1)
-                  ? "border-[#10b981] bg-gradient-to-r from-[#10b981]/80 to-[#10b981]/60 text-white"
+                  ? "border-[#10b981] bg-linear-to-r from-[#10b981]/80 to-[#10b981]/60 text-white"
                   : "border border-white/30 bg-white/5 text-white/50 opacity-50 cursor-not-allowed"
               }`}
               onClick={handleNext}
@@ -1040,7 +1040,7 @@ export function Scheduling() {
             >
               {canProceedToStep(currentStep + 1) && (
                 <motion.span
-                  className="absolute inset-0 bg-gradient-to-r from-[#10b981]/0 via-white/20 to-[#10b981]/0"
+                  className="absolute inset-0 bg-linear-to-r from-[#10b981]/0 via-white/20 to-[#10b981]/0"
                   initial={{ x: "-100%" }}
                   animate={{ x: "100%" }}
                   transition={{
@@ -1076,7 +1076,7 @@ export function Scheduling() {
               animate="visible"
               exit="exit"
               variants={overlayVariants}
-              className="fixed inset-0 bg-black/80 backdrop-blur-sm"
+              className="fixed inset-0 bg-black/80 backdrop-blur-xs"
               onClick={() => setShowConfirmation(false)}
             />
 
@@ -1106,7 +1106,7 @@ export function Scheduling() {
                 {/* Datos del pedido */}
                 <div className="space-y-4 mb-2">
                   <div className="flex items-start gap-3 border-b border-[#10b981]/10 pb-4">
-                    <div className="w-20 h-20 relative rounded-md overflow-hidden flex-shrink-0">
+                    <div className="w-20 h-20 relative rounded-md overflow-hidden shrink-0">
                       <img
                         src={
                           selectedPhotographer
@@ -1136,7 +1136,7 @@ export function Scheduling() {
                   </div>
 
                   <div className="flex items-start gap-3 border-b border-[#10b981]/10 pb-4">
-                    <div className="w-20 h-20 relative rounded-md overflow-hidden flex-shrink-0">
+                    <div className="w-20 h-20 relative rounded-md overflow-hidden shrink-0">
                       <img
                         src={
                           selectedPackage
