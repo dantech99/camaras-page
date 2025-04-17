@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { LayoutHome } from "@camaras/ui/src/home/layout";
 import { Providers } from "./providers";
+import { LayoutHome } from "@/modules/global/layout-home";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

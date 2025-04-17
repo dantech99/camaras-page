@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react"
 import Image from "next/image"
 import { motion, AnimatePresence, useDragControls } from "framer-motion"
-import { ChevronLeft, ChevronRight } from "lucide-react"
 import { cn } from "@camaras/ui/src/lib/utils"
 
 export const HeroSection = () => {
