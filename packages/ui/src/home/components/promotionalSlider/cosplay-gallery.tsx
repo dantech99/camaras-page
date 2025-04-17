@@ -98,7 +98,7 @@ export function CosplayGallery() {
           {[...topRowImages, ...topRowImages, ...topRowImages].map((src, index) => (
             <div
               key={`top-${index + 1}`}
-              className="relative min-w-[120px] w-[120px] h-[80px] sm:min-w-[180px] sm:w-[180px] sm:h-[120px] md:min-w-[240px] md:w-[240px] md:h-[160px] rounded-md overflow-hidden flex-shrink-0"
+              className="relative min-w-[120px] w-[120px] h-[80px] sm:min-w-[180px] sm:w-[180px] sm:h-[120px] md:min-w-[240px] md:w-[240px] md:h-[160px] rounded-md overflow-hidden shrink-0"
             >
               <img src={src || "/placeholder.svg"} alt={`Cosplay ${index + 1}`} className="object-cover" />
             </div>
@@ -120,7 +120,7 @@ export function CosplayGallery() {
           {[...bottomRowImages, ...bottomRowImages, ...bottomRowImages].map((src, index) => (
             <div
               key={`bottom-${index + 1}`}
-              className="relative min-w-[120px] w-[120px] h-[80px] sm:min-w-[180px] sm:w-[180px] sm:h-[120px] md:min-w-[240px] md:w-[240px] md:h-[160px] rounded-md overflow-hidden flex-shrink-0"
+              className="relative min-w-[120px] w-[120px] h-[80px] sm:min-w-[180px] sm:w-[180px] sm:h-[120px] md:min-w-[240px] md:w-[240px] md:h-[160px] rounded-md overflow-hidden shrink-0"
             >
               <img src={src || "/placeholder.svg"} alt={`Cosplay ${index + 6}`} className="object-cover" />
             </div>

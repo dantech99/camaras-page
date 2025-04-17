@@ -21,7 +21,7 @@ export function DisabledButton({ children, tag, statusAlert }: DisabledButtonPro
         >
           {/* Subtle shimmer effect - much less pronounced */}
           <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-0"
+            className="absolute inset-0 bg-linear-to-r from-transparent via-white to-transparent opacity-0"
             animate={{
               x: ["0%", "100%"],
               opacity: [0, 0.1, 0],
@@ -53,7 +53,7 @@ export function DisabledButton({ children, tag, statusAlert }: DisabledButtonPro
 
         {/* Disabled message that appears on hover */}
         <motion.div
-          className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded opacity-0 pointer-events-none"
+          className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded-sm opacity-0 pointer-events-none"
           whileHover={{ opacity: 1, y: -5 }}
           transition={{ duration: 0.2 }}
         >

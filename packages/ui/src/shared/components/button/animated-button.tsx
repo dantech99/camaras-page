@@ -193,7 +193,7 @@ export function AnimatedButton({ children, tag }: AnimatedButtonProps ) {
         >
           {/* Shimmer effect */}
           <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-0"
+            className="absolute inset-0 bg-linear-to-r from-transparent via-white to-transparent opacity-0"
             animate={{
               x: ["0%", "100%"],
               opacity: [0, 0.2, 0],

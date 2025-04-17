@@ -4,14 +4,17 @@
   "rsc": true,
   "tsx": true,
   "tailwind": {
-    "config": "../../apps/web/tailwind.config.ts",
-    "css": "../../apps/web/src/app/globals.css",
+    "config": "",
+    "css": "./global.css",
     "baseColor": "neutral",
     "cssVariables": true,
     "prefix": ""
   },
   "aliases": {
     "components": "@camaras/ui/src/components",
-    "utils": "@camaras/ui/src/lib/utils"
+    "utils": "@camaras/ui/src/lib/utils",
+    "hooks": "@camaras/ui/src/hooks",
+    "lib": "@camaras/ui/src/lib",
+    "ui": "@camaras/ui/src/components"
   }
 }
