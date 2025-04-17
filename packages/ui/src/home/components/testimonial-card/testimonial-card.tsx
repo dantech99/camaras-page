@@ -105,7 +105,7 @@ export function TestimonialCard({ testimonial, isMobile }: TestimonialCardProps)
                         },
                       }}
                     >
-                      <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-yellow-200 opacity-50 blur-sm" />
+                      <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-yellow-200 opacity-50 blur-xs" />
                     </motion.div>
                   </motion.div>
                 ) : i < testimonial.rating ? (
@@ -127,7 +127,7 @@ export function TestimonialCard({ testimonial, isMobile }: TestimonialCardProps)
         </div>
       </div>
 
-      <blockquote className="text-xs sm:text-sm text-gray-600 italic mb-3 sm:mb-4 flex-grow">
+      <blockquote className="text-xs sm:text-sm text-gray-600 italic mb-3 sm:mb-4 grow">
         "{testimonial.quote}"
       </blockquote>
 

@@ -140,7 +140,7 @@ export const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBackToSignIn }
             
             <motion.button
               type="submit"
-              className="w-full bg-indigo-600 text-white py-2 px-4 rounded-full hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
+              className="w-full bg-indigo-600 text-white py-2 px-4 rounded-full hover:bg-indigo-700 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
               variants={itemVariants}
               whileHover={{ scale: 1.02, backgroundColor: "#4338ca" }}
               whileTap={{ scale: 0.98 }}

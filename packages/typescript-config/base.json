@@ -14,6 +14,13 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "ES2022"
+    "target": "ES2022",
+    "paths": {
+      "@camaras/database/*": ["../../packages/database/*"],
+      "@camaras/ui/*": ["../../packages/ui/*"],
+      "@camaras/api/*": ["../../packages/api/*"],
+      "@camaras/auth/*": ["../../packages/auth/*"],
+      "@camaras/typescript-config/*": ["../../packages/typescript-config/*"]
+    }
   }
 }

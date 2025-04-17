@@ -111,7 +111,7 @@ export function PhotographerCard({ name, image, role }: PhotographerCardProps) {
 
   return (
     <motion.div
-      className="relative overflow-hidden rounded-2xl bg-gradient-to-b from-gray-900/80 to-gray-900 aspect-[3/4] w-full cursor-pointer"
+      className="relative overflow-hidden rounded-2xl bg-linear-to-b from-gray-900/80 to-gray-900 aspect-3/4 w-full cursor-pointer"
       variants={cardVariants}
       whileHover="hover"
       whileTap="tap"
@@ -129,7 +129,7 @@ export function PhotographerCard({ name, image, role }: PhotographerCardProps) {
         whileHover="hover"
       />
       <motion.div
-        className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent"
+        className="absolute inset-0 bg-linear-to-t from-black/90 via-black/50 to-transparent"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
@@ -154,7 +154,7 @@ export function PhotographerCard({ name, image, role }: PhotographerCardProps) {
           variants={contentVariants}
         >
           <motion.div
-            className="flex items-center gap-2 px-4 py-1 rounded-full border border-white/20 bg-white/10 shadow-[0_0_15px_rgba(255,255,255,0.1)] backdrop-blur-sm"
+            className="flex items-center gap-2 px-4 py-1 rounded-full border border-white/20 bg-white/10 shadow-[0_0_15px_rgba(255,255,255,0.1)] backdrop-blur-xs"
             variants={roleContainerVariants}
             whileHover="hover"
             initial="initial"

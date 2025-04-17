@@ -100,12 +100,12 @@ export const HeroSection = () => {
                     />
 
                     {/* Overlay with futuristic gradient */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                    <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent"></div>
 
                     {/* Glowing accent lines */}
-                    <div className="absolute bottom-0 left-0 h-[1px] w-full bg-gradient-to-r from-transparent via-cyan-500/70 to-transparent"></div>
-                    <div className="absolute bottom-0 left-0 h-full w-[1px] bg-gradient-to-b from-transparent via-cyan-500/30 to-transparent"></div>
-                    <div className="absolute right-0 top-0 h-full w-[1px] bg-gradient-to-b from-transparent via-cyan-500/30 to-transparent"></div>
+                    <div className="absolute bottom-0 left-0 h-[1px] w-full bg-linear-to-r from-transparent via-cyan-500/70 to-transparent"></div>
+                    <div className="absolute bottom-0 left-0 h-full w-[1px] bg-linear-to-b from-transparent via-cyan-500/30 to-transparent"></div>
+                    <div className="absolute right-0 top-0 h-full w-[1px] bg-linear-to-b from-transparent via-cyan-500/30 to-transparent"></div>
 
                     {/* Content */}
                     <motion.div
@@ -128,7 +128,7 @@ export const HeroSection = () => {
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
-                                className="mt-4 flex items-center gap-2 rounded-full border border-cyan-500/50 bg-black/50 px-4 py-2 font-mono text-sm text-cyan-400 backdrop-blur-sm transition-colors hover:bg-cyan-950/30 md:mt-6"
+                                className="mt-4 flex items-center gap-2 rounded-full border border-cyan-500/50 bg-black/50 px-4 py-2 font-mono text-sm text-cyan-400 backdrop-blur-xs transition-colors hover:bg-cyan-950/30 md:mt-6"
                             >
                                 Explorar
                                 <span className="ml-1 inline-block h-[1px] w-4 bg-cyan-400"></span>

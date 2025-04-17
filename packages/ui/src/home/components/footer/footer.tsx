@@ -19,7 +19,7 @@ export function FuturisticFooter() {
           {/* Logo and description section */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <div className="relative w-10 h-10 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full overflow-hidden">
+              <div className="relative w-10 h-10 bg-linear-to-r from-purple-500 to-blue-500 rounded-full overflow-hidden">
                 <Image
                   src="/placeholder.svg?height=40&width=40"
                   alt="Logo"
@@ -57,7 +57,7 @@ export function FuturisticFooter() {
           <div>
             <h3 className="text-lg font-semibold mb-4 relative inline-block">
               Quick Links
-              <span className="absolute -bottom-1 left-0 w-12 h-0.5 bg-gradient-to-r from-purple-500 to-blue-500" />
+              <span className="absolute -bottom-1 left-0 w-12 h-0.5 bg-linear-to-r from-purple-500 to-blue-500" />
             </h3>
             <ul className="space-y-2">
               {quickLinks.map((item) => (
@@ -78,7 +78,7 @@ export function FuturisticFooter() {
           <div>
             <h3 className="text-lg font-semibold mb-4 relative inline-block">
               Services
-              <span className="absolute -bottom-1 left-0 w-12 h-0.5 bg-gradient-to-r from-purple-500 to-blue-500"/>
+              <span className="absolute -bottom-1 left-0 w-12 h-0.5 bg-linear-to-r from-purple-500 to-blue-500"/>
             </h3>
             <ul className="space-y-2">
               {["Web Development", "App Design", "UI/UX Design", "Consulting", "Digital Marketing"].map((item) => (
@@ -99,7 +99,7 @@ export function FuturisticFooter() {
           <div>
             <h3 className="text-lg font-semibold mb-4 relative inline-block">
               Contact Us
-              <span className="absolute -bottom-1 left-0 w-12 h-0.5 bg-gradient-to-r from-purple-500 to-blue-500" />
+              <span className="absolute -bottom-1 left-0 w-12 h-0.5 bg-linear-to-r from-purple-500 to-blue-500" />
             </h3>
             <ul className="space-y-2 text-gray-400">
               <li>123 Future Avenue</li>
@@ -110,7 +110,7 @@ export function FuturisticFooter() {
             <div className="mt-4">
               <Link
                 href="#"
-                className="px-4 py-2 text-sm bg-gradient-to-r from-purple-500 to-blue-500 rounded-md hover:opacity-90 transition-opacity inline-block"
+                className="px-4 py-2 text-sm bg-linear-to-r from-purple-500 to-blue-500 rounded-md hover:opacity-90 transition-opacity inline-block"
               >
                 Get in Touch
               </Link>

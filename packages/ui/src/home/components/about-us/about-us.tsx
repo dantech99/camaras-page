@@ -30,7 +30,7 @@ export function AboutSection() {
   }, [currentImageIndex])
 
   return (
-    <div className="w-full bg-gradient-to-br from-indigo-950 to-purple-900 py-8 sm:py-12 md:py-16">
+    <div className="w-full bg-linear-to-br from-indigo-950 to-purple-900 py-8 sm:py-12 md:py-16">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row items-start gap-6 sm:gap-8 md:gap-12 lg:gap-16">
           {/* Contenedor de imagen simplificado - ajustado para responsividad */}

@@ -1,5 +1,4 @@
 import { cors } from "@elysiajs/cors";
-import { swagger } from "@elysiajs/swagger";
 import { Elysia } from "elysia";
 import "./utils/envs";
 import { betterAuth } from "./utils/betteAuthPlugin";
@@ -15,9 +14,8 @@ export const api = new Elysia({
       methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
       credentials: true,
       allowedHeaders: ["Authorization", "Content-Type"],
-    })
+    }),
   )
-  .use(swagger())
   .use(betterAuth)
   .use(orderRouter);
 

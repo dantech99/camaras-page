@@ -148,7 +148,7 @@ export const SignIn: React.FC<SignInProps> = ({ onForgotPassword }) => {
               type="checkbox"
               checked={rememberMe}
               onChange={() => setRememberMe(!rememberMe)}
-              className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+              className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded-sm"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             />
@@ -170,7 +170,7 @@ export const SignIn: React.FC<SignInProps> = ({ onForgotPassword }) => {
         
         <motion.button
           type="submit"
-          className="w-full bg-indigo-600 text-white py-2 px-4 rounded-full hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
+          className="w-full bg-indigo-600 text-white py-2 px-4 rounded-full hover:bg-indigo-700 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
           whileHover={{ scale: 1.02, backgroundColor: "#4338ca" }}
           whileTap={{ scale: 0.98 }}
         >
