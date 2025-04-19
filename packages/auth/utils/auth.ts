@@ -12,6 +12,7 @@ export const auth = betterAuth({
   }),
   secret: process.env.AUTH_SECRET,
   baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
+  trustedOrigins: [process.env.NEXT_PUBLIC_BACKEND_URL as string, process.env.NEXT_PUBLIC_FRONTEND_URL as string],
   emailAndPassword: {
     enabled: true,
   },

@@ -1,12 +1,22 @@
+"use client"
+
+import { signInWithGoogle } from "@/utils/api-connection";
 import { Button } from "@camaras/ui/src/components/button";
 import { Input } from "@camaras/ui/src/components/input";
-
 import { Label } from "@camaras/ui/src/components/label";
+
 import { FacebookIcon } from "@camaras/ui/src/icons/facebook-icon";
 import { GoogleIcon } from "@camaras/ui/src/icons/google-icon";
 import { TwitterIcon } from "@camaras/ui/src/icons/twitter-icon";
 
+import { useRouter } from "next/navigation";
+
 export function LoginForm() {
+
+    const handleSignInWithGoogle = async () => {
+        const response = await signInWithGoogle()
+    }
+
     return (
         <div className="flex flex-col gap-6 mt-4">
             <div className="grid gap-2">
@@ -39,7 +49,7 @@ export function LoginForm() {
                 </span>
             </div>
             <div className="grid grid-cols-3 gap-4">
-                <Button variant="outline" className="w-full">
+                <Button variant="outline" className="w-full" onClick={handleSignInWithGoogle}>
                     <GoogleIcon />
                     <span className="sr-only">Iniciar sesión con Google</span>
                 </Button>
