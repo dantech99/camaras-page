@@ -1,4 +1,3 @@
-import { cn } from "@camaras/ui/src/lib/utils";
 import { Marquee } from "@camaras/ui/src/components/magicui/marquee";
 
 const images = [
@@ -39,13 +38,17 @@ export function SliderGallery() {
   return (
     <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
       <Marquee pauseOnHover className="[--duration:20s]">
-        {firstRow.map((review, index) => (
-          <ReviewCard key={index} {...review} />
+        {firstRow.map((review) => (
+          <div key={`firstRow-${review.username}`}>
+            <ReviewCard {...review} />
+          </div>
         ))}
       </Marquee>
       <Marquee reverse pauseOnHover className="[--duration:20s]">
-        {secondRow.map((review, index) => (
-          <ReviewCard key={index} {...review} />
+        {secondRow.map((review) => (
+          <div key={`secondRow-${review.username}`}>
+            <ReviewCard {...review} />
+          </div>
         ))}
       </Marquee>
       <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-background"></div>
@@ -56,11 +59,11 @@ export function SliderGallery() {
 
 const ReviewCard = ({ img, username }: { img: string; username: string }) => {
   return (
-    <div className="flex flex-col items-center justify-center p-4">
+    <div className="flex flex-col items-center justify-center p-2">
       <img
         src={img}
         alt={username}
-        className="h-48 w-72 rounded-md object-cover"
+        className="h-64 w-96 rounded-md object-cover"
       />
     </div>
   );
