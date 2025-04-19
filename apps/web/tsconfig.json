@@ -21,7 +21,8 @@
     "paths": {
       "@/*": ["./src/*"],
       "@camaras/ui/*": ["../../packages/ui/*"],
-      "@camaras/api/*": ["../../packages/api/*"]
+      "@camaras/api/*": ["../../packages/api/*"],
+      "@camaras/auth/*": ["../../packages/auth/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

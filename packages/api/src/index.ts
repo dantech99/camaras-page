@@ -17,6 +17,6 @@ export const api = new Elysia({
     }),
   )
   .use(betterAuth)
-  .use(orderRouter);
+  .use(orderRouter)
 
 export type Api = typeof api;
