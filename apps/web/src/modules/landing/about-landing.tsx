@@ -29,12 +29,12 @@ export function AboutLanding() {
     }, [currentImageIndex])
 
     return (
-        <div className="w-full bg-linear-to-br from-indigo-950 to-purple-900 py-8 sm:py-12 md:py-16">
+        <div className="w-full py-8 sm:py-12 md:py-16">
             <div className="container mx-auto px-4">
                 <div className="flex flex-col md:flex-row items-start gap-6 sm:gap-8 md:gap-12 lg:gap-16">
                     {/* Contenedor de imagen simplificado - ajustado para responsividad */}
-                    <div className="w-full md:w-2/5 mb-6 md:mb-0 mx-auto md:mx-0 max-w-sm md:max-w-none">
-                        <div className="overflow-hidden rounded-xl">
+                    <div className="w-full md:w-2/5 mb-6 md:mb-0 mx-auto md:mx-0 max-w-xs md:max-w-sm lg:max-w-md">
+                        <div className="overflow-hidden rounded-xl aspect-square">
                             <AnimatePresence mode="wait">
                                 <motion.div
                                     key={currentImageIndex}
@@ -42,7 +42,7 @@ export function AboutLanding() {
                                     animate={{ opacity: 1 }}
                                     exit={{ opacity: 0 }}
                                     transition={{ duration: 0.8 }}
-                                    className="aspect-1/1"
+                                    className="w-full h-full"
                                 >
                                     <img
                                         src={images[currentImageIndex] || "/placeholder.svg"}
@@ -64,21 +64,21 @@ export function AboutLanding() {
                         <motion.h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 flex flex-wrap items-center">
                             <span>¿Quienes </span>
                             <motion.span
-                                className="text-yellow-300 mx-2 relative"
+                                className="text-primary mx-2 relative"
                                 animate={{
-                                    scale: [1, 1.05, 1],
+                                    scale: [1, 1.01, 1],
                                     textShadow: [
-                                        "0 0 8px rgba(250, 204, 21, 0.3)",
-                                        "0 0 16px rgba(250, 204, 21, 0.6)",
-                                        "0 0 8px rgba(250, 204, 21, 0.3)",
+                                        "0 0 8px rgba(21, 204, 250, 0.3)", // Azul claro
+                                        "0 0 16px rgba(21, 204, 250, 0.6)", // Azul claro más intenso
+                                        "0 0 8px rgba(21, 204, 250, 0.3)", // Azul claro
                                     ],
                                 }}
                                 transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
                             >
-                                somos
-                                {/* Pequeñas estrellas alrededor de "We" */}
+                                 somos
+                                {/* Pequeñas estrellas alrededor de "somos" */}
                                 <motion.span
-                                    className="absolute -top-1 -right-1 text-xs text-yellow-200"
+                                    className="absolute -top-1 -right-1 text-xs text-primary"
                                     animate={{
                                         opacity: [0, 1, 0],
                                         scale: [0.5, 1, 0.5],
@@ -89,7 +89,7 @@ export function AboutLanding() {
                                     ✦
                                 </motion.span>
                                 <motion.span
-                                    className="absolute -bottom-1 -left-1 text-xs text-yellow-200"
+                                    className="absolute -bottom-1 -left-2 text-xs text-primary"
                                     animate={{
                                         opacity: [0, 1, 0],
                                         scale: [0.5, 1, 0.5],
