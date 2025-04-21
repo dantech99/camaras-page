@@ -31,7 +31,7 @@ export function AboutLanding() {
     return (
         <div className="w-full py-8 sm:py-12 md:py-16">
             <div className="container mx-auto px-4">
-                <div className="flex flex-col md:flex-row items-start gap-6 sm:gap-8 md:gap-12 lg:gap-16">
+                <div className="flex flex-col md:flex-row items-center gap-6 sm:gap-8 md:gap-12 lg:gap-16">
                     {/* Contenedor de imagen simplificado - ajustado para responsividad */}
                     <div className="w-full md:w-2/5 mb-6 md:mb-0 mx-auto md:mx-0 max-w-xs md:max-w-sm lg:max-w-md">
                         <div className="overflow-hidden rounded-xl aspect-square">
@@ -75,7 +75,7 @@ export function AboutLanding() {
                                 }}
                                 transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
                             >
-                                 somos
+                                somos
                                 {/* Pequeñas estrellas alrededor de "somos" */}
                                 <motion.span
                                     className="absolute -top-1 -right-1 text-xs text-primary"
