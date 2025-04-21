@@ -59,11 +59,11 @@ export function SliderGallery() {
 
 const ReviewCard = ({ img, username }: { img: string; username: string }) => {
   return (
-    <div className="flex flex-col items-center justify-center p-2">
+    <div>
       <img
         src={img}
         alt={username}
-        className="h-64 w-96 rounded-md object-cover"
+        className="aspect-[4/3] h-32 md:h-64 rounded-md object-cover"
       />
     </div>
   );
