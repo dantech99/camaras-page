@@ -31,8 +31,8 @@ export function AboutLanding() {
     }, [currentImageIndex])
 
     return (
-        <section className="flex items-center justify-center min-h-[80vh] w-full py-16 sm:py-20 md:py-24 px-6 sm:px-8 md:px-12">
-            <div className="container max-w-7xl mx-auto">
+        <section className="flex items-center justify-center w-full py-16 px-6 sm:px-8 md:px-12">
+            <div className="container max-w-8xl mx-auto">
                 <div className="flex flex-col md:flex-row items-center justify-center gap-10 md:gap-16 lg:gap-20">
                     {/* Contenedor de imagen con mejor transición usando solo Tailwind */}
                     <div className="w-full md:w-2/5 mb-8 md:mb-0 mx-auto md:mx-0 max-w-sm">
@@ -72,7 +72,7 @@ export function AboutLanding() {
                         </p>
 
                         {/* Botón "Saber Más" con animación en Tailwind */}
-                        <Button className="mt-4">
+                        <Button className="mt-4 cursor-pointer">
                             Saber más
                             <span className="inline-block transition-transform duration-300 animate-bounce-x">
                                 →

@@ -144,7 +144,7 @@ export function PhotographerCard({ name, image, role }: PhotographerCardProps) {
         animate="visible"
       >
         <motion.h3
-          className="text-2xl md:text-xl font-bold text-white mb-2 font-mono text-primary"
+          className="text-2xl md:text-xl font-bold text-white mb-2 font-mono"
           variants={contentVariants}
           layout
         >
@@ -164,14 +164,10 @@ export function PhotographerCard({ name, image, role }: PhotographerCardProps) {
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.4 }}
           >
-            <Button
-              variant="secondary"
-            >
+            <Button variant="secondary" className="cursor-pointer">
               Agendar
             </Button>
-            <Button>
-              Sobre mí
-            </Button>
+            <Button className="cursor-pointer">Sobre mí</Button>
           </motion.div>
         </AnimatePresence>
       </motion.div>
