@@ -1,5 +1,7 @@
 "use client";
 
+import { Badge } from "@camaras/ui/src/components/badge";
+import { Button } from "@camaras/ui/src/components/button";
 import { motion, useAnimation, AnimatePresence } from "framer-motion";
 import { Camera } from "lucide-react";
 import { useState } from "react";
@@ -142,41 +144,17 @@ export function PhotographerCard({ name, image, role }: PhotographerCardProps) {
         animate="visible"
       >
         <motion.h3
-          className="text-2xl md:text-xl font-bold text-white mb-2"
+          className="text-2xl md:text-xl font-bold text-white mb-2 font-mono text-primary"
           variants={contentVariants}
           layout
         >
           {name}
         </motion.h3>
 
-        <motion.div
-          className="flex items-center justify-center gap-2 text-gray-300 mb-4"
-          variants={contentVariants}
-        >
-          <motion.div
-            className="flex items-center gap-2 px-4 py-1 rounded-full border border-white/20 bg-white/10 shadow-[0_0_15px_rgba(255,255,255,0.1)] backdrop-blur-xs"
-            variants={roleContainerVariants}
-            whileHover="hover"
-            initial="initial"
-            animate="animate"
-          >
-            <motion.div
-              initial={{ rotate: -180, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              <Camera size={16} className="text-white/70" />
-            </motion.div>
-            <motion.span
-              className="text-sm"
-              initial={{ x: -20, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-            >
-              {role}
-            </motion.span>
-          </motion.div>
-        </motion.div>
+        <Badge variant="outline" className="mb-4">
+          <Camera />
+          {role}
+        </Badge>
 
         <AnimatePresence>
           <motion.div
@@ -186,22 +164,14 @@ export function PhotographerCard({ name, image, role }: PhotographerCardProps) {
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.4 }}
           >
-            <motion.button
-              className="px-4 py-1.5 md:px-6 md:py-2 bg-white text-gray-900 rounded-full font-medium text-sm"
-              variants={buttonVariants}
-              whileHover="hover"
-              whileTap="tap"
+            <Button
+              variant="secondary"
             >
               Agendar
-            </motion.button>
-            <motion.button
-              className="px-4 py-1.5 md:px-6 md:py-2 border border-white text-white rounded-full font-medium text-sm"
-              variants={buttonVariants}
-              whileHover="hover"
-              whileTap="tap"
-            >
+            </Button>
+            <Button>
               Sobre mí
-            </motion.button>
+            </Button>
           </motion.div>
         </AnimatePresence>
       </motion.div>

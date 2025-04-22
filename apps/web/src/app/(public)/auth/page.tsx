@@ -1,4 +1,4 @@
-import { AuthScreens } from "@/modules/register/auth-screens";
+import { AuthScreens } from "@/modules/auth/auth-screen";
 
 export default function AuthPage() {
     return (
