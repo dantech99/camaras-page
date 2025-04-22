@@ -78,7 +78,7 @@ export const Navbar = () => {
                     {session.user?.name}
                   </Link>
                 ) : (
-                  <Link href="/register" className={cn(buttonVariants({
+                  <Link href="/auth" className={cn(buttonVariants({
                     variant: "default"
                   }))}>
                     Iniciar sesión

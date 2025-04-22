@@ -22,7 +22,7 @@ export function DashboardNavbar() {
         await authClient.signOut({
             fetchOptions: {
                 onSuccess: () => {
-                    router.push("/register");
+                    router.push("/auth");
                 }
             }
         });

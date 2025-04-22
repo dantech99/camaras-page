@@ -16,42 +16,6 @@ interface TestimonialProps {
   avatar: string;
 }
 
-const TestimonialData: TestimonialProps[] = [
-  {
-    id: 1,
-    name: "David Chen",
-    rating: 5,
-    opinion:
-      "This workshop exceeded all my expectations. The hands-on approach and personalized feedback made it an invaluable experience for my professional development.",
-    date: "April 3, 2025",
-    location: "Bogotá",
-    event: "SOFA",
-    avatar: "/images/testimonial/1.webp",
-  },
-  {
-    id: 2,
-    name: "David Chen",
-    rating: 3.5,
-    opinion:
-      "This workshop exceeded all my expectations. The hands-on approach and personalized feedback made it an invaluable experience for my professional development.",
-    date: "April 3, 2025",
-    location: "Bogotá",
-    event: "Comic Con Colombia",
-    avatar: "/images/testimonial/2.webp",
-  },
-  {
-    id: 3,
-    name: "David Chen",
-    rating: 4,
-    opinion:
-      "This workshop exceeded all my expectations. The hands-on approach and personalized feedback made it an invaluable experience for my professional development.",
-    date: "April 3, 2025",
-    location: "Medellín",
-    event: "Comic Con Medellín",
-    avatar: "/images/testimonial/3.webp",
-  },
-];
-
 export function TestimonialCard({ props }: { props: TestimonialProps }) {
   return (
     <div className="aspect-[5/3] rounded-2xl h-32 md:h-62 shadow-md p-6 bg-white space-y-4">
