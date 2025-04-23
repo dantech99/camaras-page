@@ -4,6 +4,7 @@ import "./utils/envs";
 import { betterAuth } from "./utils/betteAuthPlugin";
 
 import orderRouter from "./modules/order/router";
+import { packagesPhotosRouter } from "./modules/packages-photos/packages-photos.route";
 
 export const api = new Elysia({
   prefix: "/api",
@@ -18,5 +19,6 @@ export const api = new Elysia({
   )
   .use(betterAuth)
   .use(orderRouter)
+  .use(packagesPhotosRouter)
 
 export type Api = typeof api;

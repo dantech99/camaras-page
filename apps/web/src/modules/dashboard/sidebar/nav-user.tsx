@@ -30,11 +30,23 @@ import {
     useSidebar,
 } from "@camaras/ui/src/components/sidebar"
 import { authClient } from "@camaras/auth/client"
+import { useRouter } from "next/navigation"
 
 export function NavUser() {
+    const router = useRouter();
     const { isMobile } = useSidebar()
     const { data: session, isPending } = authClient.useSession();
     const user = session?.user
+
+    const handleLogout = async () => {
+        await authClient.signOut({
+            fetchOptions: {
+                onSuccess: () => {
+                    router.push("/auth");
+                }
+            }
+        });
+    }
 
     if (isPending || !user) {
         return (
@@ -108,7 +120,7 @@ export function NavUser() {
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>
+                        <DropdownMenuItem onClick={handleLogout}>
                             <LogOut />
                             Log out
                         </DropdownMenuItem>
