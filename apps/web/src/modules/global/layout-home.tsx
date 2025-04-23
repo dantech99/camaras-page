@@ -4,15 +4,15 @@ import { Navbar } from "./navbar";
 import { Footer } from "./footer";
 
 interface LayoutHomeProps {
-    children: ReactNode;
+  children: ReactNode;
 }
 
 export const LayoutHome: React.FC<LayoutHomeProps> = ({ children }) => {
-    return (
-        <>
-            <Navbar />
-            {children}
-            <Footer />
-        </>
-    )
-}
+  return (
+    <>
+      <Navbar />
+      {children}
+      <Footer />
+    </>
+  );
+};

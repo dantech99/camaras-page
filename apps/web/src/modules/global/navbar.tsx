@@ -14,7 +14,6 @@ export const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const { data: session, isPending, error } = authClient.useSession();
 
-
   const navItems = [
     { name: "Somos", href: "/somos" },
     { name: "Fotógrafos", href: "/fotografos" },
@@ -35,10 +34,11 @@ export const Navbar = () => {
   return (
     <>
       <motion.nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
-          ? "bg-black/20 backdrop-blur-md border-cyan-500/20"
-          : "bg-transparent"
-          }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled
+            ? "bg-black/20 backdrop-blur-md border-cyan-500/20"
+            : "bg-transparent"
+        }`}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.5 }}
@@ -70,21 +70,29 @@ export const Navbar = () => {
 
             {/* Right section - Login button */}
             <div className="hidden md:flex items-center">
-              {
-                session ? (
-                  <Link href="/dashboard" className={cn(buttonVariants({
-                    variant: "default"
-                  }))}>
-                    {session.user?.name}
-                  </Link>
-                ) : (
-                  <Link href="/auth" className={cn(buttonVariants({
-                    variant: "default"
-                  }))}>
-                    Iniciar sesión
-                  </Link>
-                )
-              }
+              {session ? (
+                <Link
+                  href="/dashboard"
+                  className={cn(
+                    buttonVariants({
+                      variant: "default",
+                    })
+                  )}
+                >
+                  {session.user?.name}
+                </Link>
+              ) : (
+                <Link
+                  href="/auth"
+                  className={cn(
+                    buttonVariants({
+                      variant: "default",
+                    })
+                  )}
+                >
+                  Iniciar sesión
+                </Link>
+              )}
             </div>
 
             {/* Mobile menu button */}
@@ -102,8 +110,9 @@ export const Navbar = () => {
 
       {/* Mobile menu */}
       <motion.div
-        className={`fixed inset-0 z-50 md:hidden ${isMenuOpen ? "block" : "hidden"
-          }`}
+        className={`fixed inset-0 z-50 md:hidden ${
+          isMenuOpen ? "block" : "hidden"
+        }`}
         initial={{ opacity: 0 }}
         animate={{ opacity: isMenuOpen ? 1 : 0 }}
         transition={{ duration: 0.3 }}
