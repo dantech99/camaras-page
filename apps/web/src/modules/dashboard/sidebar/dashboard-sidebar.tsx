@@ -3,19 +3,18 @@
 import * as React from "react"
 import {
     BookOpen,
-    Bot,
+    CameraIcon,
     Command,
-    Frame,
+    File,
     LifeBuoy,
-    Map,
     PieChart,
     Send,
-    Settings2,
-    SquareTerminal,
+    ShoppingCart,
+    User,
 } from "lucide-react"
 
 import { NavMain } from "./nav-main"
-import { NavProjects } from "./nav-projects"
+import { NavAdmins } from "./nav-projects"
 import { NavSecondary } from "./nav-secondary"
 import { NavUser } from "./nav-user"
 import {
@@ -31,94 +30,52 @@ import {
 const data = {
     navMain: [
         {
-            title: "Playground",
+            title: "General",
             url: "#",
-            icon: SquareTerminal,
+            icon: BookOpen,
             isActive: true,
             items: [
                 {
-                    title: "History",
-                    url: "#",
+                    title: "Metricas",
+                    url: "/dashboard",
                 },
                 {
-                    title: "Starred",
-                    url: "#",
-                },
-                {
-                    title: "Settings",
-                    url: "#",
+                    title: "Perfil",
+                    url: "/dashboard/perfil",
                 },
             ],
         },
         {
-            title: "Models",
+            title: "Fotografo",
             url: "#",
-            icon: Bot,
+            icon: CameraIcon,
             items: [
                 {
-                    title: "Genesis",
-                    url: "#",
+                    title: "Paquetes",
+                    url: "/dashboard/paquetes",
                 },
                 {
-                    title: "Explorer",
-                    url: "#",
+                    title: "Cupones",
+                    url: "/dashboard/cupones",
                 },
                 {
-                    title: "Quantum",
-                    url: "#",
-                },
-            ],
-        },
-        {
-            title: "Documentation",
-            url: "#",
-            icon: BookOpen,
-            items: [
-                {
-                    title: "Introduction",
-                    url: "#",
+                    title: "Calendario",
+                    url: "/dashboard/calendario",
                 },
                 {
-                    title: "Get Started",
-                    url: "#",
+                    title: "Horarios",
+                    url: "/dashboard/horarios",
                 },
                 {
-                    title: "Tutorials",
-                    url: "#",
-                },
-                {
-                    title: "Changelog",
-                    url: "#",
-                },
-            ],
-        },
-        {
-            title: "Settings",
-            url: "#",
-            icon: Settings2,
-            items: [
-                {
-                    title: "General",
-                    url: "#",
-                },
-                {
-                    title: "Team",
-                    url: "#",
-                },
-                {
-                    title: "Billing",
-                    url: "#",
-                },
-                {
-                    title: "Limits",
-                    url: "#",
+                    title: "Tickets",
+                    url: "/dashboard/tickets",
                 },
             ],
         },
     ],
     navSecondary: [
         {
-            title: "Support",
+            title: "Soporte",
             url: "#",
             icon: LifeBuoy,
         },
@@ -128,21 +85,26 @@ const data = {
             icon: Send,
         },
     ],
-    projects: [
+    administradores: [
         {
-            name: "Design Engineering",
-            url: "#",
-            icon: Frame,
+            name: "Usuarios",
+            url: "/dashboard/usuarios",
+            icon: User,
         },
         {
-            name: "Sales & Marketing",
-            url: "#",
+            name: "Auditorías",
+            url: "/dashboard/auditorias",
+            icon: File,
+        },
+        {
+            name: "Metricas",
+            url: "/dashboard/all-metrics",
             icon: PieChart,
         },
         {
-            name: "Travel",
-            url: "#",
-            icon: Map,
+            name: "Ventas",
+            url: "/dashboard/ventas",
+            icon: ShoppingCart,
         },
     ],
 }
@@ -159,17 +121,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                     <Command className="size-4" />
                                 </div>
                                 <div className="grid flex-1 text-left text-sm leading-tight">
-                                    <span className="truncate font-semibold">Acme Inc</span>
-                                    <span className="truncate text-xs">Enterprise</span>
+                                    <span className="truncate font-semibold">Camaras del Dragón</span>
+                                    <span className="truncate text-xs">Panel administrativo</span>
                                 </div>
                             </a>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                 </SidebarMenu>
             </SidebarHeader>
-            <SidebarContent>
+            <SidebarContent className="overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
                 <NavMain items={data.navMain} />
-                <NavProjects projects={data.projects} />
+                <NavAdmins projects={data.administradores} />
                 <NavSecondary items={data.navSecondary} className="mt-auto" />
             </SidebarContent>
             <SidebarFooter>
