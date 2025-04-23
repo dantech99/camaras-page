@@ -9,7 +9,7 @@ import { authClient } from "@camaras/auth/client";
 export const HeroSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [autoplay, setAutoplay] = useState(true);
-  const { data: session } = authClient.useSession()
+  const { data: session } = authClient.useSession();
 
   const slides = [
     {
@@ -58,8 +58,8 @@ export const HeroSection = () => {
   };
 
   useEffect(() => {
-    console.log(session)
-  }, [session])
+    console.log(session);
+  }, [session]);
 
   const dragControls = useDragControls();
 

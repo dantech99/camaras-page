@@ -1,42 +1,40 @@
-"use client"
+"use client";
+
+import { type LucideIcon } from "lucide-react";
 
 import {
-    type LucideIcon,
-} from "lucide-react"
-
-import {
-    SidebarGroup,
-    SidebarGroupLabel,
-    SidebarMenu,
-    SidebarMenuButton,
-    SidebarMenuItem,
-} from "@camaras/ui/src/components/sidebar"
-import Link from "next/link"
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "@camaras/ui/src/components/sidebar";
+import Link from "next/link";
 
 export function NavAdmins({
-    projects,
+  projects,
 }: {
-    projects: {
-        name: string
-        url: string
-        icon: LucideIcon
-    }[]
+  projects: {
+    name: string;
+    url: string;
+    icon: LucideIcon;
+  }[];
 }) {
-    return (
-        <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-            <SidebarGroupLabel>Administrador</SidebarGroupLabel>
-            <SidebarMenu>
-                {projects.map((item) => (
-                    <SidebarMenuItem key={item.name}>
-                        <SidebarMenuButton asChild>
-                            <Link href={item.url}>
-                                <item.icon />
-                                <span>{item.name}</span>
-                            </Link>
-                        </SidebarMenuButton>
-                    </SidebarMenuItem>
-                ))}
-            </SidebarMenu>
-        </SidebarGroup>
-    )
+  return (
+    <SidebarGroup className="group-data-[collapsible=icon]:hidden">
+      <SidebarGroupLabel>Administrador</SidebarGroupLabel>
+      <SidebarMenu>
+        {projects.map((item) => (
+          <SidebarMenuItem key={item.name}>
+            <SidebarMenuButton asChild>
+              <Link href={item.url}>
+                <item.icon />
+                <span>{item.name}</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        ))}
+      </SidebarMenu>
+    </SidebarGroup>
+  );
 }

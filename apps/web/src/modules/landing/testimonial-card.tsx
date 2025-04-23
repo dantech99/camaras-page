@@ -21,7 +21,11 @@ export function TestimonialCard({ props }: { props: TestimonialProps }) {
     <div className="aspect-[5/3] rounded-2xl h-32 md:h-62 shadow-md p-6 bg-white space-y-4">
       <div className="flex items-center gap-4">
         <Avatar className="size-16">
-          <AvatarImage src={props.avatar} alt="@shadcn" className="object-cover" />
+          <AvatarImage
+            src={props.avatar}
+            alt="@shadcn"
+            className="object-cover"
+          />
           <AvatarFallback className="bg-gray-200" delayMs={600}>
             {props.name.charAt(0).toUpperCase()}
           </AvatarFallback>
@@ -68,4 +72,3 @@ export function TestimonialCard({ props }: { props: TestimonialProps }) {
     </div>
   );
 }
-
