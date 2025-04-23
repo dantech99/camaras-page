@@ -1,7 +1,6 @@
-import { Prisma } from "@camaras/database/index";
 import Elysia, { t } from "elysia";
 import { betterAuth } from "src/utils/betteAuthPlugin";
-import { packagePhotosModule } from "./package-photos.module";
+import { packagePhotosModule } from "./packages-photos.module";
 
 export const packagesPhotosRouter = new Elysia({
   prefix: "/packages-photos",
@@ -11,8 +10,8 @@ export const packagesPhotosRouter = new Elysia({
   .use(packagePhotosModule)
   .get(
     "/:id",
-    ({ params, packageService }) =>
-      packageService.getPackagesFromPhotographer(params.id),
+    ({ params, packagePhotosService }) =>
+      packagePhotosService.getPackagesFromPhotographer(params.id),
     {
       photographer: true,
       params: t.Object({
@@ -22,8 +21,25 @@ export const packagesPhotosRouter = new Elysia({
   )
   .post(
     "/",
-    ({ body, user, packageService }) =>
-      packageService.createPackage(body, {
+    ({ body, user, packagePhotosService }) =>
+      packagePhotosService.createPackage(body, {
+        id: user.id,
+      }),
+    {
+      photographer: true,
+      body: t.Object({
+        name: t.String(),
+        description: t.String(),
+        dotsDescription: t.Array(t.String()),
+        price: t.Number(),
+        photosCount: t.Number(),
+      }),
+    }
+  )
+  .patch(
+    "/:id",
+    ({ params, body, user, packagePhotosService }) =>
+      packagePhotosService.updatePackage(params.id, body, {
         id: user.id,
       }),
     {
@@ -32,7 +48,23 @@ export const packagesPhotosRouter = new Elysia({
         name: t.String(),
         description: t.String(),
         price: t.Number(),
-        photos: t.Array(t.String()),
+        dotsDescription: t.Array(t.String()),
+        discountPercentage: t.Optional(t.Number()),
+        photosCount: t.Number(),
+        isActive: t.Optional(t.Boolean()),
+      }),
+    }
+  )
+  .delete(
+    "/:id",
+    ({ params, user, packagePhotosService }) =>
+      packagePhotosService.deletePackage(params.id, {
+        id: user.id,
+      }),
+    {
+      photographer: true,
+      params: t.Object({
+        id: t.String(),
       }),
     }
   );

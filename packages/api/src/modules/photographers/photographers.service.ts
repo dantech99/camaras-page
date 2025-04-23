@@ -1,0 +1,34 @@
+import { prisma } from "../prisma";
+
+export class PhotographerService {
+  async getAllPhotographers() {
+    try {
+      const photographers = await prisma.user.findMany({
+        where: {
+          role: "photographer",
+        },
+        include: {
+          PhotoPackage: true,
+        },
+      });
+
+      return {
+        message: "Photographers retrieved successfully",
+        status: 200,
+        photographers,
+      };
+    } catch (error) {
+      if (error instanceof Error) {
+        return {
+          message: error.message,
+          status: 500,
+        };
+      }
+
+      return {
+        message: "An unknown error occurred",
+        status: 500,
+      };
+    }
+  }
+}
