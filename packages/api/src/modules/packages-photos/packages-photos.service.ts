@@ -1,4 +1,5 @@
 import { prisma } from "../prisma";
+import { supabase } from "src/core/s3";
 
 export class PackageService {
   async createPackage(
@@ -8,11 +9,16 @@ export class PackageService {
       price: number;
       photosCount: number;
       dotsDescription: string[];
+      image: File;
     },
     user: { id: string }
   ) {
     try {
-      const { name, description, price, dotsDescription, photosCount } = data;
+      const { name, description, price, dotsDescription, photosCount, image } =
+        data;
+
+      // Upload image to S3
+      await supabase.write("hello.txt", image);
 
       const photoPackage = await prisma.photoPackage.create({
         data: {
