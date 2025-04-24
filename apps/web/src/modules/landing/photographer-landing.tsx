@@ -1,10 +1,9 @@
 "use client";
 
-
-import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { PhotographerCard } from './photographer-card';
-import { usePhotographers } from '@/utils/use-photographers';
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { PhotographerCard } from "./photographer-card";
+import { usePhotographers } from "@/utils/use-photographers";
 
 const photographers = [
   {
@@ -57,11 +56,11 @@ const itemVariants = {
 };
 
 export function PhotographerGrid() {
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [isMobile, setIsMobile] = useState(false);
-    const { data: photographersData } = usePhotographers();
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const { data: photographersData } = usePhotographers();
 
-    console.log(photographersData);
+  console.log(photographersData);
 
   useEffect(() => {
     const checkMobile = () => {

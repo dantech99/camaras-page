@@ -151,7 +151,10 @@ export function PhotographerCard({ name, image, role }: PhotographerCardProps) {
           {name}
         </motion.h3>
 
-        <Badge variant="outline" className="mb-4">
+        <Badge
+          variant="outline"
+          className="mb-4 mx-auto flex items-center justify-center gap-2 px-4 py-2"
+        >
           <Camera />
           {role}
         </Badge>
