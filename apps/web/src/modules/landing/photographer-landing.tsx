@@ -1,10 +1,9 @@
 "use client";
 
-
-import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { PhotographerCard } from './photographer-card';
-import { usePhotographers } from '@/utils/use-photographers';
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { PhotographerCard } from "./photographer-card";
+import { usePhotographers } from "@/utils/use-photographers";
 
 const photographers = [
   {

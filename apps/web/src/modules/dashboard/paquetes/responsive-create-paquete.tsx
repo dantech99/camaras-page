@@ -24,6 +24,8 @@ import {
 import { Button } from "@camaras/ui/src/components/button";
 import { CreatePaqueteForm } from "./create-paquete-form";
 
+import { CirclePlus } from "lucide-react";
+
 export function ResponsiveCreatePaquete() {
   const [isMobile, setIsMobile] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -38,7 +40,10 @@ export function ResponsiveCreatePaquete() {
   const DesktopDialog = () => (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="cursor-pointer">Crear Paquete</Button>
+        <Button variant={"defaultDashboard"} className="border-1 text-blue-400 cursor-pointer px-10 py-5">
+          <CirclePlus />
+          Crear Paquete
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
