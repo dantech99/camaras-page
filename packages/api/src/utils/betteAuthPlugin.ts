@@ -32,7 +32,7 @@ export const betterAuth = new Elysia({ name: "better-auth" })
 
         return {
           user: session.user,
-        }
-      }
-    }
-  })
+        };
+      },
+    },
+  });
