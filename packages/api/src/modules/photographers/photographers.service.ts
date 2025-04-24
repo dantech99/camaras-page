@@ -31,4 +31,32 @@ export class PhotographerService {
       };
     }
   }
+
+  async getPhotographerPackages(photographerId: string) {
+    try {
+      const packages = await prisma.photoPackage.findMany({
+        where: {
+          photographerId,
+        },
+      });
+
+      return {
+        message: "Photographer packages retrieved successfully",
+        status: 200,
+        packages,
+      };
+    } catch (error) {
+      if (error instanceof Error) {
+        return {
+          message: error.message,
+          status: 500,
+        };
+      }
+
+      return {
+        message: "An unknown error occurred",
+        status: 500,
+      };
+    }
+  }
 }

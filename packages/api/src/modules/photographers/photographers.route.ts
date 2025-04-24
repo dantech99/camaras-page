@@ -10,4 +10,12 @@ export const photographersRouter = new Elysia({
   .use(photographerModule)
   .get("", ({ photographerService }) =>
     photographerService.getAllPhotographers()
+  )
+  .get(
+    "/my-packages",
+    ({ user, photographerService }) =>
+      photographerService.getPhotographerPackages(user.id),
+    {
+      photographer: true,
+    }
   );

@@ -22,6 +22,8 @@ export const betterAuth = new Elysia({ name: "better-auth" })
   .macro({
     photographer: {
       async resolve({ error, request: { headers } }) {
+        console.log(headers);
+
         const session = await auth.api.getSession({
           headers,
         });
@@ -32,7 +34,7 @@ export const betterAuth = new Elysia({ name: "better-auth" })
 
         return {
           user: session.user,
-        }
-      }
-    }
-  })
+        };
+      },
+    },
+  });
