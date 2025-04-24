@@ -60,8 +60,6 @@ export function PhotographerGrid() {
   const [isMobile, setIsMobile] = useState(false);
   const { data: photographersData } = usePhotographers();
 
-  console.log(photographersData);
-
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -108,9 +106,8 @@ export function PhotographerGrid() {
           {photographers.map((_, index) => (
             <motion.button
               key={`${index + 1}`}
-              className={`w-2 h-2 rounded-full ${
-                index === currentIndex ? "bg-white" : "bg-gray-500"
-              }`}
+              className={`w-2 h-2 rounded-full ${index === currentIndex ? "bg-white" : "bg-gray-500"
+                }`}
               whileHover={{ scale: 1.2 }}
               whileTap={{ scale: 0.8 }}
               onClick={() => setCurrentIndex(index)}

@@ -33,6 +33,7 @@ export const packagesPhotosRouter = new Elysia({
         dotsDescription: t.Array(t.String()),
         price: t.Number(),
         photosCount: t.Number(),
+        image: t.File(),
       }),
     }
   )

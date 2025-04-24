@@ -26,11 +26,13 @@
     "@heroui/button": "^2.2.16",
     "@radix-ui/react-icons": "^1.3.2",
     "@react-spring/web": "^9.7.5",
+    "@supabase/supabase-js": "^2.49.4",
     "@tanstack/react-query": "^5.74.4",
     "axios": "^1.8.4",
     "country-flag-icons": "^1.5.18",
     "eslint-plugin-oxlint": "^0.15.2",
     "lucide-react": "^0.479.0",
+    "mime-types": "^3.0.1",
     "motion": "^12.4.10",
     "nextui-cli": "^0.5.0"
   },
