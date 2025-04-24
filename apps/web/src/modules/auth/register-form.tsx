@@ -214,7 +214,7 @@ export function RegisterForm() {
         </div>
         <Button variant="outline" className="w-full rounded-full">
           <GoogleIcon />
-          Iniciar sesión con Google
+          Registrarse con Google
         </Button>
       </form>
     </Form>

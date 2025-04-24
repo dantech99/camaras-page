@@ -59,16 +59,12 @@ const data = {
           url: "/dashboard/cupones",
         },
         {
-          title: "Calendario",
-          url: "/dashboard/calendario",
-        },
-        {
           title: "Horarios",
           url: "/dashboard/horarios",
         },
         {
-          title: "Tickets",
-          url: "/dashboard/tickets",
+          title: "Ventas",
+          url: "/dashboard/ventas",
         },
       ],
     },
