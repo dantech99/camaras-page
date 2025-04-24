@@ -8,6 +8,6 @@ export const photographersRouter = new Elysia({
 })
   .use(betterAuth)
   .use(photographerModule)
-  .get("/all", ({ photographerService }) =>
+  .get("", ({ photographerService }) =>
     photographerService.getAllPhotographers()
   );

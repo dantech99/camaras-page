@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { PhotographersService } from './axios.instance';
+import { PhotographersService } from '@/services/photographer-service';
 
 export function usePhotographers() {
     return useQuery({
