@@ -48,7 +48,7 @@ export function ResponsiveCreatePaquete() {
           Crear Paquete
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="sm:max-w-[90vw] md:max-w-[50vw] lg:max-w-[40vw]">
         <DialogHeader>
           <DialogTitle>Crear un nuevo paquete</DialogTitle>
           <DialogDescription>
