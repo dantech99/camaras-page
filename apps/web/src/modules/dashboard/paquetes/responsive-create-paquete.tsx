@@ -40,7 +40,10 @@ export function ResponsiveCreatePaquete() {
   const DesktopDialog = () => (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant={"defaultDashboard"} className="border-1 text-blue-400 cursor-pointer px-10 py-5">
+        <Button
+          variant={"defaultDashboard"}
+          className="border-1 text-blue-400 cursor-pointer px-10 py-5 gap-3"
+        >
           <CirclePlus />
           Crear Paquete
         </Button>
@@ -60,14 +63,20 @@ export function ResponsiveCreatePaquete() {
   const MobileDrawer = () => (
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>
-        <Button>Crear Paquete</Button>
+        <Button
+          variant={"defaultDashboard"}
+          className="border-1 text-blue-400 cursor-pointer px-10 py-5 w-full gap-3"
+        >
+          <CirclePlus />
+          Crear Paquete
+        </Button>
       </DrawerTrigger>
       <DrawerContent className="h-screen flex flex-col overflow-hidden px-4 py-6">
         <div className="flex-1 overflow-y-auto">
           <DrawerHeader>
             <DrawerTitle>Crear nuevo paquete</DrawerTitle>
             <DrawerDescription>
-              Rellena el formulario para crear un nuevo paquete.
+              Rellena el formulario para crear un nuevo paquebte.
             </DrawerDescription>
           </DrawerHeader>
           <div className="mt-4">

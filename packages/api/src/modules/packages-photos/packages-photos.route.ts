@@ -1,5 +1,5 @@
+import { betterAuth } from "@camaras/api/src/utils/betteAuthPlugin";
 import Elysia, { t } from "elysia";
-import { betterAuth } from "src/utils/betteAuthPlugin";
 import { packagePhotosModule } from "./packages-photos.module";
 
 export const packagesPhotosRouter = new Elysia({
@@ -17,7 +17,7 @@ export const packagesPhotosRouter = new Elysia({
       params: t.Object({
         id: t.String(),
       }),
-    }
+    },
   )
   .post(
     "/",
@@ -37,7 +37,7 @@ export const packagesPhotosRouter = new Elysia({
           format: "image/*",
         }),
       }),
-    }
+    },
   )
   .patch(
     "/:id",
@@ -56,7 +56,7 @@ export const packagesPhotosRouter = new Elysia({
         photosCount: t.Number(),
         isActive: t.Optional(t.Boolean()),
       }),
-    }
+    },
   )
   .delete(
     "/:id",
@@ -69,5 +69,5 @@ export const packagesPhotosRouter = new Elysia({
       params: t.Object({
         id: t.String(),
       }),
-    }
+    },
   );

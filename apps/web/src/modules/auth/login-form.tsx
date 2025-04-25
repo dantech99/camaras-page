@@ -1,15 +1,14 @@
 "use client";
 
-import { z } from "zod";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 import {
   signInWithEmailAndPassword,
   signInWithGoogle,
-} from "@/utils/api-connection";
+} from "@/utils/auth-connection";
 import { Button } from "@camaras/ui/src/components/button";
-import { Input } from "@camaras/ui/src/components/input";
 import {
   Form,
   FormControl,
@@ -18,6 +17,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@camaras/ui/src/components/form";
+import { Input } from "@camaras/ui/src/components/input";
 import { toast } from "sonner";
 
 import { GoogleIcon } from "@camaras/ui/src/icons/google-icon";

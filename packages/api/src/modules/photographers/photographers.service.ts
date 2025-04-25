@@ -1,4 +1,4 @@
-import { prisma } from "../prisma";
+import { prisma } from "@camaras/api/src/modules/prisma";
 
 export class PhotographerService {
   async getAllPhotographers() {
