@@ -1,10 +1,18 @@
 "use client";
 
-import { z } from "zod";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 import { Button } from "@camaras/ui/src/components/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@camaras/ui/src/components/form";
 import { Input } from "@camaras/ui/src/components/input";
 import { Label } from "@camaras/ui/src/components/label";
 import {
@@ -14,37 +22,29 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@camaras/ui/src/components/select";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@camaras/ui/src/components/form";
 import { toast } from "sonner";
 
+import { signUpWithEmailAndPassword } from "@/utils/auth-connection";
 import { GoogleIcon } from "@camaras/ui/src/icons/google-icon";
 import {
-  US,
-  MX,
-  ES,
-  FR,
-  DE,
-  IT,
-  GB,
+  AR,
+  AU,
   BR,
   CN,
+  CO,
+  DE,
+  ES,
+  FR,
+  GB,
   IN,
+  IT,
   JP,
   KR,
-  RU,
-  AU,
-  AR,
+  MX,
   PE,
-  CO,
+  RU,
+  US,
 } from "country-flag-icons/react/3x2";
-import { signUpWithEmailAndPassword } from "@/utils/api-connection";
 
 const registerSchema = z.object({
   name: z.string().min(1, "El nombre es obligatorio"),

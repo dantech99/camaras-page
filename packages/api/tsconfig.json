@@ -102,7 +102,10 @@
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */,
     "baseUrl": ".",
     "paths": {
-      "@camaras/database/*": ["../../packages/database/*"]
+      "@camaras/api/*": ["../../packages/api/*"],
+      "@camaras/database/*": ["../../packages/database/*"],
+      "@camaras/auth/*": ["../../packages/auth/*"],
+
     }
   }
 }

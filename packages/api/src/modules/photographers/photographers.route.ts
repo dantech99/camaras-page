@@ -1,5 +1,5 @@
+import { betterAuth } from "@camaras/api/src/utils/betteAuthPlugin";
 import Elysia from "elysia";
-import { betterAuth } from "src/utils/betteAuthPlugin";
 import { photographerModule } from "./photographers.module";
 
 export const photographersRouter = new Elysia({
@@ -8,8 +8,8 @@ export const photographersRouter = new Elysia({
 })
   .use(betterAuth)
   .use(photographerModule)
-  .get("", ({ photographerService }) =>
-    photographerService.getAllPhotographers()
+  .get("/", ({ photographerService }) =>
+    photographerService.getAllPhotographers(),
   )
   .get(
     "/my-packages",
@@ -17,5 +17,5 @@ export const photographersRouter = new Elysia({
       photographerService.getPhotographerPackages(user.id),
     {
       photographer: true,
-    }
+    },
   );

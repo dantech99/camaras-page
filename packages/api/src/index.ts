@@ -16,7 +16,7 @@ export const api = new Elysia({
       methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
       credentials: true,
       allowedHeaders: ["Authorization", "Content-Type"],
-    })
+    }),
   )
   .use(betterAuth)
   .use(orderRouter)

@@ -10,6 +10,7 @@
     "envs": "bun --print process.env"
   },
   "dependencies": {
+    "@elysiajs/eden": "1.2.0",
     "@nextui-org/react": "^2.6.8",
     "framer-motion": "^11.15.0",
     "next": "15.1.0",
@@ -22,6 +23,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "elysia": "1.2.25",
     "postcss": "^8",
     "tailwindcss": "^4.1.4",
     "typescript": "5.5.4"
