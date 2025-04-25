@@ -17,6 +17,7 @@ model PhotoPackage {
   photographerId     String
   name               String
   description        String?
+  imageUrl           String
   dotsDescription    String[]
   price              Decimal
   photoCount         Int         @default(0)

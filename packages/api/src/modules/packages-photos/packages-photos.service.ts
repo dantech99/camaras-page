@@ -1,13 +1,13 @@
 import { prisma } from "../prisma";
-// import { supabase } from "src/core/s3";
+import { supabaseS3 } from "src/core/s3";
 
 export class PackageService {
   async createPackage(
     data: {
       name: string;
       description: string;
-      price: number;
-      photosCount: number;
+      price: string;
+      photosCount: string;
       dotsDescription: string[];
       image: File;
     },
@@ -17,16 +17,49 @@ export class PackageService {
       const { name, description, price, dotsDescription, photosCount, image } =
         data;
 
+      const priceToNumber = parseFloat(price.toString());
+      if (isNaN(priceToNumber)) {
+        throw new Error("Invalid price");
+      }
+      if (priceToNumber <= 0) {
+        throw new Error("Price must be greater than 0");
+      }
+
+      const photosCountToNumber = parseInt(photosCount.toString());
+      if (isNaN(photosCountToNumber)) {
+        throw new Error("Invalid photos count");
+      }
+      if (photosCountToNumber <= 0) {
+        throw new Error("Photos count must be greater than 0");
+      }
+
+      const fileExtension = image.name.split(".").pop();
+      const fileName = `${name.replace(/\s+/g, "-").toLowerCase()}-${Date.now()}.${fileExtension}`;
+      const filePath = `package/${fileName}`;
+
+      // Convertir el File a ArrayBuffer y luego a Unit8Array
+      const buffer = await image.arrayBuffer();
+      const uint8Array = new Uint8Array(buffer);
+
+      const writeResult = await supabaseS3.write(filePath, uint8Array);
+
+      if (!writeResult) {
+        throw new Error("Error uploading image to S3");
+      }
+
+      const imageUrl = `${process.env.SUPABASE_URL_BUCKET}/${filePath}`;
+
       const photoPackage = await prisma.photoPackage.create({
         data: {
           name,
           description,
-          price,
-          photoCount: photosCount,
+          price: priceToNumber,
+          photoCount: photosCountToNumber,
           dotsDescription: dotsDescription,
           photographerId: user.id,
           isActive: true,
           discountPercentage: 0,
+          imageUrl: imageUrl,
         },
       });
 

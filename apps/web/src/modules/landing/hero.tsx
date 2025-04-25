@@ -4,12 +4,10 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence, useDragControls } from "framer-motion";
 import { cn } from "@camaras/ui/src/lib/utils";
-import { authClient } from "@camaras/auth/client";
 
 export const HeroSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [autoplay, setAutoplay] = useState(true);
-  const { data: session } = authClient.useSession();
 
   const slides = [
     {
@@ -56,10 +54,6 @@ export const HeroSection = () => {
     setAutoplay(false);
     setCurrentSlide(index);
   };
-
-  useEffect(() => {
-    console.log(session);
-  }, [session]);
 
   const dragControls = useDragControls();
 
