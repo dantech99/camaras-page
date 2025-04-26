@@ -41,6 +41,7 @@ export function TablePaquetes() {
 
   return (
 <<<<<<< HEAD
+<<<<<<< HEAD
     <Table className="w-full rounded-lg overflow-hidden">
       <TableHeader className="bg-sidebar-accent w-full">
         <TableRow className="w-full">
@@ -134,6 +135,9 @@ export function TablePaquetes() {
       </TableBody>
     </Table>
 =======
+=======
+
+>>>>>>> 06c82e67aed3a593503a0ce5320cbd811ab1d82c
     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4">
       {packages.map((pack: PhotographersPackages) => (
         <Card key={pack.id} className="overflow-hidden border rounded-lg shadow-sm py-0">
@@ -170,6 +174,10 @@ export function TablePaquetes() {
         </Card>
       ))}
     </div>
+<<<<<<< HEAD
 >>>>>>> 5ee99d079acc8983c4bc0389a60da3ab0c027502
+=======
+
+>>>>>>> 06c82e67aed3a593503a0ce5320cbd811ab1d82c
   );
 }
