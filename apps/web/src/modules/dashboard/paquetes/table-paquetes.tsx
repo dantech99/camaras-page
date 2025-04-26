@@ -43,8 +43,10 @@ export function TablePaquetes() {
     <Table className="w-full rounded-lg overflow-hidden">
       <TableHeader className="bg-sidebar-accent w-full">
         <TableRow className="w-full">
-          <TableHead className="min-w-[60px] text-left">Nombre</TableHead>
-          <TableHead className="min-w-[150px] text-left">Descripción</TableHead>
+          <TableHead className="min-w-[60px] text-center">Nombre</TableHead>
+          <TableHead className="min-w-[150px] text-center">
+            Descripción
+          </TableHead>
           <TableHead className="min-w-[120px] text-center">Precio</TableHead>
           <TableHead className="min-w-[100px] text-center">
             Total de fotos
@@ -64,7 +66,7 @@ export function TablePaquetes() {
             <TableCell colSpan={7} className="text-center py-4">
               <div className="flex items-center justify-center gap-2">
                 <Loader2 className="h-4 w-4 animate-spin" />
-                <span>Cargando tickets...</span>
+                <span>Cargando paquetes...</span>
               </div>
             </TableCell>
           </TableRow>
@@ -124,7 +126,7 @@ export function TablePaquetes() {
         ) : (
           <TableRow>
             <TableCell colSpan={7} className="text-center py-6">
-              No hay tickets disponibles
+              No hay paquetes disponibles.
             </TableCell>
           </TableRow>
         )}
