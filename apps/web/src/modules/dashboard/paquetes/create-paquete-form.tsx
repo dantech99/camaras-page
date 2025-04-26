@@ -14,6 +14,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Camera, Plus, X } from "lucide-react"
 import { Badge } from "@camaras/ui/src/components/badge"
 import { PackagePhotosService } from "@/services/package-photos-service"
+import { usePhotographersPackages } from "@/utils/use-photographers"
 import { toast } from "sonner"
 
 const createPaqueteSchema = z.object({
@@ -31,6 +32,7 @@ const createPaqueteSchema = z.object({
 })
 
 export function CreatePaqueteForm() {
+  const { refetch } = usePhotographersPackages()
   const [isLoading, setIsLoading] = useState(false)
   const [photoInput, setPhotoInput] = useState<string>("")
   const [previewImage, setPreviewImage] = useState<string | null>(null)
@@ -95,6 +97,10 @@ export function CreatePaqueteForm() {
     try {
       setIsLoading(true)
       await PackagePhotosService.create(values)
+      await refetch()
+      form.reset()
+      setPreviewImage(null)
+      setPhotoInput("")
       toast("El paquete de fotos fue creado", {
         description: "Ahora puedes verlo en la tabla de paquetes",
         duration: 3000,
@@ -255,7 +261,9 @@ export function CreatePaqueteForm() {
           </div>
         </div>
         <Button type="submit" className="w-full rounded-full mt-4 cursor-pointer" variant="outline">
-          Crear Paquete
+          {
+            isLoading ? "Subiendo paquete..." : "Crear Paquete"
+          }
         </Button>
       </form>
     </Form>
