@@ -1,11 +1,11 @@
 import { cors } from "@elysiajs/cors";
 import { Elysia } from "elysia";
 import "./utils/envs";
-import { betterAuth } from "./utils/betteAuthPlugin";
+import { betterAuth } from "@camaras/api/src/utils/betteAuthPlugin";
 
-import orderRouter from "./modules/order/router";
-import { packagesPhotosRouter } from "./modules/packages-photos/packages-photos.route";
-import { photographersRouter } from "./modules/photographers/photographers.route";
+import { packagesPhotosRouter } from "@camaras/api/src/modules/packages-photos/packages-photos.route";
+import { photographersRouter } from "@camaras/api/src/modules/photographers/photographers.route";
+import { couponRouter } from "@camaras/api/src/modules/coupon/coupon.route";
 
 export const api = new Elysia({
   prefix: "/api",
@@ -16,11 +16,11 @@ export const api = new Elysia({
       methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
       credentials: true,
       allowedHeaders: ["Authorization", "Content-Type"],
-    }),
+    })
   )
   .use(betterAuth)
-  .use(orderRouter)
   .use(packagesPhotosRouter)
-  .use(photographersRouter);
+  .use(photographersRouter)
+  .use(couponRouter);
 
 export type Api = typeof api;

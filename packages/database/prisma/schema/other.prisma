@@ -45,6 +45,8 @@ model DiscountCode {
   code               String            @unique
   discountPercentage Decimal
   expirationDate     DateTime?
+  photographerId     String
+  photographer       User              @relation(fields: [photographerId], references: [id])
   isActive           Boolean           @default(true)
   sales              Sale[]
   history            DiscountHistory[]

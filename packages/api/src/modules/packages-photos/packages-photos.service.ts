@@ -1,4 +1,4 @@
-import { prisma } from "../prisma";
+import { prisma } from "@camaras/api/src/modules/prisma";
 import { supabaseS3 } from "src/core/s3";
 
 export class PackageService {
@@ -122,7 +122,7 @@ export class PackageService {
       isActive?: boolean;
       discountPercentage?: number;
     },
-    user: { id: string }
+    userId: string
   ) {
     try {
       const {
@@ -138,10 +138,10 @@ export class PackageService {
       const photoPackage = await prisma.photoPackage.update({
         where: {
           id,
-          photographerId: user.id,
+          photographerId: userId,
         },
         data: {
-          photographerId: user.id,
+          photographerId: userId,
           name,
           description,
           price,
@@ -172,12 +172,12 @@ export class PackageService {
     }
   }
 
-  async deletePackage(id: string, user: { id: string }) {
+  async deletePackage(id: string, userId: string) {
     try {
       await prisma.photoPackage.delete({
         where: {
           id,
-          photographerId: user.id,
+          photographerId: userId,
         },
       });
 
