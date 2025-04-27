@@ -32,6 +32,7 @@ model User {
   members             Member[]
   invitations         Invitation[]
   sales               Sale[]            @relation("Buyer")
+  discountCodes       DiscountCode[]
   favorites           Favorite[]
   changeLogs          ChangeLog[]
   reviewsWritten      Review[]
