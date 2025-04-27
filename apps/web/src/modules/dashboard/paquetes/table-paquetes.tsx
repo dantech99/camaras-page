@@ -20,6 +20,7 @@ interface PhotographersPackages {
 }
 
 export function TablePaquetes() {
+  
   const {
     data: packagesPhotographers,
     isLoading,
