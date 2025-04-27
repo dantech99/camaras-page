@@ -20,6 +20,7 @@ interface PhotographersPackages {
 }
 
 export function TablePaquetes() {
+  
   const {
     data: packagesPhotographers,
     isLoading,
@@ -40,7 +41,6 @@ export function TablePaquetes() {
   }
 
   return (
-
     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4">
       {packages.map((pack: PhotographersPackages) => (
         <Card key={pack.id} className="overflow-hidden border rounded-lg shadow-sm py-0">
