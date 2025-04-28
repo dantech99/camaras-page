@@ -47,6 +47,13 @@ export class CouponService {
         where: {
           photographerId: id,
         },
+        select: {
+          id: true,
+          discountPercentage: true,
+          code: true,
+          expirationDate: true,
+          createdat: true,
+        },
       });
 
       return {

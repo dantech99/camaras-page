@@ -21,7 +21,9 @@ const buttonVariants = cva(
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
         defaultDashboard:
-          "px-4 py-2 rounded-full border border-cyan-500 font-sans bg-black/50 text-primary backdrop-blur-xs transition-all duration-300 ease-in-out hover:bg-cyan-950/30 hover:scale-105 hover:border-cyan-400 dark:bg-black/50 dark:text-primary dark:hover:bg-cyan-950/30",
+          "px-4 py-2 rounded-full border border-cyan-500 font-mono bg-black/50 text-primary backdrop-blur-xs transition-all duration-300 ease-in-out hover:bg-cyan-950/30 hover:scale-105 hover:border-cyan-400 dark:bg-black/50 dark:text-primary dark:hover:bg-cyan-950/30",
+        destructiveDashboard:
+          "px-4 py-2 rounded-full border border-red-500 font-mono bg-black/50 text-red-500 backdrop-blur-xs transition-all duration-300 ease-in-out hover:bg-red-600/30 hover:scale-105 hover:border-red-400 dark:bg-black/50 dark:text-primary dark:hover:bg-cyan-950/30",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",

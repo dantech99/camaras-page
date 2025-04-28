@@ -48,6 +48,7 @@ model DiscountCode {
   photographerId     String
   photographer       User              @relation(fields: [photographerId], references: [id])
   isActive           Boolean           @default(true)
+  createdat          DateTime          @default(now())
   sales              Sale[]
   history            DiscountHistory[]
 }
