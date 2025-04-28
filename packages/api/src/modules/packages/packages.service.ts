@@ -1,15 +1,15 @@
 import { prisma } from "@camaras/api/src/modules/prisma";
 import { supabaseS3 } from "@camaras/api/src/core/s3";
 
-export class PackageService {
+export class PackagesService {
   async createPackage(
     data: {
       name: string;
       description: string;
-      price: string;
-      photosCount: string;
+      price: number;
+      photosCount: number;
       dotsDescription: string[];
-      image?: File;
+      image: File | null;
     },
     user: { id: string }
   ) {
@@ -95,10 +95,16 @@ export class PackageService {
         },
       });
 
+      const formattedPackages = packages.map((pkg) => ({
+        ...pkg,
+        price: Number(pkg.price),
+        discountPercentage: Number(pkg.discountPercentage),
+      }));
+
       return {
         message: "Packages retrieved successfully",
         status: 200,
-        packages,
+        packages: formattedPackages,
       };
     } catch (error) {
       if (error instanceof Error) {

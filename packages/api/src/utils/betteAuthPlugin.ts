@@ -35,4 +35,32 @@ export const betterAuth = new Elysia({ name: "better-auth" })
         };
       },
     },
+  })
+  .macro({
+    permissions: {
+      async resolve({ error, request: { headers } }) {
+        const session = await auth.api.getSession({
+          headers,
+        });
+
+        const user = session?.user;
+
+        const permissions = await auth.api.userHasPermission({
+          body: {
+            userId: user?.id,
+            permissions: {
+              project: ["create"],
+            },
+          },
+        });
+
+        if (!permissions) {
+          return error(401);
+        }
+
+        return {
+          user,
+        };
+      },
+    },
   });
