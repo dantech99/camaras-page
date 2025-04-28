@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   Table,
@@ -14,9 +14,8 @@ import { Button } from "@camaras/ui/src/components/button";
 import { Pencil1Icon } from "@radix-ui/react-icons";
 
 export const TableCoupons = () => {
-
-  const { data, isLoading, isError } = useCoupons()
-  const coupons = data?.coupons || []
+  const { data, isLoading, isError } = useCoupons();
+  const coupons = data?.coupons || [];
 
   return (
     <Table className="w-full rounded-lg overflow-hidden">
@@ -38,52 +37,54 @@ export const TableCoupons = () => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {
-          isLoading ? (
-            <TableRow>
-              <TableCell colSpan={5} className="text-center py-4">
-                <div className="flex items-center justify-center gap-2">
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                  <span>Cargando tickets...</span>
-                </div>
+        {isLoading ? (
+          <TableRow>
+            <TableCell colSpan={5} className="text-center py-4">
+              <div className="flex items-center justify-center gap-2">
+                <Loader2 className="h-4 w-4 animate-spin" />
+                <span>Cargando cupones...</span>
+              </div>
+            </TableCell>
+          </TableRow>
+        ) : isError ? (
+          <TableRow>
+            <TableCell colSpan={9} className="text-center py-6">
+              <div className="text-red-500">
+                Error al cargar los cupones. Por favor, intente nuevamente.
+              </div>
+            </TableCell>
+          </TableRow>
+        ) : coupons.length > 0 ? (
+          coupons.map((coupon) => (
+            <TableRow key={coupon.id} className="text-center">
+              <TableCell>{coupon.photographerId}</TableCell>
+              <TableCell>
+                {coupon.expirationDate
+                  ? new Date(coupon.expirationDate).toLocaleDateString()
+                  : "N/A"}
+              </TableCell>
+              <TableCell>{coupon.code}</TableCell>
+              <TableCell>{Number(coupon.discountPercentage)}</TableCell>
+              <TableCell className="space-x-2">
+                <Button>
+                  <SwitchCamera />
+                </Button>
+                <Button>
+                  <DeleteIcon />
+                </Button>
+                <Button>
+                  <Pencil1Icon />
+                </Button>
               </TableCell>
             </TableRow>
-          ) : isError ? (
-            <TableRow>
-              <TableCell colSpan={9} className="text-center py-6">
-                <div className="text-red-500">
-                  Error al cargar los tickets. Por favor, intente nuevamente.
-                </div>
-              </TableCell>
-            </TableRow>
-          ) : coupons.length > 0 ? (
-            coupons.map((coupon) => (
-              <TableRow key={coupon.id} className="text-center">
-                <TableCell>{coupon.photographerId}</TableCell>
-                <TableCell>{coupon.expirationDate ? new Date(coupon.expirationDate).toLocaleDateString() : "N/A"}</TableCell>
-                <TableCell>{coupon.code}</TableCell>
-                <TableCell>{Number(coupon.discountPercentage)}</TableCell>
-                <TableCell className="space-x-2">
-                  <Button>
-                    <SwitchCamera />
-                  </Button>
-                  <Button>
-                    <DeleteIcon />
-                  </Button>
-                  <Button>
-                    <Pencil1Icon />
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={9} className="text-center py-6">
-                No hay tickets disponibles
-              </TableCell>
-            </TableRow>
-          )
-        }
+          ))
+        ) : (
+          <TableRow>
+            <TableCell colSpan={9} className="text-center py-6">
+              No hay cupones disponibles
+            </TableCell>
+          </TableRow>
+        )}
       </TableBody>
     </Table>
   );

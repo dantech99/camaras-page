@@ -112,7 +112,7 @@ export function CreateCuponForm() {
               name="discountPercentage"
               render={({ field: { value, onChange, ...restField } }) => (
                 <FormItem>
-                  <FormLabel>Escribe el porcentaje de descuento</FormLabel>
+                  <FormLabel><span>Escribe el porcentaje de descuento (sin el signo)</span></FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -139,7 +139,7 @@ export function CreateCuponForm() {
                   <FormLabel>Selecciona la fecha de expiración</FormLabel>
                   <FormControl>
                     <Popover>
-                      <PopoverTrigger asChild className="w-full">
+                      <PopoverTrigger asChild className="w-full rounded-full">
                         <Button
                           variant={"outline"}
                           className={cn(
