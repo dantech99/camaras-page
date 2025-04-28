@@ -7,9 +7,6 @@ export class PhotographerService {
         where: {
           role: "photographer",
         },
-        include: {
-          PhotoPackage: true,
-        },
       });
 
       return {

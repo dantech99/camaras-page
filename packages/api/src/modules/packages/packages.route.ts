@@ -1,22 +1,19 @@
 import { betterAuth } from "@camaras/api/src/utils/betteAuthPlugin";
 import Elysia, { t } from "elysia";
-import { packagePhotosModule } from "@camaras/api/src/modules/packages-photos/packages-photos.module";
+import { packagePhotosModule } from "@camaras/api/src/modules/packages/packages.module";
 
-export const packagesPhotosRouter = new Elysia({
-  prefix: "/packages-photos",
-  name: "packages-photos",
+export const packagesRouter = new Elysia({
+  prefix: "/package",
+  name: "packages",
 })
   .use(betterAuth)
   .use(packagePhotosModule)
   .get(
-    "/:id",
-    ({ params, packagePhotosService }) =>
-      packagePhotosService.getPackagesFromPhotographer(params.id),
+    "/",
+    ({ packagePhotosService, user }) =>
+      packagePhotosService.getPackagesFromPhotographer(user.id),
     {
       photographer: true,
-      params: t.Object({
-        id: t.String(),
-      }),
     }
   )
   .post(
@@ -31,11 +28,13 @@ export const packagesPhotosRouter = new Elysia({
         name: t.String(),
         description: t.String(),
         dotsDescription: t.Array(t.String()),
-        price: t.String(),
-        photosCount: t.String(),
-        image: t.File({
-          format: "image/*",
-        }),
+        price: t.Number(),
+        photosCount: t.Number(),
+        image: t.Nullable(
+          t.File({
+            format: "image/*",
+          })
+        ),
       }),
     }
   )

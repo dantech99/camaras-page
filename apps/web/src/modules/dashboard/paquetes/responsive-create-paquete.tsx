@@ -41,10 +41,9 @@ export function ResponsiveCreatePaquete() {
       <DialogTrigger asChild>
         <Button
           variant={"defaultDashboard"}
-          className="border-1 text-blue-400 cursor-pointer px-10 py-5 gap-3"
         >
           <CirclePlus />
-          Crear Paquete
+          Crear paquete
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[90vw] md:max-w-[50vw] lg:max-w-[40vw]">
@@ -64,13 +63,12 @@ export function ResponsiveCreatePaquete() {
       <DrawerTrigger asChild>
         <Button
           variant={"defaultDashboard"}
-          className="border-1 text-blue-400 cursor-pointer px-10 py-5 w-full gap-3"
         >
           <CirclePlus />
-          Crear Paquete
+          Crear paquete
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="h-screen flex flex-col overflow-hidden px-4 py-6">
+      <DrawerContent className="h-screen flex flex-col overflow-y-auto px-4 py-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
         <div className="flex-1 overflow-y-auto">
           <DrawerHeader>
             <DrawerTitle>Crear nuevo paquete</DrawerTitle>

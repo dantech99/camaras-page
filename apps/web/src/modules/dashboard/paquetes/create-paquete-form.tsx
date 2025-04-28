@@ -13,8 +13,8 @@ import { Input } from "@camaras/ui/src/components/input"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@camaras/ui/src/components/form"
 import { Camera, Plus, X } from "lucide-react"
 import { Badge } from "@camaras/ui/src/components/badge"
-import { PackagePhotosService } from "@/services/package-photos-service"
-import { usePhotographersPackages } from "@/hooks/use-photographers"
+import { PackageService } from "@/services/package-service"
+import { usePackages } from "@/hooks/use-packages"
 import { toast } from "sonner"
 
 const createPaqueteSchema = z.object({
@@ -32,7 +32,7 @@ const createPaqueteSchema = z.object({
 })
 
 export function CreatePaqueteForm() {
-  const { refetch } = usePhotographersPackages()
+  const { refetch } = usePackages()
   const [isLoading, setIsLoading] = useState(false)
   const [photoInput, setPhotoInput] = useState<string>("")
   const [previewImage, setPreviewImage] = useState<string | null>(null)
@@ -96,7 +96,7 @@ export function CreatePaqueteForm() {
   async function onSubmit(values: z.infer<typeof createPaqueteSchema>) {
     try {
       setIsLoading(true)
-      await PackagePhotosService.create(values)
+      await PackageService.create(values)
       await refetch()
       form.reset()
       setPreviewImage(null)

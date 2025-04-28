@@ -3,7 +3,7 @@ import { Elysia } from "elysia";
 import "./utils/envs";
 import { betterAuth } from "@camaras/api/src/utils/betteAuthPlugin";
 
-import { packagesPhotosRouter } from "@camaras/api/src/modules/packages-photos/packages-photos.route";
+import { packagesRouter } from "@camaras/api/src/modules/packages/packages.route";
 import { photographersRouter } from "@camaras/api/src/modules/photographers/photographers.route";
 import { couponRouter } from "@camaras/api/src/modules/coupon/coupon.route";
 
@@ -19,7 +19,7 @@ export const api = new Elysia({
     })
   )
   .use(betterAuth)
-  .use(packagesPhotosRouter)
+  .use(packagesRouter)
   .use(photographersRouter)
   .use(couponRouter);
 
