@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@camaras/ui/src/components/table";
-import { useCoupons } from "./hooks/use-cupons";
+import { useCoupons } from "../../../hooks/use-cupons";
 import { DeleteIcon, Loader2, SwitchCamera } from "lucide-react";
 import { Button } from "@camaras/ui/src/components/button";
 import { Pencil1Icon } from "@radix-ui/react-icons";

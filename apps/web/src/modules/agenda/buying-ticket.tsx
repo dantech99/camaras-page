@@ -1,6 +1,6 @@
 "use client"
 
-import { usePhotographers } from "@/utils/use-photographers"
+import { usePhotographers } from "@/hooks/use-photographers"
 
 interface Photographer {
     id: string

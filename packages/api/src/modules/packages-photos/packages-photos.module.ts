@@ -1,5 +1,5 @@
 import Elysia from "elysia";
-import { PackageService } from "./packages-photos.service";
+import { PackageService } from "@camaras/api/src/modules/packages-photos/packages-photos.service";
 
 export const packagePhotosModule = new Elysia({
   name: "packages-photos-module",

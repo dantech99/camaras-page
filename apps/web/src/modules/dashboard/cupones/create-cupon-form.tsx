@@ -35,7 +35,7 @@ import {
 import { toast } from "sonner";
 import { CalendarIcon } from "lucide-react";
 import { CouponService } from "@/services/coupon-service";
-import { useCoupons } from "./hooks/use-cupons";
+import { useCoupons } from "../../../hooks/use-cupons";
 
 const createCuponSchema = z.object({
   code: z.string().min(1, { message: "El código es requerido" }),

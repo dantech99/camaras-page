@@ -14,7 +14,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Camera, Plus, X } from "lucide-react"
 import { Badge } from "@camaras/ui/src/components/badge"
 import { PackagePhotosService } from "@/services/package-photos-service"
-import { usePhotographersPackages } from "@/utils/use-photographers"
+import { usePhotographersPackages } from "@/hooks/use-photographers"
 import { toast } from "sonner"
 
 const createPaqueteSchema = z.object({
