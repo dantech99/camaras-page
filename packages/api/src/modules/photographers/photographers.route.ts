@@ -9,13 +9,13 @@ export const photographersRouter = new Elysia({
   .use(betterAuth)
   .use(photographerModule)
   .get("/", ({ photographerService }) =>
-    photographerService.getAllPhotographers(),
+    photographerService.getAllPhotographers()
   )
   .get(
-    "/my-packages",
+    "/my_packages",
     ({ user, photographerService }) =>
       photographerService.getPhotographerPackages(user.id),
     {
       photographer: true,
-    },
+    }
   );

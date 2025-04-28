@@ -1,5 +1,5 @@
 import { prisma } from "@camaras/api/src/modules/prisma";
-import { supabaseS3 } from "src/core/s3";
+import { supabaseS3 } from "@camaras/api/src/core/s3";
 
 export class PackageService {
   async createPackage(
@@ -9,7 +9,7 @@ export class PackageService {
       price: string;
       photosCount: string;
       dotsDescription: string[];
-      image: File;
+      image?: File;
     },
     user: { id: string }
   ) {
@@ -31,6 +31,10 @@ export class PackageService {
       }
       if (photosCountToNumber <= 0) {
         throw new Error("Photos count must be greater than 0");
+      }
+
+      if (image == null) {
+        throw new Error("No hay una foto valida");
       }
 
       const fileExtension = image.name.split(".").pop();

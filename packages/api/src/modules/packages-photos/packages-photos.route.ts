@@ -3,7 +3,7 @@ import Elysia, { t } from "elysia";
 import { packagePhotosModule } from "@camaras/api/src/modules/packages-photos/packages-photos.module";
 
 export const packagesPhotosRouter = new Elysia({
-  prefix: "/packages-photos",
+  prefix: "/packages_photos",
   name: "packages-photos",
 })
   .use(betterAuth)
@@ -33,9 +33,11 @@ export const packagesPhotosRouter = new Elysia({
         dotsDescription: t.Array(t.String()),
         price: t.String(),
         photosCount: t.String(),
-        image: t.File({
-          format: "image/*",
-        }),
+        image: t.Optional(
+          t.File({
+            format: "image/*",
+          })
+        ),
       }),
     }
   )

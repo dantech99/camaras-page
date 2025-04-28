@@ -1,18 +1,16 @@
-import axios from "axios";
-
-const photographersClient = axios.create({
-  baseURL: "http://localhost:8080/api/photographer",
-});
+import { apiClient } from "@/utils/api-connection";
 
 export const PhotographersService = {
   getAll: async () => {
-    const response = await photographersClient.get("");
+    const response = await apiClient.photographer.index.get();
     return response.data;
   },
 
   getPhotographerPackages: async () => {
-    const response = await photographersClient.get("/my-packages", {
-      withCredentials: true,
+    const response = await apiClient.photographer.my_packages.get({
+      fetch: {
+        credentials: "include",
+      },
     });
     return response.data;
   },
