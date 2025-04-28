@@ -1,10 +1,8 @@
 "use client";
 
 import { usePhotographersPackages } from "@/utils/use-photographers";
-import { Loader2, MoreHorizontal, Pencil, PenLine, Trash } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { Card } from "@camaras/ui/src/components/card";
-import Image from "next/image";
-import { Badge } from "@camaras/ui/src/components/badge";
 
 interface PhotographersPackages {
   id: string;
@@ -20,7 +18,7 @@ interface PhotographersPackages {
 }
 
 export function TablePaquetes() {
-  
+
   const {
     data: packagesPhotographers,
     isLoading,

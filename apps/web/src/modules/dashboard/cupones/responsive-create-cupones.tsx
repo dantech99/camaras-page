@@ -46,9 +46,9 @@ export function ResponsiveCreateCupones() {
           Crear cupón
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[90vw] md:max-w-[50vw] lg:max-w-[40vw]">
+      <DialogContent>
         <DialogHeader>
-          <DialogTitle>Crear un nuevo paquete</DialogTitle>
+          <DialogTitle>Crear un nuevo cupon</DialogTitle>
           <DialogDescription>
             Rellena el formulario para crear un nuevo cupón de descuento.
           </DialogDescription>

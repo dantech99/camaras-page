@@ -1,8 +1,7 @@
 "use client";
 
-import type React from "react";
 import { cn } from "@camaras/ui/src/lib/utils";
-import { addDays, format } from "date-fns"
+import { addDays, format } from "date-fns";
 import { Calendar } from "@camaras/ui/src/components/calendar";
 
 import { useState } from "react";
@@ -21,59 +20,78 @@ import {
   FormMessage,
 } from "@camaras/ui/src/components/form";
 import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-  } from "@camaras/ui/src/components/popover"
-  import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-  } from "@camaras/ui/src/components/select"
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@camaras/ui/src/components/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@camaras/ui/src/components/select";
 
 import { toast } from "sonner";
 import { CalendarIcon } from "lucide-react";
+import { CouponService } from "@/services/coupon-service";
+import { useCoupons } from "./hooks/use-cupons";
 
 const createCuponSchema = z.object({
   code: z.string().min(1, { message: "El código es requerido" }),
   discountPercentage: z
     .number()
-    .min(1, { message: "El porcentaje de descuento es requerido" }),
+    .min(1, {
+      message: "El descuento debe ser mayor de 1",
+    })
+    .max(100, {
+      message: "Debe ser menor a 100",
+    }),
   expirationDate: z
     .date()
     .refine((date) => date > new Date(), {
       message: "La fecha de expiración debe ser futura",
     })
-    .nullable(),
 });
 
 export function CreateCuponForm() {
-  
+  const { refetch } = useCoupons()
   const [isLoading, setIsLoading] = useState(false);
-  const [date, setDate] = useState<Date>()
-
   const form = useForm<z.infer<typeof createCuponSchema>>({
     resolver: zodResolver(createCuponSchema),
     defaultValues: {
       code: "",
       discountPercentage: 0,
-      expirationDate: null,
+      expirationDate: undefined,
     },
   });
 
+  const date = form.watch("expirationDate");
+
   async function onSubmit(values: z.infer<typeof createCuponSchema>) {
-    console.log(values);
+    try {
+      setIsLoading(true)
+      await CouponService.create(values)
+      await refetch()
+      await form.reset()
+      toast("El cupon fue creado", {
+        description: "Ahora puedes verlo en la tabla de cupones",
+        duration: 3000
+      })
+    } catch (error) {
+      toast("Hubo un error al crear el cupon", {
+        description: "Intentalo de nuevo más tarde",
+        duration: 3000
+      })
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-4 px-4 py-3"
-      >
-        <div className="grid gap-4 grid-cols-1 md:grid-cols-2 items-start">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <div className="grid gap-4 grid-cols-1 items-start">
           {/* Inputs del lado derecho */}
           <div className="flex flex-col gap-y-4">
             <FormField
@@ -92,11 +110,22 @@ export function CreateCuponForm() {
             <FormField
               control={form.control}
               name="discountPercentage"
-              render={({ field }) => (
+              render={({ field: { value, onChange, ...restField } }) => (
                 <FormItem>
                   <FormLabel>Escribe el porcentaje de descuento</FormLabel>
                   <FormControl>
-                    <Input placeholder="Agrega una descripción" {...field} />
+                    <Input
+                      type="number"
+                      min={1}
+                      {...restField}
+                      value={value === 0 ? "" : value}
+                      onChange={(e) => {
+                        const inputValue = e.target.value;
+                        onChange(
+                          inputValue === "" ? 0 : parseFloat(inputValue)
+                        );
+                      }}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -110,46 +139,50 @@ export function CreateCuponForm() {
                   <FormLabel>Selecciona la fecha de expiración</FormLabel>
                   <FormControl>
                     <Popover>
-                      <PopoverTrigger asChild>
+                      <PopoverTrigger asChild className="w-full">
                         <Button
                           variant={"outline"}
                           className={cn(
-                            "w-[240px] justify-start text-left font-normal",
+                            " justify-center text-left font-normal",
                             !date && "text-muted-foreground"
                           )}
                         >
-                          <CalendarIcon />
-                          {date ? (
-                            format(date, "PPP")
-                          ) : (
-                            <span>Seleccione la fecha</span>
-                          )}
+                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          {date ? format(date, "PPP") : "Seleccione la fecha"}
                         </Button>
                       </PopoverTrigger>
                       <PopoverContent
-                        align="start"
+                        align="center"
                         className="flex w-auto flex-col space-y-2 p-2"
                       >
                         <Select
-                          onValueChange={(value) =>
-                            setDate(addDays(new Date(), parseInt(value)))
-                          }
+                          onValueChange={(value) => {
+                            const newDate = addDays(
+                              new Date(),
+                              parseInt(value)
+                            );
+                            form.setValue("expirationDate", newDate);
+                          }}
                         >
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select" />
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Selecciona una opción" />
                           </SelectTrigger>
                           <SelectContent position="popper">
-                            <SelectItem value="0">Today</SelectItem>
-                            <SelectItem value="1">Tomorrow</SelectItem>
-                            <SelectItem value="3">In 3 days</SelectItem>
-                            <SelectItem value="7">In a week</SelectItem>
+                            <SelectItem value="0">Hoy</SelectItem>
+                            <SelectItem value="1">Mañana</SelectItem>
+                            <SelectItem value="3">En 3 días</SelectItem>
+                            <SelectItem value="7">En una semana</SelectItem>
                           </SelectContent>
                         </Select>
                         <div className="rounded-md border">
                           <Calendar
                             mode="single"
-                            selected={date}
-                            onSelect={setDate}
+                            selected={date ?? undefined}
+                            onSelect={(selectedDate) => {
+                              if (selectedDate) {
+                                form.setValue("expirationDate", selectedDate);
+                              }
+                            }}
                           />
                         </div>
                       </PopoverContent>
