@@ -37,6 +37,13 @@ import { CalendarIcon } from "lucide-react";
 import { CouponService } from "@/services/coupon-service";
 import { useCoupons } from "../../../hooks/use-cupons";
 
+interface Coupon {
+  id: string;
+  code: string;
+  discountPercentage: number;
+  expirationDate: Date;
+}
+
 const createCuponSchema = z.object({
   code: z.string().min(1, { message: "El código es requerido" }),
   discountPercentage: z
@@ -52,7 +59,7 @@ const createCuponSchema = z.object({
   }),
 });
 
-export function UpdateCouponForm() {
+export function UpdateCouponForm({ coupon }: { coupon: Coupon }) {
   const { refetch } = useCoupons();
   const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof createCuponSchema>>({
