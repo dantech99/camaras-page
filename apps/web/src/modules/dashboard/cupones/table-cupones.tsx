@@ -9,9 +9,17 @@ import {
   TableRow,
 } from "@camaras/ui/src/components/table";
 import { useCoupons } from "../../../hooks/use-cupons";
-import { DeleteIcon, Loader2, SwitchCamera } from "lucide-react";
+import {
+  DeleteIcon,
+  Loader2,
+  SwitchCamera,
+  Trash2,
+  Trash2Icon,
+} from "lucide-react";
 import { Button } from "@camaras/ui/src/components/button";
 import { Pencil1Icon } from "@radix-ui/react-icons";
+import { AlertDeteleCupon } from "./alert-delete-cupon";
+import { ResponsiveUpdateCupon } from "./responsive-update-cupon";
 
 export const TableCoupons = () => {
   const { data, isLoading, isError } = useCoupons();
@@ -57,7 +65,9 @@ export const TableCoupons = () => {
         ) : coupons.length > 0 ? (
           coupons.map((coupon) => (
             <TableRow key={coupon.id} className="text-center">
-              <TableCell>{new Date(coupon.createdat).toLocaleDateString()}</TableCell>
+              <TableCell>
+                {new Date(coupon.createdat).toLocaleDateString()}
+              </TableCell>
               <TableCell>
                 {coupon.expirationDate
                   ? new Date(coupon.expirationDate).toLocaleDateString()
@@ -66,15 +76,8 @@ export const TableCoupons = () => {
               <TableCell>{coupon.code}</TableCell>
               <TableCell>{Number(coupon.discountPercentage)}</TableCell>
               <TableCell className="space-x-2">
-                <Button>
-                  <SwitchCamera />
-                </Button>
-                <Button>
-                  <DeleteIcon />
-                </Button>
-                <Button>
-                  <Pencil1Icon />
-                </Button>
+                <AlertDeteleCupon id={coupon.id} code={coupon.code} />
+                <ResponsiveUpdateCupon coupon={coupon} />
               </TableCell>
             </TableRow>
           ))
