@@ -25,15 +25,19 @@ import { Pencil } from "lucide-react";
 import { UpdatePaqueteForm } from "./update-paquete-form";
 
 interface PhotographersPackages {
+  price: number;
+  discountPercentage: number;
+  descriptionBullets: {
+    content: string;
+    id: string;
+    photoPackageId: string;
+  }[];
   name: string;
+  description: string | null;
+  photoCount: number;
   id: string;
   photographerId: string;
-  description: string | null;
   imageUrl: string;
-  dotsDescription: string[];
-  price: number;
-  photoCount: number;
-  discountPercentage: number;
   isActive: boolean;
 }
 
