@@ -32,7 +32,7 @@ export class PackagesService {
       if (!photographer) {
         throw new Error("Photographer not found");
       }
-
+      
       if (price <= 0) {
         throw new Error("Debe poner un precio valido");
       }
