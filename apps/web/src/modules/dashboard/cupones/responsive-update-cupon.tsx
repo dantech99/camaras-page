@@ -61,6 +61,7 @@ export function ResponsiveUpdateCupon({ coupon }: { coupon: Coupon }) {
           </DialogDescription>
         </DialogHeader>
         <div>
+          {/* se necesita arreglar este error */}
           <UpdateCouponForm coupon={coupon} />
         </div>
       </DialogContent>
