@@ -23,6 +23,8 @@ export class PackagesService {
         descriptionBullets,
       } = data;
 
+      console.log(data)
+      
       if (price <= 0) {
         throw new Error("Debe poner un precio valido");
       }
