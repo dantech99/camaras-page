@@ -18,40 +18,74 @@ export const packagesRouter = new Elysia({
   )
   .post(
     "/",
-    ({ body, user, packagePhotosService }) =>
-      packagePhotosService.createPackage(body, {
-        id: user.id,
-      }),
+    ({ body, user, packagePhotosService }) => {
+      const descriptionBullets = JSON.parse(body.descriptionBullets);
+
+      return packagePhotosService.createPackage(
+        {
+          name: body.name,
+          description: body.description,
+          price: Number(body.price),
+          photoCount: Number(body.photoCount),
+          image: body.image,
+          descriptionBullets,
+        },
+        {
+          id: user.id,
+        }
+      );
+    },
     {
       photographer: true,
       body: t.Object({
         name: t.String(),
         description: t.String(),
-        dotsDescription: t.Array(t.String()),
-        price: t.Number(),
-        photosCount: t.Number(),
-        image: t.Nullable(
-          t.File({
-            format: "image/*",
-          })
-        ),
+        price: t.String(),
+        photoCount: t.String(),
+        image: t.File({
+          format: "image/*",
+        }),
+        descriptionBullets: t.String(),
       }),
     }
   )
   .patch(
     "/:id",
-    ({ params, body, user, packagePhotosService }) =>
-      packagePhotosService.updatePackage(params.id, body, user.id),
+    ({ params, body, user, packagePhotosService }) => {
+      const descriptionBullets = body.descriptionBullets
+        ? JSON.parse(body.descriptionBullets)
+        : undefined;
+
+      return packagePhotosService.updatePackage(
+        params.id,
+        {
+          name: body.name,
+          description: body.description,
+          price: Number(body.price),
+          photosCount: Number(body.photoCount),
+          isActive: body.isActive,
+          discountPercentage: body.discountPercentage,
+          image: body.image,
+          descriptionBullets,
+        },
+        user.id
+      );
+    },
     {
       photographer: true,
       body: t.Object({
         name: t.String(),
         description: t.String(),
-        price: t.Number(),
-        dotsDescription: t.Array(t.String()),
-        discountPercentage: t.Optional(t.Number()),
-        photosCount: t.Number(),
+        price: t.String(),
+        photoCount: t.String(),
+        image: t.Optional(
+          t.File({
+            format: "image/*",
+          })
+        ),
+        descriptionBullets: t.Optional(t.String()),
         isActive: t.Optional(t.Boolean()),
+        discountPercentage: t.Optional(t.Number()),
       }),
     }
   )
@@ -60,6 +94,6 @@ export const packagesRouter = new Elysia({
     ({ params, user, packagePhotosService }) =>
       packagePhotosService.deletePackage(params.id, user.id),
     {
-      photographer: true,
+      auth: true,
     }
   );

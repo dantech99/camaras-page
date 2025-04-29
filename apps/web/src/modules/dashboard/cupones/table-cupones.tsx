@@ -57,7 +57,7 @@ export const TableCoupons = () => {
         ) : coupons.length > 0 ? (
           coupons.map((coupon) => (
             <TableRow key={coupon.id} className="text-center">
-              <TableCell>{coupon.photographerId}</TableCell>
+              <TableCell>{new Date(coupon.createdat).toLocaleDateString()}</TableCell>
               <TableCell>
                 {coupon.expirationDate
                   ? new Date(coupon.expirationDate).toLocaleDateString()

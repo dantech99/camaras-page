@@ -21,10 +21,23 @@ import {
   DrawerTrigger,
 } from "@camaras/ui/src/components/drawer";
 import { Button } from "@camaras/ui/src/components/button";
-import { CreateCuponForm } from "./create-cupon-form";
-import { CirclePlus } from "lucide-react";
+import { Pencil } from "lucide-react";
+import { UpdatePaqueteForm } from "./update-paquete-form";
 
-export function ResponsiveCreateCupones() {
+interface PhotographersPackages {
+  name: string;
+  id: string;
+  photographerId: string;
+  description: string | null;
+  imageUrl: string;
+  dotsDescription: string[];
+  price: number;
+  photoCount: number;
+  discountPercentage: number;
+  isActive: boolean;
+}
+
+export function ResponsiveUpdatePaquete({ pack }: { pack: PhotographersPackages }) {
   const [isMobile, setIsMobile] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -41,18 +54,17 @@ export function ResponsiveCreateCupones() {
         <Button
           variant={"defaultDashboard"}
         >
-          <CirclePlus />
-          Crear cupón
+          <Pencil />
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="sm:max-w-[90vw] md:max-w-[50vw] lg:max-w-[40vw]">
         <DialogHeader>
-          <DialogTitle>Crear un nuevo cupon</DialogTitle>
+          <DialogTitle>Actualiza tu paquete</DialogTitle>
           <DialogDescription>
-            Rellena el formulario para crear un nuevo cupón de descuento.
+            Rellena con la información actualizada para tu paquete
           </DialogDescription>
         </DialogHeader>
-        <CreateCuponForm />
+        <UpdatePaqueteForm pack={pack} />
       </DialogContent>
     </Dialog>
   );
@@ -63,20 +75,19 @@ export function ResponsiveCreateCupones() {
         <Button
           variant={"defaultDashboard"}
         >
-          <CirclePlus />
-          Crear Cupón
+          <Pencil />
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="h-screen flex flex-col overflow-hidden px-4 py-6">
+      <DrawerContent className="h-screen flex flex-col overflow-y-auto px-4 py-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
         <div className="flex-1 overflow-y-auto">
           <DrawerHeader>
-            <DrawerTitle>Crear nuevo cupón de descuento</DrawerTitle>
+            <DrawerTitle>Actualiza tu paquete</DrawerTitle>
             <DrawerDescription>
-              Rellena el formulario para crear un nuevo Cupón.
+              Rellena con la información actualizada para tu paquete
             </DrawerDescription>
           </DrawerHeader>
           <div className="mt-4">
-            <CreateCuponForm />
+            <UpdatePaqueteForm pack={pack} />
           </div>
         </div>
         <DrawerFooter className="mt-6 flex justify-end">
