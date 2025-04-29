@@ -27,17 +27,17 @@ import { UpdatePaqueteForm } from "./update-paquete-form";
 interface PhotographersPackages {
   price: number;
   discountPercentage: number;
-  descriptionBullets: {
-    content: string;
+  features: {
     id: string;
-    photoPackageId: string;
+    packageId: string;
+    content: string;
   }[];
   name: string;
-  description: string | null;
-  photoCount: number;
   id: string;
-  photographerId: string;
+  photographerName: string;
+  description: string;
   imageUrl: string;
+  photoCount: number;
   isActive: boolean;
 }
 

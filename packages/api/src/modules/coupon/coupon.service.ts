@@ -6,18 +6,18 @@ export class CouponService {
     body: {
       code: string;
       discountPercentage: number;
-      expirationDate?: Date;
+      expirationDate: Date;
     }
   ) {
     try {
       const { code, discountPercentage, expirationDate } = body;
 
-      const coupon = await prisma.discountCode.create({
+      const coupon = await prisma.discount.create({
         data: {
           code,
           discountPercentage,
-          expirationDate: expirationDate ? expirationDate : null,
-          photographerId: id,
+          expirationDate,
+          photographerName: id,
         },
       });
 
@@ -43,9 +43,19 @@ export class CouponService {
 
   async getCoupons(id: string) {
     try {
-      const coupons = await prisma.discountCode.findMany({
+      const photographer = await prisma.user.findUnique({
         where: {
-          photographerId: id,
+          id,
+        },
+      });
+
+      if (!photographer) {
+        throw new Error("Photographer not found");
+      }
+
+      const coupons = await prisma.discount.findMany({
+        where: {
+          photographerName: photographer.name,
         },
         select: {
           id: true,
@@ -87,15 +97,24 @@ export class CouponService {
     userId: string
   ) {
     try {
+      const photographer = await prisma.user.findUnique({
+        where: {
+          id: userId,
+        },
+      });
+
+      if (!photographer) {
+        throw new Error("Photographer not found");
+      }
+
       const { code, discountPercentage, expirationDate, isActive } = data;
 
-      const coupon = await prisma.discountCode.update({
+      const coupon = await prisma.discount.update({
         where: {
           id,
-          photographerId: userId,
+          photographerName: photographer.name,
         },
         data: {
-          photographerId: userId,
           code,
           discountPercentage,
           expirationDate,
@@ -125,10 +144,20 @@ export class CouponService {
 
   async deleteCoupon(id: string, userId: string) {
     try {
-      await prisma.discountCode.delete({
+      const photographer = await prisma.user.findUnique({
+        where: {
+          id: userId,
+        },
+      });
+
+      if (!photographer) {
+        throw new Error("Photographer not found");
+      }
+
+      await prisma.discount.delete({
         where: {
           id,
-          photographerId: userId,
+          photographerName: photographer.name,
         },
       });
 

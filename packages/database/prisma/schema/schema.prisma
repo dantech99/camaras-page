@@ -24,22 +24,17 @@ model User {
   phoneNumber         String?
   phoneNumberVerified Boolean?
 
-  isAnonymous         Boolean?
-  role                String?
-  banned              Boolean?
-  banReason           String?
-  banExpires          DateTime?
-  members             Member[]
-  invitations         Invitation[]
-  sales               Sale[]            @relation("Buyer")
-  discountCodes       DiscountCode[]
-  favorites           Favorite[]
-  changeLogs          ChangeLog[]
-  reviewsWritten      Review[]
-  discountHistory     DiscountHistory[]
-  PhotoPackage        PhotoPackage[]
-  TransactionLogsTo   TransactionLogs[] @relation("userTo")
-  TransactionLogsFrom TransactionLogs[] @relation("userFrom")
+  isAnonymous       Boolean?
+  role              String?
+  banned            Boolean?
+  banReason         String?
+  banExpires        DateTime?
+  members           Member[]
+  invitations       Invitation[]
+  discounts         Discount[]
+  auditLogs         AuditLog[]   @relation("AuditLogActor")
+  receivedAuditLogs AuditLog[]   @relation("AuditLogTarget")
+  AuditLog          AuditLog[]
 
   @@unique([email])
   @@unique([phoneNumber])
