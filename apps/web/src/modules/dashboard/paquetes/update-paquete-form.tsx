@@ -18,22 +18,26 @@ import { toast } from "sonner"
 import { Camera, Plus, X } from "lucide-react"
 
 interface PhotographersPackages {
+  price: number;
+  discountPercentage: number;
+  descriptionBullets: {
+    content: string;
+    id: string;
+    photoPackageId: string;
+  }[];
   name: string;
+  description: string | null;
+  photoCount: number;
   id: string;
   photographerId: string;
-  description: string | null;
   imageUrl: string;
-  dotsDescription: string[];
-  price: number;
-  photoCount: number;
-  discountPercentage: number;
   isActive: boolean;
 }
 
 const updatePaqueteSchema = z.object({
   name: z.string().min(1, { message: "El nombre es requerido" }),
   description: z.string().min(1, { message: "La descripción es requerida" }).nullable(),
-  dotsDescription: z
+  descriptionBullets: z
     .array(z.string())
     .min(1, { message: "Se requiere al menos una descripción" })
     .max(10, { message: "Se permiten un máximo de 10 descripciones" }),
@@ -67,12 +71,12 @@ export function UpdatePaqueteForm({ pack }: { pack: PhotographersPackages }) {
       price: pack.price,
       photosCount: pack.photoCount,
       image: pack.imageUrl,
-      dotsDescription: pack.dotsDescription,
+      descriptionBullets: pack.descriptionBullets.map(bullet => bullet.content),
       isActive: pack.isActive
     }
   })
 
-  const photos = form.watch("dotsDescription")
+  const photos = form.watch("descriptionBullets")
 
   const addDotsDescription = () => {
     if (!photoInput.trim()) return
@@ -80,7 +84,7 @@ export function UpdatePaqueteForm({ pack }: { pack: PhotographersPackages }) {
     // Check if photo already exists
     if (photos.includes(photoInput)) return
 
-    form.setValue("dotsDescription", [...photos, photoInput])
+    form.setValue("descriptionBullets", [...photos, photoInput])
 
     // Reset input
     setPhotoInput("")
@@ -89,7 +93,7 @@ export function UpdatePaqueteForm({ pack }: { pack: PhotographersPackages }) {
   const removeDotsDescription = (index: number) => {
     const updatedPhotos = [...photos]
     updatedPhotos.splice(index, 1)
-    form.setValue("dotsDescription", updatedPhotos)
+    form.setValue("descriptionBullets", updatedPhotos)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -218,7 +222,7 @@ export function UpdatePaqueteForm({ pack }: { pack: PhotographersPackages }) {
 
             <FormField
               control={form.control}
-              name="dotsDescription"
+              name="descriptionBullets"
               render={() => (
                 <FormItem>
                   <FormLabel>Fotos incluidas</FormLabel>
