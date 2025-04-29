@@ -5,8 +5,6 @@ import { Loader2 } from "lucide-react";
 import { Card } from "@camaras/ui/src/components/card";
 import { PaqueteCard } from "./paquete-card";
 
-
-
 export function TablePaquetes() {
 
   const {
