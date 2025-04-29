@@ -51,7 +51,7 @@ export function PaqueteCard({ pack }: { pack: PhotographersPackages }) {
           </div>
         </div>
 
-        <div className="p-4 flex-grow">
+        <div className="flex-grow pb-4 px-4">
           <p className="text-sm text-muted-foreground">{pack.description}</p>
 
           <ul className="mt-3 space-y-1">

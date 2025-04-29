@@ -49,6 +49,7 @@ model Package {
   discountPercentage Float            @default(0)
   features           PackageFeature[]
   isActive           Boolean          @default(true)
+  deletedAt          DateTime?
 
   @@map("package")
 }

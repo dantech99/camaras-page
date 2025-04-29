@@ -92,6 +92,6 @@ export const packagesRouter = new Elysia({
     ({ params, user, packagePhotosService }) =>
       packagePhotosService.deletePackage(params.id, user.id),
     {
-      photographer: true,
+      auth: true,
     }
   );
