@@ -207,7 +207,7 @@ export function UpdateCouponForm({ coupon }: { coupon: Coupon }) {
           className="w-full rounded-full mt-4 cursor-pointer"
           variant="outline"
         >
-          {isLoading ? "Subiendo cupón..." : "Crear Cupón"}
+          {isLoading ? "Actualizando cupón..." : "Actualizar Cupón"}
         </Button>
       </form>
     </Form>
