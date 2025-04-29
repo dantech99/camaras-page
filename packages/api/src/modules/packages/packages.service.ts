@@ -115,6 +115,7 @@ export class PackagesService {
       const packages = await prisma.package.findMany({
         where: {
           photographerName: photographer.name,
+          deletedAt: null,
         },
         include: {
           features: true,
@@ -305,10 +306,13 @@ export class PackagesService {
         await supabaseS3.delete(imagePath);
       }
 
-      await prisma.package.delete({
+      await prisma.package.update({
         where: {
           id,
           photographerName: photographer.name,
+        },
+        data: {
+          deletedAt: new Date(),
         },
       });
 

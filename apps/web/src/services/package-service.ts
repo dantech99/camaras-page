@@ -84,12 +84,11 @@ export const PackageService = {
       .package({
         id,
       })
-      .delete({
+      .delete(null, {
         fetch: {
           credentials: "include",
         },
       });
-
     return response.data;
   },
 };

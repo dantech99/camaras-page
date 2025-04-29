@@ -34,6 +34,7 @@ export class PhotographerService {
       const packages = await prisma.package.findMany({
         where: {
           photographerName: photographerId,
+          deletedAt: null,
         },
       });
 
