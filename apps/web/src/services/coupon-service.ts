@@ -3,7 +3,7 @@ import { apiClient } from "@/utils/api-connection";
 interface CreateCouponDto {
   code: string;
   discountPercentage: number;
-  expirationDate?: Date;
+  expirationDate: Date;
 }
 
 export const CouponService = {
@@ -22,6 +22,19 @@ export const CouponService = {
         credentials: "include",
       },
     });
+    return response.data;
+  },
+
+  delete: async (id: string) => {
+    const response = await apiClient
+      .coupon({
+        id,
+      })
+      .delete(null, {
+        fetch: {
+          credentials: "include",
+        },
+      });
     return response.data;
   },
 };

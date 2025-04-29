@@ -9,15 +9,7 @@ import {
   TableRow,
 } from "@camaras/ui/src/components/table";
 import { useCoupons } from "../../../hooks/use-cupons";
-import {
-  DeleteIcon,
-  Loader2,
-  SwitchCamera,
-  Trash2,
-  Trash2Icon,
-} from "lucide-react";
-import { Button } from "@camaras/ui/src/components/button";
-import { Pencil1Icon } from "@radix-ui/react-icons";
+import { Loader2 } from "lucide-react";
 import { AlertDeteleCupon } from "./alert-delete-cupon";
 import { ResponsiveUpdateCupon } from "./responsive-update-cupon";
 
