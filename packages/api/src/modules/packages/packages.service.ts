@@ -133,7 +133,7 @@ export class PackagesService {
       name: string;
       description: string;
       price: number;
-      photosCount: number;
+      photoCount: number;
       isActive?: boolean;
       discountPercentage?: number;
       image?: File;
@@ -146,7 +146,7 @@ export class PackagesService {
         name,
         description,
         price,
-        photosCount,
+        photoCount,
         isActive,
         discountPercentage,
         image,
@@ -181,7 +181,7 @@ export class PackagesService {
           name,
           description,
           price,
-          photoCount: photosCount,
+          photoCount,
           isActive,
           discountPercentage,
           ...(imageUrl && { imageUrl }),

@@ -20,15 +20,10 @@ import { toast } from "sonner"
 const createPaqueteSchema = z.object({
   name: z.string().min(1, { message: "El nombre es requerido" }),
   description: z.string().min(1, { message: "La descripción es requerida" }),
-  dotsDescription: z
-    .array(z.string())
-    .min(1, { message: "Se requiere al menos una descripción" })
-    .max(10, { message: "Se permiten un máximo de 10 descripciones" }),
   price: z.number().min(1, { message: "El precio es requerido" }),
-  photosCount: z.number().min(1, { message: "La cantidad de fotos es requerida" }),
-  image: z
-    .instanceof(File)
-    .nullable()
+  photoCount: z.number().min(1, { message: "La cantidad de fotos es requerida" }),
+  image: z.instanceof(File, { message: "La imagen es requerida" }),
+  descriptionBullets: z.array(z.string()).min(1, { message: "Se requiere al menos una descripción" })
 })
 
 export function CreatePaqueteForm() {
@@ -44,30 +39,24 @@ export function CreatePaqueteForm() {
       name: "",
       description: "",
       price: 0,
-      photosCount: 0,
-      image: null,
-      dotsDescription: [],
+      photoCount: 0,
+      descriptionBullets: [],
     },
   })
 
-  const photos = form.watch("dotsDescription")
+  const photos = form.watch("descriptionBullets")
 
   const addDotsDescription = () => {
     if (!photoInput.trim()) return
-
-    // Check if photo already exists
     if (photos.includes(photoInput)) return
-
-    form.setValue("dotsDescription", [...photos, photoInput])
-
-    // Reset input
+    form.setValue("descriptionBullets", [...photos, photoInput])
     setPhotoInput("")
   }
 
   const removeDotsDescription = (index: number) => {
     const updatedPhotos = [...photos]
     updatedPhotos.splice(index, 1)
-    form.setValue("dotsDescription", updatedPhotos)
+    form.setValue("descriptionBullets", updatedPhotos)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -96,7 +85,10 @@ export function CreatePaqueteForm() {
   async function onSubmit(values: z.infer<typeof createPaqueteSchema>) {
     try {
       setIsLoading(true)
-      await PackageService.create(values)
+      await PackageService.create({
+        ...values,
+        descriptionBullets: values.descriptionBullets.map(content => ({ content }))
+      })
       await refetch()
       form.reset()
       setPreviewImage(null)
@@ -106,8 +98,8 @@ export function CreatePaqueteForm() {
         duration: 3000,
       })
     } catch (error) {
-      toast("Event has been created", {
-        description: "Sunday, December 03, 2023 at 9:00 AM",
+      toast("Error al crear el paquete", {
+        description: "Hubo un error al crear el paquete",
       })
     } finally {
       setIsLoading(false)
@@ -133,10 +125,10 @@ export function CreatePaqueteForm() {
                     >
                       {previewImage ? (
                         <Image
-                          src={previewImage || "/placeholder.svg"}
+                          src={previewImage}
                           alt="Vista previa"
-                          layout="fill"
-                          objectFit="cover"
+                          fill
+                          className="object-cover"
                         />
                       ) : (
                         <div className="flex items-center justify-center h-full">
@@ -201,7 +193,7 @@ export function CreatePaqueteForm() {
             />
             <FormField
               control={form.control}
-              name="photosCount"
+              name="photoCount"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Cantidad de fotos</FormLabel>
@@ -215,10 +207,10 @@ export function CreatePaqueteForm() {
 
             <FormField
               control={form.control}
-              name="dotsDescription"
+              name="descriptionBullets"
               render={() => (
                 <FormItem>
-                  <FormLabel>Fotos incluidas</FormLabel>
+                  <FormLabel>Características del paquete</FormLabel>
                   <div className="space-y-4">
                     <div className="flex flex-wrap gap-2 mb-2">
                       {photos.map((photo, index) => (
@@ -238,7 +230,7 @@ export function CreatePaqueteForm() {
 
                     <div className="flex gap-2">
                       <Input
-                        placeholder="Agregar tipo de foto (ej: Foto grupal, 3 fotos únicas)"
+                        placeholder="Agregar característica (ej: Fotos en alta resolución)"
                         value={photoInput}
                         onChange={(e) => setPhotoInput(e.target.value)}
                         onKeyDown={handleKeyDown}
@@ -260,10 +252,8 @@ export function CreatePaqueteForm() {
             />
           </div>
         </div>
-        <Button type="submit" className="w-full rounded-full mt-4 cursor-pointer" variant="outline">
-          {
-            isLoading ? "Subiendo paquete..." : "Crear Paquete"
-          }
+        <Button type="submit" className="w-full rounded-full mt-4 cursor-pointer" variant="defaultDashboard">
+          {isLoading ? "Subiendo paquete..." : "Crear Paquete"}
         </Button>
       </form>
     </Form>

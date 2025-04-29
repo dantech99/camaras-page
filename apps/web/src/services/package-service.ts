@@ -32,13 +32,25 @@ export const PackageService = {
   },
 
   create: async (dto: CreatePackagePhotoDto) => {
+    const formData = new FormData();
+
+    formData.append("name", dto.name);
+    formData.append("description", dto.description);
+    formData.append("price", dto.price.toString());
+    formData.append("photoCount", dto.photoCount.toString());
+    formData.append("image", dto.image);
+    formData.append(
+      "descriptionBullets",
+      JSON.stringify(dto.descriptionBullets)
+    );
+
     const response = await apiClient.package.index.post(
       {
         name: dto.name,
+        image: dto.image,
         description: dto.description,
         price: dto.price.toString(),
         photoCount: dto.photoCount.toString(),
-        image: dto.image,
         descriptionBullets: JSON.stringify(dto.descriptionBullets),
       },
       {
