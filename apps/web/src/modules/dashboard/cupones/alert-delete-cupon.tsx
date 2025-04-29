@@ -14,19 +14,19 @@ import {
 import { Button, buttonVariants } from "@camaras/ui/src/components/button";
 import { Trash, Trash2 } from "lucide-react";
 
-import { PackageService } from "@/services/package-service";
+import { CouponService } from "@/services/coupon-service";
 import { useState } from "react";
 import { toast } from "sonner";
-import { usePackages } from "@/hooks/use-packages";
+import { useCoupons } from "@/hooks/use-cupons";
 
 export function AlertDeteleCupon({ id, code }: { id: string; code: string }) {
   const [isLoading, setIsLoading] = useState(false);
-  const { refetch } = usePackages();
+  const { refetch } = useCoupons();
 
   async function handleDelete(id: string) {
     try {
       setIsLoading(true);
-      await PackageService.delete(id);
+      await CouponService.delete(id);
       await refetch();
       toast("El cupón de descuento ha sido eliminado correctamente", {
         description: "No hay reversiones para esta acción",

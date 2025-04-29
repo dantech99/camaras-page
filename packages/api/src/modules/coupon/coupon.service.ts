@@ -12,12 +12,55 @@ export class CouponService {
     try {
       const { code, discountPercentage, expirationDate } = body;
 
+      const photographer = await prisma.user.findUnique({
+        where: {
+          id,
+        },
+      });
+
+      if (!photographer) {
+        throw new Error("Photographer not found");
+      }
+
+      const cuponNameAlreadyExists = await prisma.discount.findFirst({
+        where: {
+          code,
+        },
+      });
+
+      if (
+        cuponNameAlreadyExists &&
+        !cuponNameAlreadyExists.isActive &&
+        cuponNameAlreadyExists.photographerName === photographer.name
+      ) {
+        await prisma.discount.update({
+          where: {
+            id: cuponNameAlreadyExists.id,
+          },
+          data: {
+            discountPercentage,
+            isActive: true,
+            expirationDate,
+          },
+        });
+
+        return {
+          message: "Cupon updated successfully",
+          status: 200,
+          coupon: cuponNameAlreadyExists,
+        };
+      }
+
+      if (cuponNameAlreadyExists && cuponNameAlreadyExists.isActive) {
+        throw new Error("Cupon name already exists");
+      }
+
       const coupon = await prisma.discount.create({
         data: {
           code,
           discountPercentage,
           expirationDate,
-          photographerName: id,
+          photographerName: photographer.name,
         },
       });
 
@@ -27,6 +70,8 @@ export class CouponService {
         coupon,
       };
     } catch (error) {
+      console.log({ error });
+
       if (error instanceof Error) {
         return {
           message: error.message,
@@ -56,6 +101,7 @@ export class CouponService {
       const coupons = await prisma.discount.findMany({
         where: {
           photographerName: photographer.name,
+          isActive: true,
         },
         select: {
           id: true,
