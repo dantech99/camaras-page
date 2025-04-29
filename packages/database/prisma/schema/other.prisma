@@ -1,103 +1,78 @@
-model Sale {
-  id             String        @id @default(uuid())
-  package        PhotoPackage  @relation(fields: [packageId], references: [id])
-  packageId      String
-  buyer          User          @relation("Buyer", fields: [buyerId], references: [id])
-  buyerId        String
-  saleDate       DateTime      @default(now())
-  amount         Decimal
-  trackingCode   String?
-  discountCode   DiscountCode? @relation(fields: [discountCodeId], references: [id])
-  discountCodeId String?
+enum AuditAction {
+  ROLE_UPDATE
+  DISCOUNT_CREATED
+  PACKAGE_UPDATED
+  FUNDS_TRANSFER
+  USER_STATUS_CHANGED
+  PACKAGE_CREATED
+  DISCOUNT_DEACTIVATED
+  TRANSACTION_REFUND
 }
 
-model PhotoPackage {
-  id                 String               @id @default(uuid())
-  photographer       User                 @relation(fields: [photographerId], references: [id])
-  photographerId     String
+enum AuditEntity {
+  USER
+  DISCOUNT
+  PACKAGE
+  TRANSACTION
+  ORGANIZATION
+}
+
+model AuditLog {
+  id         String      @id @default(uuid())
+  actor      User        @relation("AuditLogActor", fields: [actorId], references: [id])
+  actorId    String
+  action     AuditAction
+  entityType AuditEntity
+  entityId   String
+  details    Json?
+  createdAt  DateTime    @default(now())
+
+  // Para cambios que afectan a otro usuario (ej. cambio de rol)
+  targetUser   User?   @relation("AuditLogTarget", fields: [targetUserId], references: [id])
+  targetUserId String?
+  User         User?   @relation(fields: [userId], references: [id])
+  userId       String?
+
+  @@index([entityType])
+  @@index([action])
+  @@map("audit_log")
+}
+
+model Package {
+  id                 String           @id @default(uuid())
+  photographerName   String
   name               String
-  description        String?
+  description        String
   imageUrl           String
-  price              Decimal
-  photoCount         Int                  @default(0)
-  discountPercentage Decimal              @default(0)
-  descriptionBullets DescriptionBullets[]
-  sales              Sale[]
-  reviews            Review[]
-  Favorite           Favorite[]
-  ChangeLog          ChangeLog[]
-  isActive           Boolean              @default(true)
+  price              Float
+  photoCount         Int              @default(0)
+  discountPercentage Float            @default(0)
+  features           PackageFeature[]
+  isActive           Boolean          @default(true)
+
+  @@map("package")
 }
 
-model DescriptionBullets {
-  id             String       @id @default(uuid())
-  photoPackageId String
-  content        String
-  PhotoPackage   PhotoPackage @relation(fields: [photoPackageId], references: [id])
-}
-
-model Review {
-  id        String       @id @default(uuid())
-  user      User         @relation(fields: [userId], references: [id])
-  userId    String
-  package   PhotoPackage @relation(fields: [packageId], references: [id])
+model PackageFeature {
+  id        String  @id @default(uuid())
   packageId String
-  rating    Int
-  comment   String?
-  createdAt DateTime     @default(now())
+  content   String
+  package   Package @relation(fields: [packageId], references: [id])
+
+  @@map("package_feature")
 }
 
-model DiscountCode {
-  id                 String            @id @default(uuid())
-  code               String            @unique
-  discountPercentage Decimal
-  expirationDate     DateTime?
-  photographerId     String
-  photographer       User              @relation(fields: [photographerId], references: [id])
-  isActive           Boolean           @default(true)
-  createdat          DateTime          @default(now())
-  sales              Sale[]
-  history            DiscountHistory[]
-}
+model Discount {
+  id                 String   @id @default(uuid())
+  code               String   @unique
+  discountPercentage Float
+  expirationDate     DateTime
+  photographerName   String
+  isActive           Boolean  @default(true)
+  createdat          DateTime @default(now())
 
-model DiscountHistory {
-  id             String       @id @default(uuid())
-  discountCode   DiscountCode @relation(fields: [discountCodeId], references: [id])
-  discountCodeId String
-  user           User         @relation(fields: [userId], references: [id])
-  userId         String
-  usedAt         DateTime     @default(now())
-  amountSaved    Decimal
-}
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id])
 
-model Favorite {
-  user      User         @relation(fields: [userId], references: [id])
-  userId    String
-  package   PhotoPackage @relation(fields: [packageId], references: [id])
-  packageId String
-
-  @@id([userId, packageId])
-}
-
-model ChangeLog {
-  id          String       @id @default(uuid())
-  package     PhotoPackage @relation(fields: [packageId], references: [id])
-  packageId   String
-  changedBy   User         @relation(fields: [changedById], references: [id])
-  changedById String
-  changeType  String
-  oldValue    String?
-  newValue    String?
-  timestamp   DateTime     @default(now())
-}
-
-model TransactionLogs {
-  id         String  @id @default(uuid())
-  from       String
-  to         String
-  amount     Decimal
-  userToId   String
-  userTo     User    @relation("userTo", fields: [userToId], references: [id])
-  userFromId String
-  userFrom   User    @relation("userFrom", fields: [userFromId], references: [id])
+  @@map("discount")
 }

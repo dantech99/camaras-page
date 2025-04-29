@@ -178,79 +178,81 @@ export function CreatePaqueteForm() {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="price"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Precio</FormLabel>
-                  <FormControl>
-                    <Input type="number" {...field} onChange={(e) => field.onChange(Number(e.target.value))} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="photoCount"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Cantidad de fotos</FormLabel>
-                  <FormControl>
-                    <Input type="number" {...field} onChange={(e) => field.onChange(Number(e.target.value))} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="grid grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="price"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Precio</FormLabel>
+                    <FormControl>
+                      <Input type="number" {...field} onChange={(e) => field.onChange(Number(e.target.value))} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="photoCount"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Fotos</FormLabel>
+                    <FormControl>
+                      <Input type="number" {...field} onChange={(e) => field.onChange(Number(e.target.value))} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
-            <FormField
-              control={form.control}
-              name="descriptionBullets"
-              render={() => (
-                <FormItem>
-                  <FormLabel>Características del paquete</FormLabel>
-                  <div className="space-y-4">
-                    <div className="flex flex-wrap gap-2 mb-2">
-                      {photos.map((photo, index) => (
-                        <Badge key={index} variant="secondary" className="px-3 py-1.5">
-                          {photo}
-                          <button
-                            type="button"
-                            onClick={() => removeDotsDescription(index)}
-                            className="ml-2 text-muted-foreground hover:text-foreground"
-                          >
-                            <X className="h-3 w-3" />
-                            <span className="sr-only">Eliminar {photo}</span>
-                          </button>
-                        </Badge>
-                      ))}
-                    </div>
-
-                    <div className="flex gap-2">
-                      <Input
-                        placeholder="Agregar característica (ej: Fotos en alta resolución)"
-                        value={photoInput}
-                        onChange={(e) => setPhotoInput(e.target.value)}
-                        onKeyDown={handleKeyDown}
-                      />
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="icon"
-                        onClick={addDotsDescription}
-                        disabled={!photoInput.trim()}
-                      >
-                        <Plus className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </div>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
           </div>
+          <FormField
+            control={form.control}
+            name="descriptionBullets"
+            render={() => (
+              <FormItem className="col-span-2">
+                <FormLabel>Características del paquete</FormLabel>
+                <div className="space-y-4">
+                  <div className="flex flex-wrap gap-2 mb-2">
+                    {photos.map((photo, index) => (
+                      <Badge key={index} variant="secondary" className="px-3 py-1.5">
+                        {photo}
+                        <button
+                          type="button"
+                          onClick={() => removeDotsDescription(index)}
+                          className="ml-2 text-muted-foreground hover:text-foreground"
+                        >
+                          <X className="h-3 w-3" />
+                          <span className="sr-only">Eliminar {photo}</span>
+                        </button>
+                      </Badge>
+                    ))}
+                  </div>
+
+                  <div className="flex gap-2">
+                    <Input
+                      placeholder="Agregar característica (ej: Fotos en alta resolución)"
+                      value={photoInput}
+                      onChange={(e) => setPhotoInput(e.target.value)}
+                      onKeyDown={handleKeyDown}
+                    />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="icon"
+                      onClick={addDotsDescription}
+                      disabled={!photoInput.trim()}
+                    >
+                      <Plus className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
         <Button type="submit" className="w-full rounded-full mt-4 cursor-pointer" variant="defaultDashboard">
           {isLoading ? "Subiendo paquete..." : "Crear Paquete"}

@@ -20,7 +20,7 @@ export const couponRouter = new Elysia({
       body: t.Object({
         code: t.String(),
         discountPercentage: t.Number(),
-        expirationDate: t.Optional(t.Date()),
+        expirationDate: t.Date(),
       }),
     }
   )
@@ -33,7 +33,7 @@ export const couponRouter = new Elysia({
       body: t.Object({
         code: t.String(),
         discountPercentage: t.Number(),
-        expirationDate: t.Optional(t.Date()),
+        expirationDate: t.Date(),
         isActive: t.Boolean(),
       }),
     }

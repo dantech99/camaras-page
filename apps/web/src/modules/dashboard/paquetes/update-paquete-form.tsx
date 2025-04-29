@@ -20,24 +20,24 @@ import { Camera, Plus, X } from "lucide-react"
 interface PhotographersPackages {
   price: number;
   discountPercentage: number;
-  descriptionBullets: {
-    content: string;
+  features: {
     id: string;
-    photoPackageId: string;
+    packageId: string;
+    content: string;
   }[];
   name: string;
-  description: string | null;
-  photoCount: number;
   id: string;
-  photographerId: string;
+  photographerName: string;
+  description: string;
   imageUrl: string;
+  photoCount: number;
   isActive: boolean;
 }
 
 const updatePaqueteSchema = z.object({
   name: z.string().min(1, { message: "El nombre es requerido" }),
   description: z.string().min(1, { message: "La descripción es requerida" }).nullable(),
-  descriptionBullets: z
+  features: z
     .array(z.string())
     .min(1, { message: "Se requiere al menos una descripción" })
     .max(10, { message: "Se permiten un máximo de 10 descripciones" }),
@@ -71,29 +71,29 @@ export function UpdatePaqueteForm({ pack }: { pack: PhotographersPackages }) {
       price: pack.price,
       photosCount: pack.photoCount,
       image: pack.imageUrl,
-      descriptionBullets: pack.descriptionBullets.map(bullet => bullet.content),
+      features: pack.features.map(bullet => bullet.content),
       isActive: pack.isActive
     }
   })
 
-  const photos = form.watch("descriptionBullets")
+  const features = form.watch("features")
 
   const addDotsDescription = () => {
     if (!photoInput.trim()) return
 
     // Check if photo already exists
-    if (photos.includes(photoInput)) return
+    if (features.includes(photoInput)) return
 
-    form.setValue("descriptionBullets", [...photos, photoInput])
+    form.setValue("features", [...features, photoInput])
 
     // Reset input
     setPhotoInput("")
   }
 
   const removeDotsDescription = (index: number) => {
-    const updatedPhotos = [...photos]
-    updatedPhotos.splice(index, 1)
-    form.setValue("descriptionBullets", updatedPhotos)
+    const updatedFeatures = [...features]
+    updatedFeatures.splice(index, 1)
+    form.setValue("features", updatedFeatures)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -193,81 +193,85 @@ export function UpdatePaqueteForm({ pack }: { pack: PhotographersPackages }) {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="price"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Precio</FormLabel>
-                  <FormControl>
-                    <Input type="number" {...field} onChange={(e) => field.onChange(Number(e.target.value))} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="photosCount"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Cantidad de fotos</FormLabel>
-                  <FormControl>
-                    <Input type="number" {...field} onChange={(e) => field.onChange(Number(e.target.value))} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="grid grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="price"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Precio</FormLabel>
+                    <FormControl>
+                      <Input type="number" {...field} onChange={(e) => field.onChange(Number(e.target.value))} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="photosCount"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Fotos</FormLabel>
+                    <FormControl>
+                      <Input type="number" {...field} onChange={(e) => field.onChange(Number(e.target.value))} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
-            <FormField
-              control={form.control}
-              name="descriptionBullets"
-              render={() => (
-                <FormItem>
-                  <FormLabel>Fotos incluidas</FormLabel>
-                  <div className="space-y-4">
-                    <div className="flex flex-wrap gap-2 mb-2">
-                      {photos.map((photo, index) => (
-                        <Badge key={index} variant="secondary" className="px-3 py-1.5">
-                          {photo}
-                          <button
-                            type="button"
-                            onClick={() => removeDotsDescription(index)}
-                            className="ml-2 text-muted-foreground hover:text-foreground"
-                          >
-                            <X className="h-3 w-3" />
-                            <span className="sr-only">Eliminar {photo}</span>
-                          </button>
-                        </Badge>
-                      ))}
-                    </div>
-
-                    <div className="flex gap-2">
-                      <Input
-                        placeholder="Agregar tipo de foto (ej: Foto grupal, 3 fotos únicas)"
-                        value={photoInput}
-                        onChange={(e) => setPhotoInput(e.target.value)}
-                        onKeyDown={handleKeyDown}
-                      />
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="icon"
-                        onClick={addDotsDescription}
-                        disabled={!photoInput.trim()}
-                      >
-                        <Plus className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </div>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
           </div>
+          <FormField
+            control={form.control}
+            name="features"
+            render={() => (
+              <FormItem className="col-span-2">
+                <FormLabel>Fotos incluidas</FormLabel>
+                <div className="space-y-4">
+                  <div className="flex flex-wrap gap-2 mb-2">
+                    {features.map((feature, index) => (
+                      <Badge key={index} variant="secondary" className="px-3 py-1.5">
+                        {feature}
+                        <button
+                          type="button"
+                          onClick={() => removeDotsDescription(index)}
+                          className="ml-2 text-muted-foreground hover:text-foreground"
+                        >
+                          <X className="h-3 w-3" />
+                          <span className="sr-only">Eliminar {feature}</span>
+                        </button>
+                      </Badge>
+                    ))}
+                  </div>
 
+                  <div className="flex gap-2">
+                    <Input
+                      placeholder="Agregar tipo de foto (ej: Foto grupal, 3 fotos únicas)"
+                      value={photoInput}
+                      onChange={(e) => setPhotoInput(e.target.value)}
+                      onKeyDown={handleKeyDown}
+                    />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="icon"
+                      onClick={addDotsDescription}
+                      disabled={!photoInput.trim()}
+                    >
+                      <Plus className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
+        <Button type="submit" disabled={isLoading} className="w-full">
+          {isLoading ? "Actualizando..." : "Actualizar"}
+        </Button>
       </form>
     </Form>
   )

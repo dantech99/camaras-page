@@ -11,7 +11,7 @@ export class PackagesService {
       image: File | null;
       descriptionBullets: { content: string }[];
     },
-    user: { id: string }
+    userId: string
   ) {
     try {
       const {
@@ -23,7 +23,15 @@ export class PackagesService {
         descriptionBullets,
       } = data;
 
-      console.log(data)
+      const photographer = await prisma.user.findUnique({
+        where: {
+          id: userId,
+        },
+      });
+
+      if (!photographer) {
+        throw new Error("Photographer not found");
+      }
       
       if (price <= 0) {
         throw new Error("Debe poner un precio valido");
@@ -56,17 +64,17 @@ export class PackagesService {
 
       const imageUrl = `${process.env.SUPABASE_URL_BUCKET}/${filePath}`;
 
-      const photoPackage = await prisma.photoPackage.create({
+      const photoPackage = await prisma.package.create({
         data: {
           name,
           description,
           price,
           photoCount,
-          photographerId: user.id,
+          photographerName: photographer.name,
           isActive: true,
           discountPercentage: 0,
           imageUrl: imageUrl,
-          descriptionBullets: {
+          features: {
             create: descriptionBullets,
           },
         },
@@ -94,12 +102,22 @@ export class PackagesService {
 
   async getPackagesFromPhotographer(photographerId: string) {
     try {
-      const packages = await prisma.photoPackage.findMany({
+      const photographer = await prisma.user.findUnique({
         where: {
-          photographerId,
+          id: photographerId,
+        },
+      });
+
+      if (!photographer) {
+        throw new Error("Photographer not found");
+      }
+
+      const packages = await prisma.package.findMany({
+        where: {
+          photographerName: photographer.name,
         },
         include: {
-          descriptionBullets: true,
+          features: true,
         },
       });
 
@@ -155,9 +173,41 @@ export class PackagesService {
         descriptionBullets,
       } = data;
 
-      let imageUrl: string | undefined;
+      const photographer = await prisma.user.findUnique({
+        where: {
+          id: userId,
+        },
+      });
+
+      if (!photographer) {
+        throw new Error("Photographer not found");
+      }
+
+      const existingPackage = await prisma.package.findUnique({
+        where: {
+          id,
+          photographerName: photographer.name,
+        },
+        include: {
+          features: true,
+        },
+      });
+
+      if (!existingPackage) {
+        throw new Error("Package not found");
+      }
+
+      let imageUrl: string | undefined = existingPackage.imageUrl;
 
       if (image) {
+        if (existingPackage.imageUrl) {
+          const oldImagePath = existingPackage.imageUrl.replace(
+            `${process.env.SUPABASE_URL_BUCKET}/`,
+            ""
+          );
+          await supabaseS3.delete(oldImagePath);
+        }
+
         const fileExtension = image.name.split(".").pop();
         const fileName = `${name.replace(/\s+/g, "-").toLowerCase()}-${Date.now()}.${fileExtension}`;
         const filePath = `package/${fileName}`;
@@ -174,10 +224,10 @@ export class PackagesService {
         imageUrl = `${process.env.SUPABASE_URL_BUCKET}/${filePath}`;
       }
 
-      const photoPackage = await prisma.photoPackage.update({
+      const photoPackage = await prisma.package.update({
         where: {
           id,
-          photographerId: userId,
+          photographerName: photographer.name,
         },
         data: {
           name,
@@ -186,16 +236,21 @@ export class PackagesService {
           photoCount,
           isActive,
           discountPercentage,
-          ...(imageUrl && { imageUrl }),
+          imageUrl,
           ...(descriptionBullets && {
             descriptionBullets: {
               deleteMany: {},
               create: descriptionBullets,
             },
           }),
+          ...(!descriptionBullets && {
+            descriptionBullets: {
+              deleteMany: {},
+            },
+          }),
         },
         include: {
-          descriptionBullets: true,
+          features: true,
         },
       });
 
@@ -221,15 +276,44 @@ export class PackagesService {
 
   async deletePackage(id: string, userId: string) {
     try {
-      await prisma.photoPackage.delete({
+      const photographer = await prisma.user.findUnique({
+        where: {
+          id: userId,
+        },
+      });
+
+      if (!photographer) {
+        throw new Error("Photographer not found");
+      }
+
+      const existingPackage = await prisma.package.findUnique({
         where: {
           id,
-          photographerId: userId,
+          photographerName: photographer.name,
+        },
+      });
+
+      if (!existingPackage) {
+        throw new Error("Package not found");
+      }
+
+      if (existingPackage.imageUrl) {
+        const imagePath = existingPackage.imageUrl.replace(
+          `${process.env.SUPABASE_URL_BUCKET}/`,
+          ""
+        );
+        await supabaseS3.delete(imagePath);
+      }
+
+      await prisma.package.delete({
+        where: {
+          id,
+          photographerName: photographer.name,
         },
       });
 
       return {
-        message: "Package deleted successfully",
+        message: "Package and its features deleted successfully",
         status: 200,
       };
     } catch (error) {
