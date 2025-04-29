@@ -28,7 +28,7 @@ interface Coupon {
   code: string;
   id: string;
   discountPercentage: number;
-  expirationDate: Date | null;
+  expirationDate: Date;
   createdat: Date;
 }
 
