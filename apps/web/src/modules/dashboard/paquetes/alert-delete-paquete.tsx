@@ -45,7 +45,7 @@ export function AlertDetelePaquete({ id, name }: { id: string; name: string }) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="destructiveDashboard">
+        <Button variant="destructiveDashboard" className="cursor-pointer rounded-full size-10">
           <Trash />
         </Button>
       </AlertDialogTrigger>
@@ -67,11 +67,12 @@ export function AlertDetelePaquete({ id, name }: { id: string; name: string }) {
           >
             Cancelar
           </AlertDialogCancel>
-          <AlertDialogAction onClick={() => handleDelete(id)} className={
-            buttonVariants({
-              variant: "destructiveDashboard"
-            })
-          }>
+          <AlertDialogAction
+            onClick={() => handleDelete(id)}
+            className={buttonVariants({
+              variant: "destructiveDashboard",
+            })}
+          >
             {isLoading ? "Eliminando..." : "Eliminar"}
           </AlertDialogAction>
         </AlertDialogFooter>

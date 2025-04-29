@@ -64,15 +64,15 @@ export function ResponsiveCreatePaquete() {
           Crear paquete
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="h-screen flex flex-col overflow-y-auto px-4 py-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
-        <div className="flex-1 overflow-y-auto">
+      <DrawerContent className="h-screen flex flex-col px-4 py-6">
+        <div className="flex-1 overflow-hidden">
           <DrawerHeader>
             <DrawerTitle>Crear nuevo paquete</DrawerTitle>
             <DrawerDescription>
               Rellena el formulario para crear un nuevo paquete.
             </DrawerDescription>
           </DrawerHeader>
-          <div className="mt-4">
+          <div className="mt-4 overflow-y-auto max-h-[calc(100vh-450px)] px-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
             <CreatePaqueteForm />
           </div>
         </div>
