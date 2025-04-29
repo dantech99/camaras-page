@@ -7,41 +7,42 @@ export class PackagesService {
       name: string;
       description: string;
       price: number;
-      photosCount: number;
-      dotsDescription: string[];
+      photoCount: number;
       image: File | null;
+      descriptionBullets: { content: string }[];
     },
     user: { id: string }
   ) {
     try {
-      const { name, description, price, dotsDescription, photosCount, image } =
-        data;
+      const {
+        name,
+        description,
+        price,
+        photoCount,
+        image,
+        descriptionBullets,
+      } = data;
 
-      const priceToNumber = parseFloat(price.toString());
-      if (isNaN(priceToNumber)) {
-        throw new Error("Invalid price");
-      }
-      if (priceToNumber <= 0) {
-        throw new Error("Price must be greater than 0");
+      if (price <= 0) {
+        throw new Error("Debe poner un precio valido");
       }
 
-      const photosCountToNumber = parseInt(photosCount.toString());
-      if (isNaN(photosCountToNumber)) {
-        throw new Error("Invalid photos count");
-      }
-      if (photosCountToNumber <= 0) {
-        throw new Error("Photos count must be greater than 0");
+      if (photoCount <= 0) {
+        throw new Error("Debe poner una cantidad valida");
       }
 
       if (image == null) {
         throw new Error("No hay una foto valida");
       }
 
+      if (!descriptionBullets || descriptionBullets.length === 0) {
+        throw new Error("Debe agregar al menos un bullet de descripción");
+      }
+
       const fileExtension = image.name.split(".").pop();
       const fileName = `${name.replace(/\s+/g, "-").toLowerCase()}-${Date.now()}.${fileExtension}`;
       const filePath = `package/${fileName}`;
 
-      // Convertir el File a ArrayBuffer y luego a Unit8Array
       const buffer = await image.arrayBuffer();
       const uint8Array = new Uint8Array(buffer);
 
@@ -57,13 +58,15 @@ export class PackagesService {
         data: {
           name,
           description,
-          price: priceToNumber,
-          photoCount: photosCountToNumber,
-          dotsDescription: dotsDescription,
+          price,
+          photoCount,
           photographerId: user.id,
           isActive: true,
           discountPercentage: 0,
           imageUrl: imageUrl,
+          descriptionBullets: {
+            create: descriptionBullets,
+          },
         },
       });
 
@@ -92,6 +95,9 @@ export class PackagesService {
       const packages = await prisma.photoPackage.findMany({
         where: {
           photographerId,
+        },
+        include: {
+          descriptionBullets: true,
         },
       });
 
@@ -128,9 +134,10 @@ export class PackagesService {
       description: string;
       price: number;
       photosCount: number;
-      dotsDescription: string[];
       isActive?: boolean;
       discountPercentage?: number;
+      image?: File;
+      descriptionBullets?: { content: string }[];
     },
     userId: string
   ) {
@@ -139,11 +146,31 @@ export class PackagesService {
         name,
         description,
         price,
-        dotsDescription,
         photosCount,
         isActive,
         discountPercentage,
+        image,
+        descriptionBullets,
       } = data;
+
+      let imageUrl: string | undefined;
+
+      if (image) {
+        const fileExtension = image.name.split(".").pop();
+        const fileName = `${name.replace(/\s+/g, "-").toLowerCase()}-${Date.now()}.${fileExtension}`;
+        const filePath = `package/${fileName}`;
+
+        const buffer = await image.arrayBuffer();
+        const uint8Array = new Uint8Array(buffer);
+
+        const writeResult = await supabaseS3.write(filePath, uint8Array);
+
+        if (!writeResult) {
+          throw new Error("Error uploading image to S3");
+        }
+
+        imageUrl = `${process.env.SUPABASE_URL_BUCKET}/${filePath}`;
+      }
 
       const photoPackage = await prisma.photoPackage.update({
         where: {
@@ -151,14 +178,22 @@ export class PackagesService {
           photographerId: userId,
         },
         data: {
-          photographerId: userId,
           name,
           description,
           price,
           photoCount: photosCount,
-          dotsDescription: dotsDescription,
-          isActive: isActive,
-          discountPercentage: discountPercentage,
+          isActive,
+          discountPercentage,
+          ...(imageUrl && { imageUrl }),
+          ...(descriptionBullets && {
+            descriptionBullets: {
+              deleteMany: {},
+              create: descriptionBullets,
+            },
+          }),
+        },
+        include: {
+          descriptionBullets: true,
         },
       });
 

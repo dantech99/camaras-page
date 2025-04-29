@@ -12,21 +12,28 @@ model Sale {
 }
 
 model PhotoPackage {
-  id                 String      @id @default(uuid())
-  photographer       User        @relation(fields: [photographerId], references: [id])
+  id                 String               @id @default(uuid())
+  photographer       User                 @relation(fields: [photographerId], references: [id])
   photographerId     String
   name               String
   description        String?
   imageUrl           String
-  dotsDescription    String[]
   price              Decimal
-  photoCount         Int         @default(0)
-  discountPercentage Decimal     @default(0)
+  photoCount         Int                  @default(0)
+  discountPercentage Decimal              @default(0)
+  descriptionBullets DescriptionBullets[]
   sales              Sale[]
   reviews            Review[]
   Favorite           Favorite[]
   ChangeLog          ChangeLog[]
-  isActive           Boolean     @default(true)
+  isActive           Boolean              @default(true)
+}
+
+model DescriptionBullets {
+  id             String       @id @default(uuid())
+  photoPackageId String
+  content        String
+  PhotoPackage   PhotoPackage @relation(fields: [photoPackageId], references: [id])
 }
 
 model Review {

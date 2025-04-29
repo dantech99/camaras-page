@@ -3,20 +3,21 @@ import { apiClient } from "@/utils/api-connection";
 interface CreatePackagePhotoDto {
   name: string;
   description: string;
-  dotsDescription: string[];
   price: number;
-  photosCount: number;
-  image: File | null;
+  photoCount: number;
+  image: File;
+  descriptionBullets: { content: string }[];
 }
 
 interface UpdatePackageDto {
   name: string;
   description: string;
   price: number;
-  dotsDescription: string[];
-  discountPercentage?: number;
-  photosCount: number;
+  photoCount: number;
+  image?: File;
+  descriptionBullets: string[];
   isActive?: boolean;
+  discountPercentage?: number;
 }
 
 export const PackageService = {
@@ -31,11 +32,21 @@ export const PackageService = {
   },
 
   create: async (dto: CreatePackagePhotoDto) => {
-    const response = await apiClient.package.index.post(dto, {
-      fetch: {
-        credentials: "include",
+    const response = await apiClient.package.index.post(
+      {
+        name: dto.name,
+        description: dto.description,
+        price: dto.price.toString(),
+        photoCount: dto.photoCount.toString(),
+        image: dto.image,
+        descriptionBullets: JSON.stringify(dto.descriptionBullets),
       },
-    });
+      {
+        fetch: {
+          credentials: "include",
+        },
+      }
+    );
 
     return response.data;
   },
@@ -45,11 +56,25 @@ export const PackageService = {
       .package({
         id: id,
       })
-      .patch(body, {
-        fetch: {
-          credentials: "include",
+      .patch(
+        {
+          name: body.name,
+          description: body.description,
+          price: body.price.toString(),
+          photoCount: body.photoCount.toString(),
+          image: body.image,
+          descriptionBullets: JSON.stringify(
+            body.descriptionBullets.map((content) => ({ content }))
+          ),
+          isActive: body.isActive,
+          discountPercentage: body.discountPercentage,
         },
-      });
+        {
+          fetch: {
+            credentials: "include",
+          },
+        }
+      );
 
     return response.data;
   },
