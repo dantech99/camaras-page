@@ -30,9 +30,7 @@ export const packagesRouter = new Elysia({
           image: body.image,
           descriptionBullets,
         },
-        {
-          id: user.id,
-        }
+        user.id
       );
     },
     {
@@ -62,7 +60,7 @@ export const packagesRouter = new Elysia({
           name: body.name,
           description: body.description,
           price: Number(body.price),
-          photosCount: Number(body.photoCount),
+          photoCount: Number(body.photoCount),
           isActive: body.isActive,
           discountPercentage: body.discountPercentage,
           image: body.image,

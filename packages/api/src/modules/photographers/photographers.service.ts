@@ -31,9 +31,10 @@ export class PhotographerService {
 
   async getPhotographerPackages(photographerId: string) {
     try {
-      const packages = await prisma.photoPackage.findMany({
+      const packages = await prisma.package.findMany({
         where: {
-          photographerId,
+          photographerName: photographerId,
+          deletedAt: null,
         },
       });
 

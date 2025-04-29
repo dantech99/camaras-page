@@ -10,17 +10,17 @@ import { AlertDetelePaquete } from "./alert-delete-paquete";
 interface PhotographersPackages {
   price: number;
   discountPercentage: number;
-  descriptionBullets: {
-    content: string;
+  features: {
     id: string;
-    photoPackageId: string;
+    packageId: string;
+    content: string;
   }[];
   name: string;
-  description: string | null;
-  photoCount: number;
   id: string;
-  photographerId: string;
+  photographerName: string;
+  description: string;
   imageUrl: string;
+  photoCount: number;
   isActive: boolean;
 }
 
@@ -51,11 +51,11 @@ export function PaqueteCard({ pack }: { pack: PhotographersPackages }) {
           </div>
         </div>
 
-        <div className="p-4 flex-grow">
+        <div className="flex-grow pb-4 px-4">
           <p className="text-sm text-muted-foreground">{pack.description}</p>
 
           <ul className="mt-3 space-y-1">
-            {pack.descriptionBullets.map((dot, index) => (
+            {pack.features.map((dot, index) => (
               <li key={index} className="flex items-start gap-2 text-sm">
                 <span className="text-rose-500">•</span>
                 <span>{dot.content}</span>
