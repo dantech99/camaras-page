@@ -39,9 +39,7 @@ export function ResponsiveCreatePaquete() {
   const DesktopDialog = () => (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button
-          variant={"defaultDashboard"}
-        >
+        <Button variant={"defaultDashboard"} className="cursor-pointer">
           <CirclePlus />
           Crear paquete
         </Button>
@@ -61,9 +59,7 @@ export function ResponsiveCreatePaquete() {
   const MobileDrawer = () => (
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>
-        <Button
-          variant={"defaultDashboard"}
-        >
+        <Button variant={"defaultDashboard"} className="cursor-pointer">
           <CirclePlus />
           Crear paquete
         </Button>
