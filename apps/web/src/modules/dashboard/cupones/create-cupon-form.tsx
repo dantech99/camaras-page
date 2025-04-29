@@ -47,15 +47,13 @@ const createCuponSchema = z.object({
     .max(100, {
       message: "Debe ser menor a 100",
     }),
-  expirationDate: z
-    .date()
-    .refine((date) => date > new Date(), {
-      message: "La fecha de expiración debe ser futura",
-    })
+  expirationDate: z.date().refine((date) => date > new Date(), {
+    message: "La fecha de expiración debe ser futura",
+  }),
 });
 
 export function CreateCuponForm() {
-  const { refetch } = useCoupons()
+  const { refetch } = useCoupons();
   const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof createCuponSchema>>({
     resolver: zodResolver(createCuponSchema),
@@ -70,21 +68,21 @@ export function CreateCuponForm() {
 
   async function onSubmit(values: z.infer<typeof createCuponSchema>) {
     try {
-      setIsLoading(true)
-      await CouponService.create(values)
-      await refetch()
-      await form.reset()
+      setIsLoading(true);
+      await CouponService.create(values);
+      await refetch();
+      await form.reset();
       toast("El cupon fue creado", {
         description: "Ahora puedes verlo en la tabla de cupones",
-        duration: 3000
-      })
+        duration: 3000,
+      });
     } catch (error) {
       toast("Hubo un error al crear el cupon", {
         description: "Intentalo de nuevo más tarde",
-        duration: 3000
-      })
+        duration: 3000,
+      });
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }
 
@@ -112,7 +110,11 @@ export function CreateCuponForm() {
               name="discountPercentage"
               render={({ field: { value, onChange, ...restField } }) => (
                 <FormItem>
-                  <FormLabel><span>Escribe el porcentaje de descuento (sin el signo)</span></FormLabel>
+                  <FormLabel>
+                    <span>
+                      Escribe el porcentaje de descuento (sin el signo)
+                    </span>
+                  </FormLabel>
                   <FormControl>
                     <Input
                       type="number"

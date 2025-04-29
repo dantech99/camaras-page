@@ -83,7 +83,7 @@ export function ResponsiveUpdateCupon({ coupon }: { coupon: Coupon }) {
           <DrawerHeader>
             <DrawerTitle>Actualiza tu cupón</DrawerTitle>
             <DrawerDescription>
-              Rellena con la información actualizada para tu paquete
+              Rellena con la información actualizada para tu cupón
             </DrawerDescription>
           </DrawerHeader>
           <div className="mt-4">
