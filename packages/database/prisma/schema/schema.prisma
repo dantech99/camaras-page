@@ -11,30 +11,38 @@ datasource db {
 }
 
 model User {
-  id            String    @id
-  name          String
-  email         String
-  emailVerified Boolean
-  image         String?
-  createdAt     DateTime
-  updatedAt     DateTime
-  sessions      Session[]
-  accounts      Account[]
+  id String @id
 
-  phoneNumber         String?
+  // Información general
+  name         String
+  phoneNumber  String?
+  image        String?
+  email        String
+  description  String?
+  facebookUrl  String?
+  instagramUrl String?
+
+  // Better Auth 
+  emailVerified       Boolean
   phoneNumberVerified Boolean?
+  isAnonymous         Boolean?
+  role                String?
+  banned              Boolean?
+  banReason           String?
+  banExpires          DateTime?
 
-  isAnonymous       Boolean?
-  role              String?
-  banned            Boolean?
-  banReason         String?
-  banExpires        DateTime?
+  // Relaciones
+  accounts          Account[]
+  sessions          Session[]
   members           Member[]
   invitations       Invitation[]
   discounts         Discount[]
   auditLogs         AuditLog[]   @relation("AuditLogActor")
   receivedAuditLogs AuditLog[]   @relation("AuditLogTarget")
   AuditLog          AuditLog[]
+
+  createdAt DateTime
+  updatedAt DateTime
 
   @@unique([email])
   @@unique([phoneNumber])

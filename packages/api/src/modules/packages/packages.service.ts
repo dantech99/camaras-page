@@ -266,7 +266,6 @@ export class PackagesService {
         photoPackage,
       };
     } catch (error) {
-      console.log(error);
       if (error instanceof Error) {
         return {
           message: error.message,
