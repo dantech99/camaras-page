@@ -42,7 +42,6 @@ export class ProfileService {
     userId: string,
     data: {
       name: string;
-      email: string;
       description: string;
       facebookUrl: string;
       instagramUrl: string;
@@ -66,7 +65,6 @@ export class ProfileService {
         where: { id: userId },
         data: {
           name: data.name,
-          email: data.email,
           description: data.description,
           facebookUrl: data.facebookUrl,
           instagramUrl: data.instagramUrl,

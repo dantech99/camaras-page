@@ -19,7 +19,6 @@ export const profileRouter = new Elysia({
       photographer: true,
       body: t.Object({
         name: t.String(),
-        email: t.String(),
         description: t.String(),
         facebookUrl: t.String(),
         instagramUrl: t.String(),
