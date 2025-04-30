@@ -109,6 +109,7 @@ export class CouponService {
           code: true,
           expirationDate: true,
           createdat: true,
+          isActive: true,
         },
       });
 

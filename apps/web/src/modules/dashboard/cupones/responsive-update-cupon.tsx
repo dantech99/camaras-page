@@ -30,6 +30,7 @@ interface Coupon {
   discountPercentage: number;
   expirationDate: Date;
   createdat: Date;
+  isActive: boolean;
 }
 
 export function ResponsiveUpdateCupon({ coupon }: { coupon: Coupon }) {
@@ -53,7 +54,7 @@ export function ResponsiveUpdateCupon({ coupon }: { coupon: Coupon }) {
           <Pencil />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[90vw] md:max-w-[50vw] lg:max-w-[40vw]">
+      <DialogContent>
         <DialogHeader>
           <DialogTitle>Actualiza tu cupón</DialogTitle>
           <DialogDescription>
@@ -61,7 +62,6 @@ export function ResponsiveUpdateCupon({ coupon }: { coupon: Coupon }) {
           </DialogDescription>
         </DialogHeader>
         <div>
-          {/* se necesita arreglar este error */}
           <UpdateCouponForm coupon={coupon} />
         </div>
       </DialogContent>
