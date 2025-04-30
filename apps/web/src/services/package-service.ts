@@ -12,12 +12,11 @@ interface CreatePackagePhotoDto {
 interface UpdatePackageDto {
   name: string;
   description: string;
-  price: number;
-  photoCount: number;
-  image?: File;
+  price: string;
+  photoCount: string;
+  image: File;
   descriptionBullets: string[];
-  isActive?: boolean;
-  discountPercentage?: number;
+  isActive: string;
 }
 
 export const PackageService = {
@@ -67,7 +66,6 @@ export const PackageService = {
             body.descriptionBullets.map((content) => ({ content }))
           ),
           isActive: body.isActive,
-          discountPercentage: body.discountPercentage,
         },
         {
           fetch: {

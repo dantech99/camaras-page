@@ -32,7 +32,7 @@ export class PackagesService {
       if (!photographer) {
         throw new Error("Photographer not found");
       }
-      
+
       if (price <= 0) {
         throw new Error("Debe poner un precio valido");
       }
@@ -155,9 +155,8 @@ export class PackagesService {
       description: string;
       price: number;
       photoCount: number;
-      isActive?: boolean;
-      discountPercentage?: number;
-      image?: File;
+      isActive: string;
+      image: File;
       descriptionBullets?: { content: string }[];
     },
     userId: string
@@ -168,11 +167,12 @@ export class PackagesService {
         description,
         price,
         photoCount,
-        isActive,
-        discountPercentage,
         image,
         descriptionBullets,
       } = data;
+
+      let isActiveFromFrontend: string = data.isActive;
+      let isActive: boolean;
 
       const photographer = await prisma.user.findUnique({
         where: {
@@ -182,6 +182,12 @@ export class PackagesService {
 
       if (!photographer) {
         throw new Error("Photographer not found");
+      }
+
+      if (isActiveFromFrontend == "true") {
+        isActive = true;
+      } else {
+        isActive = false;
       }
 
       const existingPackage = await prisma.package.findUnique({
@@ -236,16 +242,15 @@ export class PackagesService {
           price,
           photoCount,
           isActive,
-          discountPercentage,
           imageUrl,
           ...(descriptionBullets && {
-            descriptionBullets: {
+            features: {
               deleteMany: {},
               create: descriptionBullets,
             },
           }),
           ...(!descriptionBullets && {
-            descriptionBullets: {
+            features: {
               deleteMany: {},
             },
           }),
