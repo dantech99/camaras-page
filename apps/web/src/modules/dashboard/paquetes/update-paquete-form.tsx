@@ -1,17 +1,15 @@
 "use client"
 
-import Image from "next/image"
-
-import { z, ZodSchema } from "zod"
+import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useState, useRef } from "react"
 
 import { Button } from "@camaras/ui/src/components/button"
 import { Input } from "@camaras/ui/src/components/input"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@camaras/ui/src/components/form"
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@camaras/ui/src/components/form"
 import { Badge } from "@camaras/ui/src/components/badge"
-
+import { Switch } from "@camaras/ui/src/components/switch"
 import { PackageService } from "@/services/package-service"
 import { usePackages } from "@/hooks/use-packages"
 import { toast } from "sonner"
@@ -36,22 +34,14 @@ interface PhotographersPackages {
 
 const updatePaqueteSchema = z.object({
   name: z.string().min(1, { message: "El nombre es requerido" }),
-  description: z.string().min(1, { message: "La descripción es requerida" }).nullable(),
+  description: z.string().min(1, { message: "La descripción es requerida" }),
   features: z
     .array(z.string())
     .min(1, { message: "Se requiere al menos una descripción" })
     .max(10, { message: "Se permiten un máximo de 10 descripciones" }),
   price: z.number().min(1, { message: "El precio es requerido" }),
   photosCount: z.number().min(1, { message: "La cantidad de fotos es requerida" }),
-  image: z
-    .union([
-      z.custom<File>((v) => v instanceof File, {
-        message: "Must be a File object",
-      }),
-      z.string(),
-      z.undefined(),
-    ])
-    .nullable(),
+  image: z.instanceof(File),
   isActive: z.boolean()
 })
 
@@ -70,7 +60,6 @@ export function UpdatePaqueteForm({ pack }: { pack: PhotographersPackages }) {
       description: pack.description,
       price: pack.price,
       photosCount: pack.photoCount,
-      image: pack.imageUrl,
       features: pack.features.map(bullet => bullet.content),
       isActive: pack.isActive
     }
@@ -81,12 +70,10 @@ export function UpdatePaqueteForm({ pack }: { pack: PhotographersPackages }) {
   const addDotsDescription = () => {
     if (!photoInput.trim()) return
 
-    // Check if photo already exists
     if (features.includes(photoInput)) return
 
     form.setValue("features", [...features, photoInput])
 
-    // Reset input
     setPhotoInput("")
   }
 
@@ -121,7 +108,24 @@ export function UpdatePaqueteForm({ pack }: { pack: PhotographersPackages }) {
   }
 
   async function onSubmit(data: z.infer<typeof updatePaqueteSchema>) {
-    console.log(data)
+    try {
+      setIsLoading(true)
+      await PackageService.update(pack.id, {
+        descriptionBullets: data.features,
+        description: data.description,
+        name: data.name,
+        photoCount: data.photosCount.toString(),
+        price: data.price.toString(),
+        image: data.image,
+        isActive: data.isActive.toString()
+      })
+      await refetch()
+      toast.success("Paquete actualizado correctamente")
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -220,8 +224,26 @@ export function UpdatePaqueteForm({ pack }: { pack: PhotographersPackages }) {
                   </FormItem>
                 )}
               />
-            </div>
 
+              <FormField
+                control={form.control}
+                name="isActive"
+                render={({ field }) => (
+                  <FormItem className="col-span-2">
+                    <FormLabel>Activo</FormLabel>
+                    <div className="flex items-center gap-x-4">
+                      <FormDescription>
+                        Si el paquete no está activo, no se mostrará en la lista de paquetes.
+                      </FormDescription>
+                      <FormControl>
+                        <Switch checked={field.value} onCheckedChange={field.onChange} />
+                      </FormControl>
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
           </div>
           <FormField
             control={form.control}
@@ -273,6 +295,6 @@ export function UpdatePaqueteForm({ pack }: { pack: PhotographersPackages }) {
           {isLoading ? "Actualizando..." : "Actualizar"}
         </Button>
       </form>
-    </Form>
+    </Form >
   )
 }
