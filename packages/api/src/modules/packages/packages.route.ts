@@ -62,7 +62,6 @@ export const packagesRouter = new Elysia({
           price: Number(body.price),
           photoCount: Number(body.photoCount),
           isActive: body.isActive,
-          discountPercentage: body.discountPercentage,
           image: body.image,
           descriptionBullets,
         },
@@ -76,14 +75,11 @@ export const packagesRouter = new Elysia({
         description: t.String(),
         price: t.String(),
         photoCount: t.String(),
-        image: t.Optional(
-          t.File({
-            format: "image/*",
-          })
-        ),
-        descriptionBullets: t.Optional(t.String()),
-        isActive: t.Optional(t.Boolean()),
-        discountPercentage: t.Optional(t.Number()),
+        image: t.File({
+          format: "image/*",
+        }),
+        descriptionBullets: t.String(),
+        isActive: t.String(),
       }),
     }
   )

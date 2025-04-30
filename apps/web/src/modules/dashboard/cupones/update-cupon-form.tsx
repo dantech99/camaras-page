@@ -42,6 +42,7 @@ interface Coupon {
   code: string;
   discountPercentage: number;
   expirationDate: Date;
+  isActive: boolean;
 }
 
 const createCuponSchema = z.object({
@@ -57,6 +58,7 @@ const createCuponSchema = z.object({
   expirationDate: z.date().refine((date) => date > new Date(), {
     message: "La fecha de expiración debe ser futura",
   }),
+  isActive: z.boolean(),
 });
 
 export function UpdateCouponForm({ coupon }: { coupon: Coupon }) {
@@ -65,9 +67,10 @@ export function UpdateCouponForm({ coupon }: { coupon: Coupon }) {
   const form = useForm<z.infer<typeof createCuponSchema>>({
     resolver: zodResolver(createCuponSchema),
     defaultValues: {
-      code: "",
-      discountPercentage: 0,
-      expirationDate: undefined,
+      code: coupon.code,
+      discountPercentage: coupon.discountPercentage,
+      expirationDate: coupon.expirationDate,
+      isActive: coupon.isActive,
     },
   });
 
@@ -76,15 +79,20 @@ export function UpdateCouponForm({ coupon }: { coupon: Coupon }) {
   async function onSubmit(values: z.infer<typeof createCuponSchema>) {
     try {
       setIsLoading(true);
-      await CouponService.create(values);
+      await CouponService.update(coupon.id, {
+        code: values.code,
+        discountPercentage: values.discountPercentage,
+        expirationDate: values.expirationDate,
+        isActive: values.isActive,
+      });
       await refetch();
       await form.reset();
-      toast("El cupon fue creado", {
+      toast("El cupon fue actualizado", {
         description: "Ahora puedes verlo en la tabla de cupones",
         duration: 3000,
       });
     } catch (error) {
-      toast("Hubo un error al crear el cupon", {
+      toast("Hubo un error al actualizar el cupon", {
         description: "Intentalo de nuevo más tarde",
         duration: 3000,
       });

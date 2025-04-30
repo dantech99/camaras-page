@@ -6,6 +6,13 @@ interface CreateCouponDto {
   expirationDate: Date;
 }
 
+interface UpdateCouponDto {
+  code: string;
+  discountPercentage: number;
+  expirationDate: Date;
+  isActive: boolean;
+}
+
 export const CouponService = {
   create: async (values: CreateCouponDto) => {
     const response = await apiClient.coupon.index.post(values, {
@@ -23,6 +30,26 @@ export const CouponService = {
       },
     });
     return response.data;
+  },
+
+  update: async (id: string, values: UpdateCouponDto) => {
+    const response = await apiClient
+      .coupon({
+        id,
+      })
+      .patch(
+        {
+          code: values.code,
+          discountPercentage: values.discountPercentage,
+          expirationDate: values.expirationDate,
+          isActive: values.isActive,
+        },
+        {
+          fetch: {
+            credentials: "include",
+          },
+        }
+      );
   },
 
   delete: async (id: string) => {

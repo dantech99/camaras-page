@@ -6,6 +6,7 @@ import { betterAuth } from "@camaras/api/src/utils/betteAuthPlugin";
 import { packagesRouter } from "@camaras/api/src/modules/packages/packages.route";
 import { photographersRouter } from "@camaras/api/src/modules/photographers/photographers.route";
 import { couponRouter } from "@camaras/api/src/modules/coupon/coupon.route";
+import { profileRouter } from "@camaras/api/src/modules/profile/profile.route";
 
 export const api = new Elysia({
   prefix: "/api",
@@ -21,6 +22,7 @@ export const api = new Elysia({
   .use(betterAuth)
   .use(packagesRouter)
   .use(photographersRouter)
-  .use(couponRouter);
+  .use(couponRouter)
+  .use(profileRouter);
 
 export type Api = typeof api;
