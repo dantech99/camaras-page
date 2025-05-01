@@ -1,14 +1,21 @@
 import { prisma } from "@camaras/api/src/modules/prisma";
-import { supabaseS3 } from "@camaras/api/src/core/s3";
+import { supabaseS3 } from "@camaras/s3/index";
+import { ImageService } from "@camaras/api/src/modules/images/images.service";
 
 export class PackagesService {
+  private imageService: ImageService;
+
+  constructor() {
+    this.imageService = new ImageService();
+  }
+
   async createPackage(
     data: {
       name: string;
       description: string;
       price: number;
       photoCount: number;
-      image: File | null;
+      image: File;
       descriptionBullets: { content: string }[];
     },
     userId: string
@@ -41,28 +48,11 @@ export class PackagesService {
         throw new Error("Debe poner una cantidad valida");
       }
 
-      if (image == null) {
-        throw new Error("No hay una foto valida");
-      }
-
-      if (!descriptionBullets || descriptionBullets.length === 0) {
-        throw new Error("Debe agregar al menos un bullet de descripción");
-      }
-
-      const fileExtension = image.name.split(".").pop();
-      const fileName = `${name.replace(/\s+/g, "-").toLowerCase()}-${Date.now()}.${fileExtension}`;
-      const filePath = `package/${fileName}`;
-
-      const buffer = await image.arrayBuffer();
-      const uint8Array = new Uint8Array(buffer);
-
-      const writeResult = await supabaseS3.write(filePath, uint8Array);
-
-      if (!writeResult) {
-        throw new Error("Error uploading image to S3");
-      }
-
-      const imageUrl = `${process.env.SUPABASE_URL_BUCKET}/${filePath}`;
+      const imageUrl = await this.imageService.createImage(
+        image,
+        photographer.id,
+        "package"
+      );
 
       const photoPackage = await prisma.package.create({
         data: {
