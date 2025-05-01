@@ -1,37 +1,48 @@
-"use client"
+"use client";
 
-import type React from "react"
-import Image from "next/image"
+import type React from "react";
+import Image from "next/image";
 
-import { useState, useRef } from "react"
-import { z } from "zod"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
+import { useState, useRef } from "react";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Button } from "@camaras/ui/src/components/button"
-import { Input } from "@camaras/ui/src/components/input"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@camaras/ui/src/components/form"
-import { Camera, Plus, X } from "lucide-react"
-import { Badge } from "@camaras/ui/src/components/badge"
-import { PackageService } from "@/services/package-service"
-import { usePackages } from "@/hooks/use-packages"
-import { toast } from "sonner"
+import { Button } from "@camaras/ui/src/components/button";
+import { Input } from "@camaras/ui/src/components/input";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@camaras/ui/src/components/form";
+import { Camera, Plus, X } from "lucide-react";
+import { Badge } from "@camaras/ui/src/components/badge";
+import { PackageService } from "@/services/package-service";
+import { usePackages } from "@/hooks/use-packages";
+import { toast } from "sonner";
 
 const createPaqueteSchema = z.object({
   name: z.string().min(1, { message: "El nombre es requerido" }),
   description: z.string().min(1, { message: "La descripción es requerida" }),
   price: z.number().min(1, { message: "El precio es requerido" }),
-  photoCount: z.number().min(1, { message: "La cantidad de fotos es requerida" }),
+  photoCount: z
+    .number()
+    .min(1, { message: "La cantidad de fotos es requerida" }),
   image: z.instanceof(File, { message: "La imagen es requerida" }),
-  descriptionBullets: z.array(z.string()).min(1, { message: "Se requiere al menos una descripción" })
-})
+  descriptionBullets: z
+    .array(z.string())
+    .min(1, { message: "Se requiere al menos una descripción" }),
+});
 
 export function CreatePaqueteForm() {
-  const { refetch } = usePackages()
-  const [isLoading, setIsLoading] = useState(false)
-  const [photoInput, setPhotoInput] = useState<string>("")
-  const [previewImage, setPreviewImage] = useState<string | null>(null)
-  const fileInputRef = useRef<HTMLInputElement | null>(null)
+  const { refetch } = usePackages();
+  const [isLoading, setIsLoading] = useState(false);
+  const [photoInput, setPhotoInput] = useState<string>("");
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const form = useForm<z.infer<typeof createPaqueteSchema>>({
     resolver: zodResolver(createPaqueteSchema),
@@ -42,73 +53,78 @@ export function CreatePaqueteForm() {
       photoCount: 0,
       descriptionBullets: [],
     },
-  })
+  });
 
-  const photos = form.watch("descriptionBullets")
+  const photos = form.watch("descriptionBullets");
 
   const addDotsDescription = () => {
-    if (!photoInput.trim()) return
-    if (photos.includes(photoInput)) return
-    form.setValue("descriptionBullets", [...photos, photoInput])
-    setPhotoInput("")
-  }
+    if (!photoInput.trim()) return;
+    if (photos.includes(photoInput)) return;
+    form.setValue("descriptionBullets", [...photos, photoInput]);
+    setPhotoInput("");
+  };
 
   const removeDotsDescription = (index: number) => {
-    const updatedPhotos = [...photos]
-    updatedPhotos.splice(index, 1)
-    form.setValue("descriptionBullets", updatedPhotos)
-  }
+    const updatedPhotos = [...photos];
+    updatedPhotos.splice(index, 1);
+    form.setValue("descriptionBullets", updatedPhotos);
+  };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      e.preventDefault()
-      addDotsDescription()
+      e.preventDefault();
+      addDotsDescription();
     }
-  }
+  };
 
   function handleImageChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0]
+    const file = event.target.files?.[0];
     if (file) {
-      const reader = new FileReader()
+      const reader = new FileReader();
       reader.onloadend = () => {
-        setPreviewImage(reader.result as string)
-      }
-      reader.readAsDataURL(file)
-      form.setValue("image", file)
+        setPreviewImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+      form.setValue("image", file);
     }
   }
 
   function handleImageClick() {
-    fileInputRef.current?.click()
+    fileInputRef.current?.click();
   }
 
   async function onSubmit(values: z.infer<typeof createPaqueteSchema>) {
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       await PackageService.create({
         ...values,
-        descriptionBullets: values.descriptionBullets.map(content => ({ content }))
-      })
-      await refetch()
-      form.reset()
-      setPreviewImage(null)
-      setPhotoInput("")
+        descriptionBullets: values.descriptionBullets.map((content) => ({
+          content,
+        })),
+      });
+      await refetch();
+      form.reset();
+      setPreviewImage(null);
+      setPhotoInput("");
       toast("El paquete de fotos fue creado", {
         description: "Ahora puedes verlo en la tabla de paquetes",
         duration: 3000,
-      })
+      });
     } catch (error) {
       toast("Error al crear el paquete", {
         description: "Hubo un error al crear el paquete",
-      })
+      });
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 px-4 py-3">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-4 px-4 py-3"
+      >
         <div className="grid gap-4 grid-cols-1 md:grid-cols-2 items-start">
           {/* Recuadro de la imagen */}
           <div>
@@ -186,7 +202,13 @@ export function CreatePaqueteForm() {
                   <FormItem>
                     <FormLabel>Precio</FormLabel>
                     <FormControl>
-                      <Input type="number" {...field} onChange={(e) => field.onChange(Number(e.target.value))} />
+                    <Input
+                        type="number"
+                        {...field}
+                        value={field.value || ''}
+                        onChange={(e) => field.onChange(e.target.value === '' ? '' : Number(e.target.value))}
+                        min={0}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -199,14 +221,19 @@ export function CreatePaqueteForm() {
                   <FormItem>
                     <FormLabel>Fotos</FormLabel>
                     <FormControl>
-                      <Input type="number" {...field} onChange={(e) => field.onChange(Number(e.target.value))} />
+                    <Input
+                        type="number"
+                        {...field}
+                        value={field.value || ''}
+                        onChange={(e) => field.onChange(e.target.value === '' ? '' : Number(e.target.value))}
+                        min={0}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
-
           </div>
           <FormField
             control={form.control}
@@ -217,7 +244,11 @@ export function CreatePaqueteForm() {
                 <div className="space-y-4">
                   <div className="flex flex-wrap gap-2 mb-2">
                     {photos.map((photo, index) => (
-                      <Badge key={index} variant="secondary" className="px-3 py-1.5">
+                      <Badge
+                        key={index}
+                        variant="secondary"
+                        className="px-3 py-1.5"
+                      >
                         {photo}
                         <button
                           type="button"
@@ -254,10 +285,14 @@ export function CreatePaqueteForm() {
             )}
           />
         </div>
-        <Button type="submit" className="w-full rounded-full mt-4 cursor-pointer" variant="defaultDashboard">
+        <Button
+          type="submit"
+          className="w-full rounded-full mt-4 cursor-pointer"
+          variant="defaultDashboard"
+        >
           {isLoading ? "Subiendo paquete..." : "Crear Paquete"}
         </Button>
       </form>
     </Form>
-  )
+  );
 }
