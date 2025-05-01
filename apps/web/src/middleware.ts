@@ -5,7 +5,10 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const sessionCookie = getSessionCookie(request);
 
-  if (!sessionCookie && pathname === "/dashboard") {
+  if (
+    (!sessionCookie && pathname === "/dashboard") ||
+    pathname.startsWith("/dashboard/")
+  ) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
