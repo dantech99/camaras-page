@@ -14,9 +14,9 @@ interface UpdatePackageDto {
   description: string;
   price: string;
   photoCount: string;
-  image: File;
+  image?: File;
   descriptionBullets: string[];
-  isActive: string;
+  isActive: boolean;
 }
 
 export const PackageService = {
@@ -51,28 +51,27 @@ export const PackageService = {
   },
 
   update: async (id: string, body: UpdatePackageDto) => {
+    const updateData = {
+      name: body.name,
+      description: body.description,
+      price: body.price,
+      photoCount: body.photoCount,
+      descriptionBullets: JSON.stringify(
+        body.descriptionBullets.map((content) => ({ content }))
+      ),
+      isActive: body.isActive,
+      ...(body.image ? { image: body.image } : {}),
+    };
+
     const response = await apiClient
       .package({
         id: id,
       })
-      .patch(
-        {
-          name: body.name,
-          description: body.description,
-          price: body.price.toString(),
-          photoCount: body.photoCount.toString(),
-          image: body.image,
-          descriptionBullets: JSON.stringify(
-            body.descriptionBullets.map((content) => ({ content }))
-          ),
-          isActive: body.isActive,
+      .patch(updateData, {
+        fetch: {
+          credentials: "include",
         },
-        {
-          fetch: {
-            credentials: "include",
-          },
-        }
-      );
+      });
 
     return response.data;
   },

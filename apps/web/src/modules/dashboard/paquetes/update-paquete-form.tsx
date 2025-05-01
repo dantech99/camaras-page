@@ -41,7 +41,7 @@ const updatePaqueteSchema = z.object({
     .max(10, { message: "Se permiten un máximo de 10 descripciones" }),
   price: z.number().min(1, { message: "El precio es requerido" }),
   photosCount: z.number().min(1, { message: "La cantidad de fotos es requerida" }),
-  image: z.instanceof(File),
+  image: z.any().optional(),
   isActive: z.boolean()
 })
 
@@ -110,19 +110,24 @@ export function UpdatePaqueteForm({ pack }: { pack: PhotographersPackages }) {
   async function onSubmit(data: z.infer<typeof updatePaqueteSchema>) {
     try {
       setIsLoading(true)
-      await PackageService.update(pack.id, {
+      const formData = {
         descriptionBullets: data.features,
         description: data.description,
         name: data.name,
         photoCount: data.photosCount.toString(),
         price: data.price.toString(),
-        image: data.image,
-        isActive: data.isActive.toString()
-      })
+        isActive: data.isActive,
+        ...(isImageUpdated && form.getValues("image")
+          ? { image: form.getValues("image") }
+          : {})
+      }
+
+      await PackageService.update(pack.id, formData)
       await refetch()
       toast.success("Paquete actualizado correctamente")
     } catch (error) {
       console.log(error)
+      toast.error("Error al actualizar el paquete")
     } finally {
       setIsLoading(false)
     }

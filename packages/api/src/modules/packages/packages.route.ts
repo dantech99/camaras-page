@@ -50,9 +50,7 @@ export const packagesRouter = new Elysia({
   .patch(
     "/:id",
     ({ params, body, user, packagePhotosService }) => {
-      const descriptionBullets = body.descriptionBullets
-        ? JSON.parse(body.descriptionBullets)
-        : undefined;
+      const descriptionBullets = JSON.parse(body.descriptionBullets);
 
       return packagePhotosService.updatePackage(
         params.id,
@@ -61,9 +59,9 @@ export const packagesRouter = new Elysia({
           description: body.description,
           price: Number(body.price),
           photoCount: Number(body.photoCount),
-          isActive: body.isActive,
           image: body.image,
           descriptionBullets,
+          isActive: body.isActive,
         },
         user.id
       );
@@ -75,11 +73,13 @@ export const packagesRouter = new Elysia({
         description: t.String(),
         price: t.String(),
         photoCount: t.String(),
-        image: t.File({
-          format: "image/*",
-        }),
+        image: t.Optional(
+          t.File({
+            format: "image/*",
+          })
+        ),
         descriptionBullets: t.String(),
-        isActive: t.String(),
+        isActive: t.Boolean(),
       }),
     }
   )
