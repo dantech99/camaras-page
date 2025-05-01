@@ -69,7 +69,7 @@ export function ResponsiveUpdatePaquete({ pack }: { pack: PhotographersPackages 
             Rellena con la información actualizada para tu paquete
           </DialogDescription>
         </DialogHeader>
-        <UpdatePaqueteForm pack={pack} />
+        <UpdatePaqueteForm pack={pack} onSuccess={() => setIsOpen(false)} />
       </DialogContent>
     </Dialog>
   );
@@ -93,7 +93,7 @@ export function ResponsiveUpdatePaquete({ pack }: { pack: PhotographersPackages 
             </DrawerDescription>
           </DrawerHeader>
           <div className="mt-4">
-            <UpdatePaqueteForm pack={pack} />
+            <UpdatePaqueteForm pack={pack} onSuccess={() => setIsOpen(false)} />
           </div>
         </div>
         <DrawerFooter className="mt-6 flex justify-end">

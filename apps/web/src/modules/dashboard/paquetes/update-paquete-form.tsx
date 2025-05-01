@@ -32,6 +32,11 @@ interface PhotographersPackages {
   isActive: boolean;
 }
 
+interface UpdatePaqueteFormProps {
+  pack: PhotographersPackages;
+  onSuccess?: () => void;
+}
+
 const updatePaqueteSchema = z.object({
   name: z.string().min(1, { message: "El nombre es requerido" }),
   description: z.string().min(1, { message: "La descripción es requerida" }),
@@ -45,7 +50,7 @@ const updatePaqueteSchema = z.object({
   isActive: z.boolean()
 })
 
-export function UpdatePaqueteForm({ pack }: { pack: PhotographersPackages }) {
+export function UpdatePaqueteForm({ pack, onSuccess }: UpdatePaqueteFormProps) {
   const { refetch } = usePackages()
   const [isLoading, setIsLoading] = useState(false)
   const [photoInput, setPhotoInput] = useState("")
@@ -125,6 +130,7 @@ export function UpdatePaqueteForm({ pack }: { pack: PhotographersPackages }) {
       await PackageService.update(pack.id, formData)
       await refetch()
       toast.success("Paquete actualizado correctamente")
+      onSuccess?.()
     } catch (error) {
       console.log(error)
       toast.error("Error al actualizar el paquete")
