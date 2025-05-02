@@ -3,32 +3,54 @@
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { Form, FormField, FormMessage, FormDescription, FormControl, FormItem, FormLabel } from "@camaras/ui/src/components/form"
+import { Form, FormField, FormMessage, FormControl, FormItem, FormLabel } from "@camaras/ui/src/components/form"
 import { Input } from "@camaras/ui/src/components/input"
 import { Button } from "@camaras/ui/src/components/button"
 import { Card, CardTitle, CardDescription, CardHeader, CardContent, CardFooter } from "@camaras/ui/src/components/card"
 import { cn } from "@camaras/ui/src/lib/utils"
+import { ProfileService } from "@/services/profile-service"
+import { toast } from "sonner"
+import { useProfile } from "@/hooks/use-profile"
+import { useState } from "react"
 
 const aditionalInformationSchema = z.object({
-  fullName: z.string().min(1, "El nombre es requerido"),
-  website: z.string().url("La URL es requerida"),
-  location: z.string().min(1, "La ubicación es requerida"),
-  hobbie: z.string().min(1, "El hobbie es requerido"),
+  fullName: z.string().optional(),
+  website: z.string().optional(),
+  location: z.string().optional(),
+  hobbie: z.string().optional(),
 })
 
 export function AditionalInformationForm() {
+  const { data, refetch } = useProfile()
+
+  const [isLoading, setIsLoading] = useState(false)
+
   const form = useForm<z.infer<typeof aditionalInformationSchema>>({
     resolver: zodResolver(aditionalInformationSchema),
     defaultValues: {
-      fullName: "",
-      website: "",
-      location: "",
-      hobbie: "",
+      fullName: data?.user?.fullName || "",
+      website: data?.user?.website || "",
+      location: data?.user?.location || "",
+      hobbie: data?.user?.hobbie || "",
     }
   })
 
-  function onSubmit(values: z.infer<typeof aditionalInformationSchema>) {
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof aditionalInformationSchema>) {
+    try {
+      setIsLoading(true)
+      await ProfileService.updateAdditionalInformation({
+        fullName: values.fullName || "",
+        website: values.website || "",
+        location: values.location || "",
+        hobbie: values.hobbie || "",
+      })
+      toast.success("Información actualizada correctamente")
+      await refetch()
+    } catch (error) {
+      toast.error("Error al actualizar la información")
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -98,7 +120,9 @@ export function AditionalInformationForm() {
             </div>
           </CardContent>
           <CardFooter className="flex justify-end">
-            <Button type="submit">Guardar cambios</Button>
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? "Guardando..." : "Guardar cambios"}
+            </Button>
           </CardFooter>
         </Card>
       </form>

@@ -7,43 +7,90 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@camaras/ui/src/components/input"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@camaras/ui/src/components/card"
 import { Button } from "@camaras/ui/src/components/button"
-import { FacebookIcon } from "@camaras/ui/src/icons/facebook-icon"
-import { InstagramIcon } from "@camaras/ui/src/icons/instagram-icon"
-import { TiktokIcon } from "@camaras/ui/src/icons/titok-icon"
+import { ProfileService } from "@/services/profile-service"
+import { toast } from "sonner"
+import { useProfile } from "@/hooks/use-profile"
+import { useState } from "react"
 
 const socialInformationSchema = z.object({
   facebook: z.string()
-    .min(1, "El campo es requerido")
-    .regex(
-      /^(https?:\/\/)?(www\.)?(facebook\.com|fb\.com)\/[a-zA-Z0-9.]{5,50}$/,
-      "Ingresa una URL válida de Facebook (ej: facebook.com/tuUsuario)"
-    ),
+    .refine(
+      (value) => {
+        if (!value) return true;
+        const urlPattern = /^(?:https?:\/\/)?((?:www\.)?(facebook\.com|fb\.com)\/[a-zA-Z0-9.]{5,50})$/;
+        const match = value.match(urlPattern);
+        if (match) {
+          return true;
+        }
+        return false;
+      },
+      "Ingresa un perfil válido de Facebook (ej: facebook.com/tuUsuario)"
+    )
+    .optional(),
   instagram: z.string()
-    .min(1, "El campo es requerido")
-    .regex(
-      /^(https?:\/\/)?(www\.)?(instagram\.com)\/[a-zA-Z0-9._]{1,30}$/,
-      "Ingresa una URL válida de Instagram (ej: instagram.com/tuUsuario)"
-    ),
+    .refine(
+      (value) => {
+        if (!value) return true;
+        const urlPattern = /^(?:https?:\/\/)?((?:www\.)?instagram\.com\/[a-zA-Z0-9._]{1,30})$/;
+        const match = value.match(urlPattern);
+        if (match) {
+          return true;
+        }
+        return false;
+      },
+      "Ingresa un perfil válido de Instagram (ej: instagram.com/tuUsuario)"
+    )
+    .optional(),
   tiktok: z.string()
-    .min(1, "El campo es requerido")
-    .regex(
-      /^(https?:\/\/)?(www\.)?(tiktok\.com)\/@[a-zA-Z0-9._]{2,24}$/,
-      "Ingresa una URL válida de TikTok (ej: tiktok.com/@tuUsuario)"
-    ),
+    .refine(
+      (value) => {
+        if (!value) return true;
+        const urlPattern = /^(?:https?:\/\/)?((?:www\.)?tiktok\.com\/@[a-zA-Z0-9._]{2,24})$/;
+        const match = value.match(urlPattern);
+        if (match) {
+          return true;
+        }
+        return false;
+      },
+      "Ingresa un perfil válido de TikTok (ej: tiktok.com/@tuUsuario)"
+    )
+    .optional()
 })
 
+function formatUrl(url: string) {
+  return url.replace("www.", "").replace("https://", "").replace("http://", "")
+}
+
 export function SocialInformationForm() {
+  const { data, refetch } = useProfile()
+
+  const [isLoading, setIsLoading] = useState(false)
+
   const form = useForm<z.infer<typeof socialInformationSchema>>({
     resolver: zodResolver(socialInformationSchema),
     defaultValues: {
-      facebook: "",
-      instagram: "",
-      tiktok: "",
+      facebook: data?.user?.facebookUrl || "",
+      instagram: data?.user?.instagramUrl || "",
+      tiktok: data?.user?.tiktokUrl || "",
     },
   })
 
-  function onSubmit(values: z.infer<typeof socialInformationSchema>) {
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof socialInformationSchema>) {
+    try {
+      setIsLoading(true)
+      await ProfileService.updateSocials({
+        facebookUrl: formatUrl(values.facebook || ""),
+        instagramUrl: formatUrl(values.instagram || ""),
+        tiktokUrl: formatUrl(values.tiktok || ""),
+      })
+      await refetch()
+
+      toast.success("Redes sociales actualizadas correctamente")
+    } catch (error) {
+      toast.error("Error al actualizar las redes sociales")
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -64,7 +111,6 @@ export function SocialInformationForm() {
                 <FormItem>
                   <FormLabel>
                     Facebook
-                    <FacebookIcon className="w-3 h-3" />
                   </FormLabel>
                   <FormControl>
                     <Input placeholder="facebook.com/tuUsuario" {...field} />
@@ -80,7 +126,6 @@ export function SocialInformationForm() {
                 <FormItem>
                   <FormLabel>
                     Instagram
-                    <InstagramIcon className="w-4 h-4" />
                   </FormLabel>
                   <FormControl>
                     <Input placeholder="instagram.com/tuUsuario" {...field} />
@@ -92,25 +137,23 @@ export function SocialInformationForm() {
 
             <FormField
               control={form.control}
-              name="facebook"
+              name="tiktok"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
                     Tiktok
-                    <TiktokIcon className="w-4 h-4" />
                   </FormLabel>
                   <FormControl>
-                    <Input placeholder="tiktok.com/@tuUsuario" {...field} />
+                    <Input placeholder="https://tiktok.com/@tuUsuario" {...field} />
                   </FormControl>
-
                   <FormMessage />
                 </FormItem>
               )}
             />
           </CardContent>
           <CardFooter className="flex justify-end">
-            <Button type="submit">
-              Guardar cambios
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? "Guardando cambios..." : "Guardar cambios"}
             </Button>
           </CardFooter>
         </Card>

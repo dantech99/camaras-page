@@ -12,7 +12,7 @@ import { cn } from "@camaras/ui/src/lib/utils";
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { data: session, isPending, error } = authClient.useSession();
+  const { data: session } = authClient.useSession();
 
   const navItems = [
     { name: "Somos", href: "/somos" },
@@ -35,8 +35,8 @@ export const Navbar = () => {
     <>
       <motion.nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
-            ? "bg-black/20 backdrop-blur-md border-cyan-500/20"
-            : "bg-transparent"
+          ? "bg-black/20 backdrop-blur-md border-cyan-500/20"
+          : "bg-transparent"
           }`}
         initial={{ y: -100 }}
         animate={{ y: 0 }}

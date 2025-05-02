@@ -39,8 +39,8 @@ export const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBackToSignIn }
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
-    visible: { 
-      y: 0, 
+    visible: {
+      y: 0,
       opacity: 1,
       transition: { type: "spring", stiffness: 300, damping: 24 }
     }
@@ -63,7 +63,7 @@ export const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBackToSignIn }
       exit="hidden"
       variants={{
         hidden: { opacity: 0 },
-        visible: { 
+        visible: {
           opacity: 1,
           transition: { staggerChildren: 0.1 }
         }
@@ -80,23 +80,23 @@ export const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBackToSignIn }
         <ArrowLeft className="h-4 w-4 mr-1" />
         Volver a iniciar sesión
       </motion.button>
-      
-      <motion.h2 
+
+      <motion.h2
         className="text-2xl font-bold text-center text-gray-800 mb-6"
         variants={itemVariants}
       >
         Restablecer Tu Contraseña
       </motion.h2>
-      
+
       {!isSubmitted ? (
         <>
-          <motion.p 
+          <motion.p
             className="text-gray-600 text-center mb-6"
             variants={itemVariants}
           >
             Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.
           </motion.p>
-          
+
           <form onSubmit={handleSubmit}>
             <motion.div className="mb-6">
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
@@ -108,11 +108,10 @@ export const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBackToSignIn }
                   type="email"
                   value={email}
                   onChange={handleEmailChange}
-                  className={`w-full px-4 py-2 border rounded-full focus:ring-2 focus:ring-offset-2 transition-all duration-200 ${
-                    isEmailValid === true ? 'border-green-500 focus:ring-green-500' :
-                    isEmailValid === false ? 'border-red-500 focus:ring-red-500' :
-                    'border-gray-300 focus:ring-indigo-500'
-                  } pr-10`}
+                  className={`w-full px-4 py-2 border rounded-full focus:ring-2 focus:ring-offset-2 transition-all duration-200 ${isEmailValid === true ? 'border-green-500 focus:ring-green-500' :
+                      isEmailValid === false ? 'border-red-500 focus:ring-red-500' :
+                        'border-gray-300 focus:ring-indigo-500'
+                    } pr-10`}
                   placeholder="tu@correo.com"
                   required
                   whileFocus="focus"
@@ -137,7 +136,7 @@ export const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBackToSignIn }
                 )}
               </div>
             </motion.div>
-            
+
             <motion.button
               type="submit"
               className="w-full bg-indigo-600 text-white py-2 px-4 rounded-full hover:bg-indigo-700 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
@@ -151,13 +150,13 @@ export const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBackToSignIn }
           </form>
         </>
       ) : (
-        <motion.div 
+        <motion.div
           className="text-center"
           variants={itemVariants}
           initial="hidden"
           animate="visible"
         >
-          <motion.div 
+          <motion.div
             className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4"
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}

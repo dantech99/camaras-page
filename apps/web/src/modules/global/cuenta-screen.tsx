@@ -1,10 +1,5 @@
 'use client'
 
-import { Button } from "@camaras/ui/src/components/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@camaras/ui/src/components/card"
-import { Input } from "@camaras/ui/src/components/input"
-import { Label } from "@camaras/ui/src/components/label"
-
 import { useProfile } from "@/hooks/use-profile"
 import { Loader2 } from "lucide-react"
 
@@ -13,15 +8,11 @@ import { SocialInformationForm } from "../dashboard/cuenta/social-information-fo
 import { AditionalInformationForm } from "../dashboard/cuenta/aditional-information-form"
 
 export function CuentaScreen() {
-  const { data, isLoading } = useProfile()
-
-  if (!data) {
-    return <div>No se encontró el usuario</div>
-  }
+  const { isLoading } = useProfile()
 
   if (isLoading) {
     return (
-      <div className="h-[100svh] flex justify-center items-center">
+      <div className="h-52 flex justify-center items-center">
         <span className="flex gap-2">
           <Loader2 className="animate-spin" />
           <p>Cargando...</p>
