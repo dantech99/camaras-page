@@ -45,7 +45,7 @@ export function AlertDeteleCupon({ id, code }: { id: string; code: string }) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="destructiveDashboard" size={"icon"} className="cursor-pointer">
+        <Button variant="ghost" size={"icon"} className="text-red-400 hover:text-red-500">
           <Trash2 />
         </Button>
       </AlertDialogTrigger>
@@ -62,7 +62,7 @@ export function AlertDeteleCupon({ id, code }: { id: string; code: string }) {
         <AlertDialogFooter>
           <AlertDialogCancel
             className={buttonVariants({
-              variant: "defaultDashboard",
+              variant: "default",
             })}
           >
             Cancelar
@@ -70,7 +70,7 @@ export function AlertDeteleCupon({ id, code }: { id: string; code: string }) {
           <AlertDialogAction
             onClick={() => handleDelete(id)}
             className={buttonVariants({
-              variant: "destructiveDashboard",
+              variant: "destructive",
             })}
           >
             {isLoading ? "Eliminando..." : "Eliminar"}

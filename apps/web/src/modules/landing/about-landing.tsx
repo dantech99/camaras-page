@@ -36,7 +36,7 @@ export function AboutLanding() {
         <div className="flex flex-col md:flex-row items-center justify-center gap-10 md:gap-16 lg:gap-20">
           {/* Contenedor de imagen con mejor transición usando solo Tailwind */}
           <div className="w-full md:w-2/5 mb-8 md:mb-0 mx-auto md:mx-0 max-w-sm">
-            <div className="overflow-hidden rounded-2xl aspect-square shadow-lg shadow-primary/20 border border-primary/10">
+            <div className="overflow-hidden rounded-2xl aspect-square shadow-lg shadow-primary-blue/20 border border-primary/10">
               <div className="relative w-full h-full">
                 <img
                   src={images[currentImageIndex] || "/placeholder.svg"}
@@ -51,7 +51,7 @@ export function AboutLanding() {
           <div className="w-full md:w-3/5 text-white space-y-5">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold flex flex-wrap items-center">
               <span>¿Quienes </span>
-              <span className="text-primary mx-2 relative inline-block animate-pulse">
+              <span className="text-primary-blue mx-2 relative inline-block animate-pulse">
                 somos
                 <span className="absolute -top-1 -right-1 text-xs text-primary animate-spin">
                   ✦
@@ -79,7 +79,7 @@ export function AboutLanding() {
             </p>
 
             {/* Botón "Saber Más" con animación en Tailwind */}
-            <Button className="mt-4 cursor-pointer">
+            <Button variant={"landing"}>
               Saber más
               <span className="inline-block transition-transform duration-300 animate-bounce-x">
                 →

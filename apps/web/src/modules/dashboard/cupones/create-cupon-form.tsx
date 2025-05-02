@@ -141,7 +141,7 @@ export function CreateCuponForm() {
                   <FormLabel>Selecciona la fecha de expiración</FormLabel>
                   <FormControl>
                     <Popover>
-                      <PopoverTrigger asChild className="w-full rounded-full">
+                      <PopoverTrigger asChild className="w-full rounded-md">
                         <Button
                           variant={"outline"}
                           className={cn(
@@ -198,8 +198,7 @@ export function CreateCuponForm() {
         </div>
         <Button
           type="submit"
-          className="w-full rounded-full mt-4 cursor-pointer"
-          variant="outline"
+          className="w-full"
         >
           {isLoading ? "Subiendo cupón..." : "Crear Cupón"}
         </Button>

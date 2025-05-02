@@ -39,7 +39,7 @@ export function ResponsiveCreateCupones() {
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button
-          variant={"defaultDashboard"}
+
         >
           <CirclePlus />
           Crear cupón
@@ -61,7 +61,7 @@ export function ResponsiveCreateCupones() {
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>
         <Button
-          variant={"defaultDashboard"}
+
         >
           <CirclePlus />
           Crear Cupón

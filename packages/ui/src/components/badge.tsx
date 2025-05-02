@@ -17,6 +17,8 @@ const badgeVariants = cva(
           "border-transparent bg-destructive text-white [a&]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 rounded-full",
         outline:
           "rounded-full text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground rounded-full",
+        landing:
+          "border-transparent bg-cyan-500 text-white [a&]:hover:bg-cyan-500/90 rounded-full",
       },
     },
     defaultVariants: {
