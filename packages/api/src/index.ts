@@ -7,6 +7,7 @@ import { packagesRouter } from "@camaras/api/src/modules/packages/packages.route
 import { photographersRouter } from "@camaras/api/src/modules/photographers/photographers.route";
 import { couponRouter } from "@camaras/api/src/modules/coupon/coupon.route";
 import { profileRouter } from "@camaras/api/src/modules/profile/profile.route";
+import { usersRouter } from "@camaras/api/src/modules/users/users.route";
 
 export const api = new Elysia({
   prefix: "/api",
@@ -23,6 +24,6 @@ export const api = new Elysia({
   .use(packagesRouter)
   .use(photographersRouter)
   .use(couponRouter)
-  .use(profileRouter);
-
+  .use(profileRouter)
+  .use(usersRouter);
 export type Api = typeof api;
