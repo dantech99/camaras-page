@@ -34,11 +34,10 @@ export const Navbar = () => {
   return (
     <>
       <motion.nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
             ? "bg-black/20 backdrop-blur-md border-cyan-500/20"
             : "bg-transparent"
-        }`}
+          }`}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.5 }}
@@ -75,7 +74,7 @@ export const Navbar = () => {
                   href="/dashboard"
                   className={cn(
                     buttonVariants({
-                      variant: "default",
+                      variant: "landing",
                     })
                   )}
                 >
@@ -86,7 +85,7 @@ export const Navbar = () => {
                   href="/auth"
                   className={cn(
                     buttonVariants({
-                      variant: "default",
+                      variant: "landing",
                     })
                   )}
                 >
@@ -110,9 +109,8 @@ export const Navbar = () => {
 
       {/* Mobile menu */}
       <motion.div
-        className={`fixed inset-0 z-50 md:hidden ${
-          isMenuOpen ? "block" : "hidden"
-        }`}
+        className={`fixed inset-0 z-50 md:hidden ${isMenuOpen ? "block" : "hidden"
+          }`}
         initial={{ opacity: 0 }}
         animate={{ opacity: isMenuOpen ? 1 : 0 }}
         transition={{ duration: 0.3 }}

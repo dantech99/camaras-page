@@ -68,8 +68,8 @@ export const TableCoupons = () => {
               <TableCell>{coupon.code}</TableCell>
               <TableCell>{Number(coupon.discountPercentage)}</TableCell>
               <TableCell className="space-x-2">
-                <AlertDeteleCupon id={coupon.id} code={coupon.code} />
                 <ResponsiveUpdateCupon coupon={coupon} />
+                <AlertDeteleCupon id={coupon.id} code={coupon.code} />
               </TableCell>
             </TableRow>
           ))

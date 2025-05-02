@@ -1,12 +1,7 @@
-import { Button } from "@camaras/ui/src/components/button";
-import {
-  Card,
-} from "@camaras/ui/src/components/card";
-import { Pencil, Trash } from "lucide-react";
+import { Card } from "@camaras/ui/src/components/card";
 import { ResponsiveUpdatePaquete } from "./responsive-update-paquete";
-import Image from "next/image";
 import { AlertDetelePaquete } from "./alert-delete-paquete";
-
+import { Badge } from "@camaras/ui/src/components/badge";
 interface PhotographersPackages {
   price: number;
   discountPercentage: number;
@@ -46,7 +41,7 @@ export function PaqueteCard({ pack }: { pack: PhotographersPackages }) {
 
             <div className="flex items-center justify-between mt-2">
               <span className="text-2xl font-bold">${Number(pack.price).toLocaleString()}</span>
-              <span className="text-sm">{pack.photoCount} fotos</span>
+              <Badge className="text-sm">{pack.photoCount} fotos</Badge>
             </div>
           </div>
         </div>
@@ -57,7 +52,7 @@ export function PaqueteCard({ pack }: { pack: PhotographersPackages }) {
           <ul className="mt-3 space-y-1">
             {pack.features.map((dot, index) => (
               <li key={index} className="flex items-start gap-2 text-sm">
-                <span className="text-rose-500">•</span>
+                <span className="text-primary-blue">•</span>
                 <span>{dot.content}</span>
               </li>
             ))}

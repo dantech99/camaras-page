@@ -202,7 +202,7 @@ export function CreatePaqueteForm() {
                   <FormItem>
                     <FormLabel>Precio</FormLabel>
                     <FormControl>
-                    <Input
+                      <Input
                         type="number"
                         {...field}
                         value={field.value || ''}
@@ -221,7 +221,7 @@ export function CreatePaqueteForm() {
                   <FormItem>
                     <FormLabel>Fotos</FormLabel>
                     <FormControl>
-                    <Input
+                      <Input
                         type="number"
                         {...field}
                         value={field.value || ''}
@@ -287,8 +287,7 @@ export function CreatePaqueteForm() {
         </div>
         <Button
           type="submit"
-          className="w-full rounded-full mt-4 cursor-pointer"
-          variant="defaultDashboard"
+          className="w-full"
         >
           {isLoading ? "Subiendo paquete..." : "Crear Paquete"}
         </Button>

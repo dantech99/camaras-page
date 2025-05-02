@@ -56,8 +56,8 @@ export function ResponsiveUpdatePaquete({ pack }: { pack: PhotographersPackages 
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button
-          className="cursor-pointer rounded-full size-10"
-          variant={"defaultDashboard"}
+          className="text-primary-blue"
+          variant={"ghost"}
         >
           <Pencil />
         </Button>
@@ -78,8 +78,8 @@ export function ResponsiveUpdatePaquete({ pack }: { pack: PhotographersPackages 
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>
         <Button
-          className="cursor-pointer rounded-full size-10"
-          variant={"defaultDashboard"}
+          variant={"ghost"}
+          className="text-primary-blue"
         >
           <Pencil />
         </Button>

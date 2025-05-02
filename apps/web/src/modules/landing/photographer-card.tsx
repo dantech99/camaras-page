@@ -167,10 +167,10 @@ export function PhotographerCard({ name, image, role }: PhotographerCardProps) {
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.4 }}
           >
-            <Button variant="secondary" className="cursor-pointer">
+            <Button variant={"landingSecondary"} className="cursor-pointer">
               Agendar
             </Button>
-            <Button className="cursor-pointer">Sobre mí</Button>
+            <Button variant={"landing"}>Sobre mí</Button>
           </motion.div>
         </AnimatePresence>
       </motion.div>
