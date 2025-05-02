@@ -19,6 +19,13 @@ model User {
   description  String?
   facebookUrl  String?
   instagramUrl String?
+  tiktokUrl    String?
+
+  // Información adicional
+  fullName String?
+  website  String?
+  location String?
+  hobbie   String?
 
   // Better Auth 
   phoneNumber         String?

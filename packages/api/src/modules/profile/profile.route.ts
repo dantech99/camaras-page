@@ -12,16 +12,29 @@ export const profileRouter = new Elysia({
     photographer: true,
   })
   .patch(
-    "/",
+    "/socials",
     ({ profileService, user, body }) =>
       profileService.updateProfile(user.id, body),
     {
       photographer: true,
       body: t.Object({
-        name: t.String(),
-        description: t.String(),
         facebookUrl: t.String(),
         instagramUrl: t.String(),
+        tiktokUrl: t.String(),
+      }),
+    }
+  )
+  .patch(
+    "/additional-information",
+    ({ profileService, user, body }) =>
+      profileService.updateAdditionalInformation(user.id, body),
+    {
+      photographer: true,
+      body: t.Object({
+        fullName: t.String(),
+        website: t.String(),
+        location: t.String(),
+        hobbie: t.String(),
       }),
     }
   );
