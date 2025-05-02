@@ -41,7 +41,7 @@ interface Coupon {
   id: string;
   code: string;
   discountPercentage: number;
-  expirationDate: Date;
+  expirationDate: Date | string;
   isActive: boolean;
 }
 
@@ -55,26 +55,34 @@ const createCuponSchema = z.object({
     .max(100, {
       message: "Debe ser menor a 100",
     }),
-  expirationDate: z.date().refine((date) => date > new Date(), {
+  expirationDate: z.date({
+    required_error: "La fecha de expiración es requerida",
+    invalid_type_error: "La fecha de expiración debe ser una fecha válida",
+  }).refine((date) => date > new Date(), {
     message: "La fecha de expiración debe ser futura",
-  }),
+  }).transform((date) => new Date(date)),
   isActive: z.boolean(),
 });
 
 export function UpdateCouponForm({ coupon }: { coupon: Coupon }) {
   const { refetch } = useCoupons();
   const [isLoading, setIsLoading] = useState(false);
+
+  const initialExpirationDate = coupon.expirationDate
+    ? new Date(coupon.expirationDate)
+    : new Date();
+
   const form = useForm<z.infer<typeof createCuponSchema>>({
     resolver: zodResolver(createCuponSchema),
     defaultValues: {
       code: coupon.code,
       discountPercentage: coupon.discountPercentage,
-      expirationDate: coupon.expirationDate,
+      expirationDate: initialExpirationDate,
       isActive: coupon.isActive,
     },
   });
 
-  const date = form.watch("expirationDate");
+  const date = form.watch("expirationDate") as Date;
 
   async function onSubmit(values: z.infer<typeof createCuponSchema>) {
     try {
@@ -193,12 +201,13 @@ export function UpdateCouponForm({ coupon }: { coupon: Coupon }) {
                         <div className="rounded-md border">
                           <Calendar
                             mode="single"
-                            selected={date ?? undefined}
+                            selected={date}
                             onSelect={(selectedDate) => {
                               if (selectedDate) {
                                 form.setValue("expirationDate", selectedDate);
                               }
                             }}
+                            initialFocus
                           />
                         </div>
                       </PopoverContent>

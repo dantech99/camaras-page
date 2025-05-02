@@ -12,7 +12,6 @@ import {
 } from "@camaras/ui/src/components/dialog";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerFooter,
@@ -28,7 +27,7 @@ interface Coupon {
   code: string;
   id: string;
   discountPercentage: number;
-  expirationDate: Date;
+  expirationDate: string | Date;
   createdat: Date;
   isActive: boolean;
 }

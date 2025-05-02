@@ -16,7 +16,7 @@ export function TablePaquetes() {
 
   if (isLoading) {
     return (
-      <div className="h-[100dvh] flex justify-center items-center">
+      <div className="h-[100svh] flex justify-center items-center">
         <span className="flex gap-2">
           <Loader2 className="animate-spin" />
           <p>Cargando...</p>

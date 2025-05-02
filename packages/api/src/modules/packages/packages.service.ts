@@ -145,9 +145,9 @@ export class PackagesService {
       description: string;
       price: number;
       photoCount: number;
-      isActive: string;
-      image: File;
-      descriptionBullets?: { content: string }[];
+      image?: File;
+      descriptionBullets: { content: string }[];
+      isActive: boolean;
     },
     userId: string
   ) {
@@ -159,25 +159,15 @@ export class PackagesService {
         photoCount,
         image,
         descriptionBullets,
+        isActive,
       } = data;
 
-      let isActiveFromFrontend: string = data.isActive;
-      let isActive: boolean;
-
       const photographer = await prisma.user.findUnique({
-        where: {
-          id: userId,
-        },
+        where: { id: userId },
       });
 
       if (!photographer) {
         throw new Error("Photographer not found");
-      }
-
-      if (isActiveFromFrontend == "true") {
-        isActive = true;
-      } else {
-        isActive = false;
       }
 
       const existingPackage = await prisma.package.findUnique({
@@ -185,40 +175,22 @@ export class PackagesService {
           id,
           photographerName: photographer.name,
         },
-        include: {
-          features: true,
-        },
+        include: { features: true },
       });
 
       if (!existingPackage) {
         throw new Error("Package not found");
       }
 
-      let imageUrl: string | undefined = existingPackage.imageUrl;
+      let imageUrl = existingPackage.imageUrl;
 
       if (image) {
-        if (existingPackage.imageUrl) {
-          const oldImagePath = existingPackage.imageUrl.replace(
-            `${process.env.SUPABASE_URL_BUCKET}/`,
-            ""
-          );
-          await supabaseS3.delete(oldImagePath);
-        }
-
-        const fileExtension = image.name.split(".").pop();
-        const fileName = `${name.replace(/\s+/g, "-").toLowerCase()}-${Date.now()}.${fileExtension}`;
-        const filePath = `package/${fileName}`;
-
-        const buffer = await image.arrayBuffer();
-        const uint8Array = new Uint8Array(buffer);
-
-        const writeResult = await supabaseS3.write(filePath, uint8Array);
-
-        if (!writeResult) {
-          throw new Error("Error uploading image to S3");
-        }
-
-        imageUrl = `${process.env.SUPABASE_URL_BUCKET}/${filePath}`;
+        await this.imageService.deleteImage(existingPackage.imageUrl);
+        imageUrl = await this.imageService.createImage(
+          image,
+          photographer.id,
+          "package"
+        );
       }
 
       const photoPackage = await prisma.package.update({
@@ -233,17 +205,10 @@ export class PackagesService {
           photoCount,
           isActive,
           imageUrl,
-          ...(descriptionBullets && {
-            features: {
-              deleteMany: {},
-              create: descriptionBullets,
-            },
-          }),
-          ...(!descriptionBullets && {
-            features: {
-              deleteMany: {},
-            },
-          }),
+          features: {
+            deleteMany: {},
+            create: descriptionBullets,
+          },
         },
         include: {
           features: true,
