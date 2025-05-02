@@ -12,7 +12,7 @@ import { RegisterForm } from "./register-form";
 export function AuthScreens() {
   return (
     <div className="flex flex-col gap-6">
-      <Card className="overflow-hidden px-4 transition-all duration-300 hover:shadow-lg">
+      <Card className="overflow-hidden p-4 transition-all duration-300 hover:shadow-lg">
         <CardContent className="grid p-0 md:grid-cols-2 gap-4">
           <div className="flex gap-2">
             <Tabs defaultValue="login" className="w-full">

@@ -58,6 +58,7 @@ export function ResponsiveUpdatePaquete({ pack }: { pack: PhotographersPackages 
         <Button
           className="text-primary-blue"
           variant={"ghost"}
+          size={"icon"}
         >
           <Pencil />
         </Button>

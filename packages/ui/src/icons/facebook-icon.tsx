@@ -1,4 +1,4 @@
-export function FacebookIcon() {
+export function FacebookIcon({ className }: { className?: string }) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -6,6 +6,7 @@ export function FacebookIcon() {
             fill="url(#a)"
             height="40"
             width="40"
+            className={className}
         >
             <defs>
                 <linearGradient x1="50%" x2="50%" y1="97.078%" y2="0%" id="a">

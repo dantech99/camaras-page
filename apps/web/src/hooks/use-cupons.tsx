@@ -5,6 +5,9 @@ export function useCoupons() {
   return useQuery({
     queryKey: ['coupons'],
     queryFn: () => CouponService.getAll(),
-    staleTime: 1000 * 60 * 5
+    staleTime: 1000 * 60 * 5,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   })
 }
