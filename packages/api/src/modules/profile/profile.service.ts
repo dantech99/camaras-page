@@ -1,7 +1,13 @@
 import { prisma } from "@camaras/api/src/modules/prisma";
-import { PrismaClientKnownRequestError } from "@camaras/database/generated/database/runtime/library";
+import { ImageService } from "../images/images.service";
 
 export class ProfileService {
+  private imageService: ImageService;
+
+  constructor() {
+    this.imageService = new ImageService();
+  }
+
   async getProfile(userId: string) {
     try {
       const user = await prisma.user.findUnique({
@@ -15,6 +21,11 @@ export class ProfileService {
           description: true,
           facebookUrl: true,
           instagramUrl: true,
+          tiktokUrl: true,
+          fullName: true,
+          website: true,
+          location: true,
+          hobbie: true,
         },
       });
 
@@ -38,13 +49,61 @@ export class ProfileService {
     }
   }
 
-  async updateProfile(
+  async updateMainInformation(
     userId: string,
     data: {
-      name: string;
-      description: string;
-      facebookUrl: string;
-      instagramUrl: string;
+      image?: File | undefined;
+      description?: string;
+    }
+  ) {
+    try {
+      const user = await prisma.user.findUnique({
+        where: { id: userId },
+      });
+
+      if (!user) {
+        return {
+          message: "User not found",
+          status: 404,
+        };
+      }
+
+      let image = user.image;
+
+      if (data.image) {
+        const imageService = new ImageService();
+
+        // Si la imagen actual no es de Google y existe, la eliminamos
+        if (
+          user.image &&
+          !user.image.startsWith("https://lh3.googleusercontent.com")
+        ) {
+          await imageService.deleteImage(user.image);
+        }
+
+        image = await imageService.createImage(
+          data.image,
+          userId,
+          "photographer"
+        );
+      }
+
+      await prisma.user.update({
+        where: { id: userId },
+        data: {
+          image: image,
+          description: data.description,
+        },
+      });
+    } catch (error) {}
+  }
+
+  async updateSocials(
+    userId: string,
+    data: {
+      facebookUrl?: string;
+      instagramUrl?: string;
+      tiktokUrl?: string;
     }
   ) {
     try {
@@ -64,15 +123,65 @@ export class ProfileService {
       await prisma.user.update({
         where: { id: userId },
         data: {
-          name: data.name,
-          description: data.description,
           facebookUrl: data.facebookUrl,
           instagramUrl: data.instagramUrl,
+          tiktokUrl: data.tiktokUrl,
         },
       });
 
       return {
         message: "Profile updated successfully",
+        status: 200,
+      };
+    } catch (error) {
+      if (error instanceof Error) {
+        return {
+          message: error.message,
+          status: 500,
+        };
+      }
+
+      return {
+        message: "An unknown error occurred",
+        status: 500,
+      };
+    }
+  }
+
+  async updateAdditionalInformation(
+    userId: string,
+    data: {
+      fullName?: string;
+      website?: string;
+      location?: string;
+      hobbie?: string;
+    }
+  ) {
+    try {
+      const user = await prisma.user.update({
+        where: { id: userId },
+        data,
+      });
+
+      if (!user) {
+        return {
+          message: "User not found",
+          status: 404,
+        };
+      }
+
+      await prisma.user.update({
+        where: { id: userId },
+        data: {
+          fullName: data.fullName,
+          website: data.website,
+          location: data.location,
+          hobbie: data.hobbie,
+        },
+      });
+
+      return {
+        message: "Additional information updated successfully",
         status: 200,
       };
     } catch (error) {

@@ -26,6 +26,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@camaras/ui/src/components/sidebar";
+import { useProfile } from "@/hooks/use-profile";
+import { authClient } from "@camaras/auth/client";
 
 const data = {
   navMain: [
@@ -81,31 +83,38 @@ const data = {
       icon: Send,
     },
   ],
-  administradores: [
-    {
-      name: "Usuarios",
-      url: "/dashboard/usuarios",
-      icon: User,
-    },
-    {
-      name: "Auditorías",
-      url: "/dashboard/auditorias",
-      icon: File,
-    },
-    {
-      name: "Metricas",
-      url: "/dashboard/all-metrics",
-      icon: PieChart,
-    },
-    {
-      name: "Ventas",
-      url: "/dashboard/ventas",
-      icon: ShoppingCart,
-    },
-  ],
 };
 
+const administradores = [
+  {
+    name: "Usuarios",
+    url: "/dashboard/usuarios",
+    icon: User,
+  },
+  {
+    name: "Auditorías",
+    url: "/dashboard/auditorias",
+    icon: File,
+  },
+  {
+    name: "Metricas",
+    url: "/dashboard/all-metrics",
+    icon: PieChart,
+  },
+  {
+    name: "Ventas",
+    url: "/dashboard/ventas",
+    icon: ShoppingCart,
+  },
+];
+
+
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+
+  const { data: session } = authClient.useSession();
+
+  const isAdmin = session?.user?.role === "admin";
+
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>
@@ -129,7 +138,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent className="overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
         <NavMain items={data.navMain} />
-        <NavAdmins projects={data.administradores} />
+        {isAdmin && <NavAdmins projects={administradores} />}
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
