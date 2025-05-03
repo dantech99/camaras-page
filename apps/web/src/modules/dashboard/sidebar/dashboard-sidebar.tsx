@@ -88,22 +88,22 @@ const data = {
 const administradores = [
   {
     name: "Usuarios",
-    url: "/dashboard/usuarios",
+    url: "/dashboard/admin/usuarios",
     icon: User,
   },
   {
     name: "Auditorías",
-    url: "/dashboard/auditorias",
+    url: "/dashboard/admin/auditorias",
     icon: File,
   },
   {
     name: "Metricas",
-    url: "/dashboard/all-metrics",
+    url: "/dashboard/admin/metrics",
     icon: PieChart,
   },
   {
     name: "Ventas",
-    url: "/dashboard/ventas",
+    url: "/dashboard/admin/ventas",
     icon: ShoppingCart,
   },
 ];
@@ -113,7 +113,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   const { data: session } = authClient.useSession();
 
-  const isAdmin = session?.user?.role === "admin";
+  const isAdmin = session?.user?.role.includes("admin");
 
   return (
     <Sidebar variant="inset" {...props}>
@@ -138,7 +138,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent className="overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
         <NavMain items={data.navMain} />
-        <NavAdmins projects={administradores} />
+        {isAdmin && <NavAdmins projects={administradores} />}
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>

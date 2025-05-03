@@ -2,7 +2,12 @@ import { PrismaClient } from "@camaras/database";
 import { betterAuth, map } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { admin, anonymous, openAPI, organization } from "better-auth/plugins";
-import { ac, adminRole, photogrepherRole, userRole } from "permissons/permissons";
+import {
+  ac,
+  admin as adminRole,
+  photographer,
+  user,
+} from "permissons/permissons";
 
 const prisma = new PrismaClient();
 
@@ -16,22 +21,24 @@ export const auth = betterAuth({
       phoneNumber: {
         type: "string",
         required: true,
-        input: true
+        input: true,
       },
       role: {
         type: "string",
         required: true,
         input: false,
         defaultValue: "user",
-      }
+      },
     },
   },
   secret: process.env.AUTH_SECRET,
   baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
-  trustedOrigins: [process.env.NEXT_PUBLIC_BACKEND_URL as string, process.env.NEXT_PUBLIC_FRONTEND_URL as string],
+  trustedOrigins: [
+    process.env.NEXT_PUBLIC_BACKEND_URL as string,
+    process.env.NEXT_PUBLIC_FRONTEND_URL as string,
+  ],
   emailAndPassword: {
     enabled: true,
-
   },
   socialProviders: {
     google: {
@@ -43,10 +50,12 @@ export const auth = betterAuth({
     admin({
       ac,
       roles: {
-        adminRole,
-        photogrepherRole,
-        userRole,
-      }
+        admin: adminRole,
+        user,
+        photographer,
+      },
+      adminRoles: ["admin"],
+      defaultRole: "user",
     }),
     openAPI(),
     organization({
