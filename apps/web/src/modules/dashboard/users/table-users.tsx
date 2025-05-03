@@ -8,18 +8,20 @@ import {
   TableHeader,
   TableRow,
 } from "@camaras/ui/src/components/table";
-import { Loader2 } from "lucide-react";
+import { Loader2, Pencil, Trash } from "lucide-react";
+import { useUsers } from "@/hooks/use-users";
+import { Badge } from "@camaras/ui/src/components/badge";
+import { Button } from "@camaras/ui/src/components/button";
+import { getRolesConfig } from "@/utils/get-roles-config";
 
 export const TableUsers = () => {
-
-  const { data, isLoading, isError } = useCoupons();
-  const coupons = data?.coupons || [];
+  const { data, isLoading, isError } = useUsers();
 
   return (
     <Table className="w-full rounded-lg overflow-hidden">
       <TableHeader className="bg-sidebar-accent w-full">
         <TableRow className="w-full">
-          <TableHead className="min-w-[100px] text-center">
+          <TableHead className="min-w-[100px] text-left">
             Nombre
           </TableHead>
           <TableHead className="min-w-[100px] text-center">
@@ -32,12 +34,15 @@ export const TableUsers = () => {
             País
           </TableHead>
           <TableHead className="min-w-[100px] text-center">Whatsapp</TableHead>
+          <TableHead className="min-w-[100px] text-center">
+            Acciones
+          </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {isLoading ? (
           <TableRow>
-            <TableCell colSpan={5} className="text-center py-4">
+            <TableCell colSpan={6} className="text-center py-4">
               <div className="flex items-center justify-center gap-2">
                 <Loader2 className="h-4 w-4 animate-spin" />
                 <span>Cargando usuarios...</span>
@@ -52,21 +57,33 @@ export const TableUsers = () => {
               </div>
             </TableCell>
           </TableRow>
-        ) : coupons.length > 0 ? (
-          coupons.map((coupon) => (
-            <TableRow key={coupon.id} className="text-center">
+        ) : data?.users.length > 0 ? (
+          data?.users.map((user) => (
+            <TableRow key={user.id} className="text-center">
+              <TableCell className="text-left">{user.name}</TableCell>
               <TableCell>
-                {new Date(coupon.createdat).toLocaleDateString()}
+                {new Date(user.createdAt).toLocaleDateString()}
               </TableCell>
-              <TableCell>
-                {coupon.expirationDate
-                  ? new Date(coupon.expirationDate).toLocaleDateString()
-                  : "N/A"}
-              </TableCell>
-              <TableCell>{coupon.code}</TableCell>
-              <TableCell>{Number(coupon.discountPercentage)}</TableCell>
               <TableCell className="space-x-2">
-                {/* Acá debe ir la info de los users */}
+                {user.role?.split(",").map((role) => (
+                  <Badge
+                    key={role}
+                    variant="outline"
+                    className={getRolesConfig(role as "photographer" | "admin" | "user").color}
+                  >
+                    {getRolesConfig(role as "photographer" | "admin" | "user").label}
+                  </Badge>
+                ))}
+              </TableCell>
+              <TableCell>{user.location}</TableCell>
+              <TableCell>{user.phoneNumber}</TableCell>
+              <TableCell className="space-x-2">
+                <Button variant="outline" size="icon">
+                  <Pencil />
+                </Button>
+                <Button variant="outline" size="icon">
+                  <Trash />
+                </Button>
               </TableCell>
             </TableRow>
           ))

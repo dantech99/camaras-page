@@ -18,7 +18,6 @@ export function DashboardNavbar() {
   const pathname = usePathname();
   const segments = pathname.split('/').filter(Boolean);
 
-  // Always start with Dashboard
   const breadcrumbs = [
     {
       label: 'Dashboard',
@@ -27,7 +26,6 @@ export function DashboardNavbar() {
     }
   ];
 
-  // Add additional segments
   if (segments.length > 1) {
     let currentPath = '/dashboard';
     segments.slice(1).forEach((segment, index) => {

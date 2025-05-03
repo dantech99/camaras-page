@@ -28,7 +28,16 @@ export const betterAuth = new Elysia({ name: "better-auth" })
 
         if (!session) return error(401);
 
-        if (session.user.role !== "photographer") return error(401);
+        const role = await auth.api.userHasPermission({
+          body: {
+            role: "photographer",
+            permissions: {
+              project: ["create"],
+            },
+          },
+        });
+
+        if (!role.success) return error(401);
 
         return {
           user: session.user,
@@ -73,10 +82,20 @@ export const betterAuth = new Elysia({ name: "better-auth" })
 
         if (!session) return error(401);
 
-        if (session.user.role !== "adminRole") return error(401);
+        const role = await auth.api.userHasPermission({
+          body: {
+            role: "admin",
+            permissions: {
+              project: ["realm"],
+            },
+          },
+        });
+
+        if (!role.success) return error(401);
 
         return {
           user: session.user,
+          headers,
         };
       },
     },

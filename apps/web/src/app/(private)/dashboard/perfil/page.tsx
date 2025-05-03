@@ -60,7 +60,7 @@ export default function PerfilPage() {
 
             {/* Foto de perfil circular */}
             <div className="flex justify-center -mt-16">
-              <div className="relative w-32 h-32 rounded-full overflow-hidden bg-white">
+              <div className="relative w-32 h-32 rounded-full overflow-hidden bg-white border-4 border-card">
                 {data.user.image ? (
                   <Image
                     src={data.user.image || "/placeholder.svg?height=128&width=128"}
