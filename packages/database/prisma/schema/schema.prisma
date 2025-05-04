@@ -44,9 +44,10 @@ model User {
   members           Member[]
   invitations       Invitation[]
   discounts         Discount[]
-  auditLogs         AuditLog[]   @relation("AuditLogActor")
-  receivedAuditLogs AuditLog[]   @relation("AuditLogTarget")
+  auditLogs         AuditLog[]     @relation("AuditLogActor")
+  receivedAuditLogs AuditLog[]     @relation("AuditLogTarget")
   AuditLog          AuditLog[]
+  availableDays     AvailableDay[]
 
   createdAt DateTime
   updatedAt DateTime

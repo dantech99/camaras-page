@@ -36,6 +36,7 @@
     "mime-types": "^3.0.1",
     "motion": "^12.4.10",
     "multipart-parser": "^0.0.2",
+    "next": "15.2.0",
     "nextui-cli": "^0.5.0",
     "sharp": "^0.34.1"
   },

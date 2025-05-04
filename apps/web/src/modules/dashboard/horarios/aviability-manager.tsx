@@ -13,6 +13,7 @@ import { Label } from "@camaras/ui/src/components/label"
 import { Input } from "@camaras/ui/src/components/input"
 import { Switch } from "@camaras/ui/src/components/switch"
 import { toast } from "sonner"
+import { SessionsService } from "@/services/sessions-service"
 
 export default function Component() {
   const today = new Date()
@@ -53,33 +54,67 @@ export default function Component() {
     setCalendarDays(days)
   }, [currentMonth])
 
+  // Helper: Convert yyyy-MM-dd string to local Date object
+  const dateStringToLocalDate = (dateStr: string) => {
+    const [year, month, day] = dateStr.split("-").map(Number);
+    return new Date(year, month - 1, day);
+  };
+
   // Check if a date has availability set
   const hasAvailability = (day: Date) => {
-    const dateKey = day.toISOString().split("T")[0]
-    return availableDays.has(dateKey) && availableDays.get(dateKey)!.length > 0
+    const dateKey = format(day, "yyyy-MM-dd");
+    return availableDays.has(dateKey) && availableDays.get(dateKey)!.length > 0;
   }
 
   // Load availability for selected date
   useEffect(() => {
-    const dateKey = date.toISOString().split("T")[0]
+    const dateKey = format(date, "yyyy-MM-dd");
     if (availableDays.has(dateKey)) {
-      setTimeSlots([...availableDays.get(dateKey)!])
-      setIsDayAvailable(true)
+      setTimeSlots([...availableDays.get(dateKey)!]);
+      setIsDayAvailable(true);
     } else {
-      setTimeSlots([])
-      setIsDayAvailable(false)
+      setTimeSlots([]);
+      setIsDayAvailable(false);
     }
-  }, [date, availableDays])
+  }, [date, availableDays]);
 
   // Handle availability toggle
-  const handleAvailabilityToggle = (isAvailable: boolean) => {
-    setIsDayAvailable(isAvailable)
+  const handleAvailabilityToggle = async (isAvailable: boolean) => {
+    setIsDayAvailable(isAvailable);
 
-    if (isAvailable && timeSlots.length === 0) {
+    if (!isAvailable) {
+      const dateKey = format(date, "yyyy-MM-dd");
+      const existingDay = Array.from(availableDays.entries()).find(
+        ([key]) => key === dateKey
+      );
+
+      if (existingDay) {
+        try {
+          // Delete the day from the backend
+          await SessionsService.update(existingDay[0], { timeSlots: [] });
+
+          // Update local state
+          const newAvailableDays = new Map(availableDays);
+          newAvailableDays.delete(dateKey);
+          setAvailableDays(newAvailableDays);
+          setTimeSlots([]);
+
+          toast.success("Disponibilidad actualizada", {
+            description: "Se han eliminado todos los horarios para este día",
+          });
+        } catch (error) {
+          toast.error("Error al actualizar", {
+            description: "No se pudieron eliminar los horarios. Por favor, intente nuevamente.",
+          });
+          // Revert the toggle if there was an error
+          setIsDayAvailable(true);
+        }
+      }
+    } else if (timeSlots.length === 0) {
       // Add default time slot when toggling availability on
-      setTimeSlots([{ start: "09:00", end: "09:15", isBooked: false }])
+      setTimeSlots([{ start: "09:00", end: "09:15", isBooked: false }]);
     }
-  }
+  };
 
   // Add a new time slot
   const addTimeSlot = () => {
@@ -125,10 +160,10 @@ export default function Component() {
   }
 
   // Save availability for the selected date
-  const saveAvailability = () => {
+  const saveAvailability = async () => {
     if (!isDayAvailable || timeSlots.length === 0) {
       // If day is marked as unavailable, remove any existing availability
-      const dateKey = date.toISOString().split("T")[0]
+      const dateKey = format(date, "yyyy-MM-dd")
       const newAvailableDays = new Map(availableDays)
       newAvailableDays.delete(dateKey)
       setAvailableDays(newAvailableDays)
@@ -173,27 +208,68 @@ export default function Component() {
       }
     }
 
-    // Save availability
-    const dateKey = date.toISOString().split("T")[0]
-    const newAvailableDays = new Map(availableDays)
-    newAvailableDays.set(dateKey, [...timeSlots])
-    setAvailableDays(newAvailableDays)
-
-    // Show success message
-    toast.success("Disponibilidad guardada", {
-      description: `Se han guardado ${timeSlots.length} horarios para el ${format(date, "d 'de' MMMM", { locale: es })}`,
-    })
-
-    // Log the data that sería enviado al backend
-    console.log({
-      day: dateKey,
-      timeSlots: timeSlots.map((slot) => ({
+    try {
+      const dateKey = format(date, "yyyy-MM-dd")
+      const timeSlotsData = timeSlots.map((slot) => ({
         start: slot.start,
         end: slot.end,
-        isBooked: slot.isBooked,
-      })),
-    })
+      }))
+
+      // Check if we already have an ID for this date
+      const existingDay = Array.from(availableDays.entries()).find(
+        ([key]) => key === dateKey
+      )
+
+      if (existingDay) {
+        // Update existing day
+        await SessionsService.update(existingDay[0], { timeSlots: timeSlotsData })
+      } else {
+        // Create new day
+        await SessionsService.create({
+          date: dateKey,
+          timeSlots: timeSlotsData,
+        })
+      }
+
+      // Update local state
+      const newAvailableDays = new Map(availableDays)
+      newAvailableDays.set(dateKey, timeSlots)
+      setAvailableDays(newAvailableDays)
+
+      toast.success("Disponibilidad guardada", {
+        description: `Se han guardado ${timeSlots.length} horarios para el ${format(date, "d 'de' MMMM", { locale: es })}`,
+      })
+    } catch (error) {
+      toast.error("Error al guardar", {
+        description: "No se pudo guardar la disponibilidad. Por favor, intente nuevamente.",
+      })
+    }
   }
+
+  // Load initial data
+  useEffect(() => {
+    const loadAvailableDays = async () => {
+      try {
+        const data = await SessionsService.getAll();
+        const daysMap = new Map();
+
+        if (data) {
+          data.forEach((day: any) => {
+            // Use the date string directly as the key
+            daysMap.set(day.date, day.timeSlots);
+          });
+        }
+
+        setAvailableDays(daysMap);
+      } catch (error) {
+        toast.error("Error al cargar", {
+          description: "No se pudieron cargar los días disponibles.",
+        });
+      }
+    };
+
+    loadAvailableDays();
+  }, []);
 
   // Navigate to previous month
   const prevMonth = () => {
@@ -379,14 +455,14 @@ export default function Component() {
                   <div key={dateKey} className="flex items-center justify-between bg-muted/50 p-2 rounded-md">
                     <div className="flex items-center gap-2">
                       <CalendarIcon className="h-4 w-4 text-muted-foreground" />
-                      <span className="font-medium">{format(new Date(dateKey), "dd/MM/yyyy")}:</span>
+                      <span className="font-medium">{format(dateStringToLocalDate(dateKey), "dd/MM/yyyy")}:</span>
                       <span>{slots.length} {slots.length === 1 ? "Sesion" : "Sesiones"} {slots.length === 1 ? "creada" : "creadas"}</span>
                     </div>
                     <Button
                       variant="ghost"
                       size="sm"
                       onClick={() => {
-                        setDate(new Date(dateKey))
+                        setDate(dateStringToLocalDate(dateKey));
                       }}
                     >
                       Ver

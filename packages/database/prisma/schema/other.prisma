@@ -77,3 +77,24 @@ model Discount {
 
   @@map("discount")
 }
+
+model AvailableDay {
+  id        String     @id @default(uuid())
+  date      DateTime
+  userId    String
+  user      User       @relation(fields: [userId], references: [id])
+  timeSlots TimeSlot[]
+
+  @@map("available_day")
+}
+
+model TimeSlot {
+  id             String       @id @default(uuid())
+  start          String
+  end            String
+  isBooked       Boolean      @default(false)
+  availableDayId String
+  availableDay   AvailableDay @relation(fields: [availableDayId], references: [id])
+
+  @@map("time_slot")
+}
