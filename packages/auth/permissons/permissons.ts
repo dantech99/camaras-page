@@ -13,7 +13,7 @@ export const user = ac.newRole({
 });
 
 export const photographer = ac.newRole({
-  project: ["create", "read", "update", "delete"],
+  project: ["create", "read", "update", "delete", "share"],
 });
 
 export const admin = ac.newRole({

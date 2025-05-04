@@ -1,4 +1,4 @@
-import AviabilityManager from "@/modules/dashboard/horarios/aviability-manager";
+import { AviabilityManager } from "@/modules/dashboard/horarios/aviability-manager";
 
 export default function HorariosPage() {
   return (

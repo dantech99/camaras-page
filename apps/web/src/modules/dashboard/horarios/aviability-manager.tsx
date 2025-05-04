@@ -6,7 +6,6 @@ import { es } from "date-fns/locale"
 import { CalendarIcon, Clock, Camera, ChevronLeft, ChevronRight, Plus, Save, Trash2 } from "lucide-react"
 
 import { Button } from "@camaras/ui/src/components/button"
-import { ScrollArea } from "@camaras/ui/src/components/scroll-area"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@camaras/ui/src/components/card"
 import { Badge } from "@camaras/ui/src/components/badge"
 import { Label } from "@camaras/ui/src/components/label"
@@ -14,8 +13,9 @@ import { Input } from "@camaras/ui/src/components/input"
 import { Switch } from "@camaras/ui/src/components/switch"
 import { toast } from "sonner"
 import { SessionsService } from "@/services/sessions-service"
+import { useFSessions } from "@/hooks/use-fsessions"
 
-export default function Component() {
+export function AviabilityManager() {
   const today = new Date()
   const [date, setDate] = useState<Date>(today)
   const [currentMonth, setCurrentMonth] = useState<Date>(today)
@@ -25,6 +25,10 @@ export default function Component() {
   const [availableDays, setAvailableDays] = useState<
     Map<string, Array<{ start: string; end: string; isBooked: boolean }>>
   >(new Map())
+
+  const { data: sessionsData, refetch } = useFSessions()
+
+  console.log(sessionsData)
 
   // Generate calendar days for the current month with 5 weeks (35 days)
   useEffect(() => {
@@ -54,10 +58,74 @@ export default function Component() {
     setCalendarDays(days)
   }, [currentMonth])
 
+  // Helper: Normalize date to YYYY-MM-DD format
+  const normalizeDate = (dateStr: string) => {
+    // If it's already in YYYY-MM-DD format, return as is
+    if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+      return dateStr;
+    }
+
+    // If it's a full ISO date, extract just the date part
+    if (/^\d{4}-\d{2}-\d{2}T/.test(dateStr)) {
+      return dateStr.split('T')[0];
+    }
+
+    // If it's another format, try parsing and formatting
+    try {
+      const date = new Date(dateStr);
+      if (!isNaN(date.getTime())) {
+        return format(date, "yyyy-MM-dd");
+      }
+    } catch (e) {
+      console.error("Error parsing date:", dateStr);
+    }
+
+    // Return original if we can't parse it
+    return dateStr;
+  };
+
   // Helper: Convert yyyy-MM-dd string to local Date object
   const dateStringToLocalDate = (dateStr: string) => {
-    const [year, month, day] = dateStr.split("-").map(Number);
-    return new Date(year, month - 1, day);
+    try {
+      // Normalize the date string first
+      const normalizedDate = normalizeDate(dateStr);
+
+      // Validate date string format after normalization
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(normalizedDate)) {
+        console.error('Invalid date format after normalization:', dateStr, '→', normalizedDate);
+        return new Date(); // Return current date as fallback
+      }
+
+      const [year, month, day] = normalizedDate.split("-").map(Number);
+
+      // Validate date components
+      if (isNaN(year) || isNaN(month) || isNaN(day)) {
+        console.error('Invalid date components:', { year, month, day });
+        return new Date();
+      }
+
+      // Validate date range
+      if (year < 1900 || year > 2100 || month < 1 || month > 12 || day < 1 || day > 31) {
+        console.error('Date out of range:', { year, month, day });
+        return new Date();
+      }
+
+      return new Date(year, month - 1, day);
+    } catch (error) {
+      console.error('Error parsing date:', error);
+      return new Date(); // Return current date as fallback
+    }
+  };
+
+  // Format date safely
+  const formatDateSafely = (dateStr: string, formatStr: string) => {
+    try {
+      const date = dateStringToLocalDate(dateStr);
+      return format(date, formatStr);
+    } catch (error) {
+      console.error('Error formatting date:', error);
+      return 'Fecha inválida';
+    }
   };
 
   // Check if a date has availability set
@@ -78,6 +146,36 @@ export default function Component() {
     }
   }, [date, availableDays]);
 
+  // Update availableDays when sessionsData changes
+  useEffect(() => {
+    if (sessionsData) {
+      const daysMap = new Map();
+
+      // Group timeSlots by date to handle duplicates
+      const dateGroups = new Map();
+
+      sessionsData.forEach((day: any) => {
+        const normalizedDate = normalizeDate(day.date);
+
+        if (!dateGroups.has(normalizedDate)) {
+          dateGroups.set(normalizedDate, []);
+        }
+
+        // Add timeSlots from this day to the group
+        if (day.timeSlots && day.timeSlots.length > 0) {
+          dateGroups.get(normalizedDate).push(...day.timeSlots);
+        }
+      });
+
+      // Create map entries with combined timeSlots
+      dateGroups.forEach((timeSlots, dateKey) => {
+        daysMap.set(dateKey, timeSlots);
+      });
+
+      setAvailableDays(daysMap);
+    }
+  }, [sessionsData]);
+
   // Handle availability toggle
   const handleAvailabilityToggle = async (isAvailable: boolean) => {
     setIsDayAvailable(isAvailable);
@@ -93,11 +191,8 @@ export default function Component() {
           // Delete the day from the backend
           await SessionsService.update(existingDay[0], { timeSlots: [] });
 
-          // Update local state
-          const newAvailableDays = new Map(availableDays);
-          newAvailableDays.delete(dateKey);
-          setAvailableDays(newAvailableDays);
-          setTimeSlots([]);
+          // Refresh data from the server
+          await refetch();
 
           toast.success("Disponibilidad actualizada", {
             description: "Se han eliminado todos los horarios para este día",
@@ -163,36 +258,51 @@ export default function Component() {
   const saveAvailability = async () => {
     if (!isDayAvailable || timeSlots.length === 0) {
       // If day is marked as unavailable, remove any existing availability
-      const dateKey = format(date, "yyyy-MM-dd")
-      const newAvailableDays = new Map(availableDays)
-      newAvailableDays.delete(dateKey)
-      setAvailableDays(newAvailableDays)
+      const dateKey = format(date, "yyyy-MM-dd");
+      const newAvailableDays = new Map(availableDays);
+      newAvailableDays.delete(dateKey);
+      setAvailableDays(newAvailableDays);
 
-      toast.success("Disponibilidad actualizada", {
-        description: "Se ha marcado este día como no disponible",
-      })
-      return
+      try {
+        const existingDay = Array.from(availableDays.entries()).find(
+          ([key]) => key === dateKey
+        );
+
+        if (existingDay) {
+          await SessionsService.update(existingDay[0], { timeSlots: [] });
+          await refetch(); // Refresh data after update
+        }
+
+        toast.success("Disponibilidad actualizada", {
+          description: "Se ha marcado este día como no disponible",
+        });
+      } catch (error) {
+        toast.error("Error al actualizar", {
+          description: "No se pudo actualizar la disponibilidad. Por favor, intente nuevamente.",
+        });
+      }
+      return;
     }
 
     // Validate time slots
     for (let i = 0; i < timeSlots.length; i++) {
-      const slot = timeSlots[i]
-      const startTime = parse(slot.start, "HH:mm", new Date())
-      const endTime = parse(slot.end, "HH:mm", new Date())
+      const slot = timeSlots[i];
+      const startTime = parse(slot.start, "HH:mm", new Date());
+      const endTime = parse(slot.end, "HH:mm", new Date());
 
       if (startTime >= endTime) {
         toast.error("Error en los horarios", {
           description: `La hora de inicio debe ser anterior a la hora de fin en el horario ${i + 1}`,
-        })
-        return
+        });
+        return;
       }
 
       // Check for overlapping time slots
       for (let j = 0; j < timeSlots.length; j++) {
         if (i !== j) {
-          const otherSlot = timeSlots[j]
-          const otherStartTime = parse(otherSlot.start, "HH:mm", new Date())
-          const otherEndTime = parse(otherSlot.end, "HH:mm", new Date())
+          const otherSlot = timeSlots[j];
+          const otherStartTime = parse(otherSlot.start, "HH:mm", new Date());
+          const otherEndTime = parse(otherSlot.end, "HH:mm", new Date());
 
           if (
             (startTime >= otherStartTime && startTime < otherEndTime) ||
@@ -201,75 +311,48 @@ export default function Component() {
           ) {
             toast.error("Horarios superpuestos", {
               description: `El horario ${i + 1} se superpone con el horario ${j + 1}`,
-            })
-            return
+            });
+            return;
           }
         }
       }
     }
 
     try {
-      const dateKey = format(date, "yyyy-MM-dd")
+      const dateKey = format(date, "yyyy-MM-dd");
       const timeSlotsData = timeSlots.map((slot) => ({
         start: slot.start,
         end: slot.end,
-      }))
+      }));
 
       // Check if we already have an ID for this date
       const existingDay = Array.from(availableDays.entries()).find(
         ([key]) => key === dateKey
-      )
+      );
 
       if (existingDay) {
         // Update existing day
-        await SessionsService.update(existingDay[0], { timeSlots: timeSlotsData })
+        await SessionsService.update(existingDay[0], { timeSlots: timeSlotsData });
       } else {
         // Create new day
         await SessionsService.create({
           date: dateKey,
           timeSlots: timeSlotsData,
-        })
+        });
       }
 
-      // Update local state
-      const newAvailableDays = new Map(availableDays)
-      newAvailableDays.set(dateKey, timeSlots)
-      setAvailableDays(newAvailableDays)
+      // Refresh data from the server
+      await refetch();
 
       toast.success("Disponibilidad guardada", {
         description: `Se han guardado ${timeSlots.length} horarios para el ${format(date, "d 'de' MMMM", { locale: es })}`,
-      })
+      });
     } catch (error) {
       toast.error("Error al guardar", {
         description: "No se pudo guardar la disponibilidad. Por favor, intente nuevamente.",
-      })
+      });
     }
-  }
-
-  // Load initial data
-  useEffect(() => {
-    const loadAvailableDays = async () => {
-      try {
-        const data = await SessionsService.getAll();
-        const daysMap = new Map();
-
-        if (data) {
-          data.forEach((day: any) => {
-            // Use the date string directly as the key
-            daysMap.set(day.date, day.timeSlots);
-          });
-        }
-
-        setAvailableDays(daysMap);
-      } catch (error) {
-        toast.error("Error al cargar", {
-          description: "No se pudieron cargar los días disponibles.",
-        });
-      }
-    };
-
-    loadAvailableDays();
-  }, []);
+  };
 
   // Navigate to previous month
   const prevMonth = () => {
@@ -455,7 +538,7 @@ export default function Component() {
                   <div key={dateKey} className="flex items-center justify-between bg-muted/50 p-2 rounded-md">
                     <div className="flex items-center gap-2">
                       <CalendarIcon className="h-4 w-4 text-muted-foreground" />
-                      <span className="font-medium">{format(dateStringToLocalDate(dateKey), "dd/MM/yyyy")}:</span>
+                      <span className="font-medium">{formatDateSafely(dateKey, "dd/MM/yyyy")}:</span>
                       <span>{slots.length} {slots.length === 1 ? "Sesion" : "Sesiones"} {slots.length === 1 ? "creada" : "creadas"}</span>
                     </div>
                     <Button
