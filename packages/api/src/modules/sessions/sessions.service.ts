@@ -14,7 +14,7 @@ export class SessionsService {
   ) {
     const availableDay = await this.prisma.availableDay.create({
       data: {
-        date: new Date(date),
+        date,
         userId,
         timeSlots: {
           create: timeSlots.map((slot) => ({

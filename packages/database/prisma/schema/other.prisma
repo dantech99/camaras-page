@@ -79,11 +79,12 @@ model Discount {
 }
 
 model AvailableDay {
-  id        String     @id @default(uuid())
-  date      DateTime
-  userId    String
-  user      User       @relation(fields: [userId], references: [id])
-  timeSlots TimeSlot[]
+  id          String     @id @default(uuid())
+  date        String
+  isAvailable Boolean    @default(true)
+  userId      String
+  user        User       @relation(fields: [userId], references: [id])
+  timeSlots   TimeSlot[]
 
   @@map("available_day")
 }
