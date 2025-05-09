@@ -1,7 +1,3 @@
-"use client";
-
-import { useState, useEffect } from "react";
-
 import {
   Dialog,
   DialogContent,
@@ -10,9 +6,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@camaras/ui/src/components/dialog";
+
+import { useEffect, useState } from "react";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerFooter,
@@ -20,11 +17,12 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@camaras/ui/src/components/drawer";
-import { Button } from "@camaras/ui/src/components/button";
-import { CreateCuponForm } from "./create-cupon-form";
-import { CirclePlus } from "lucide-react";
 
-export function ResponsiveCreateCupones() {
+import { Button } from "@camaras/ui/src/components/button";
+import { Eye } from "lucide-react";
+import { UserInfoCard } from "./user-info";
+
+export function ResponsiveUpdateUser() {
   const [isMobile, setIsMobile] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -37,22 +35,26 @@ export function ResponsiveCreateCupones() {
 
   const DesktopDialog = () => (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        <Button
-
-        >
-          <CirclePlus />
-          Crear cupón
+      <DrawerTrigger asChild>
+        <Button size={"icon"} className="cursor-pointer">
+          <Eye />
         </Button>
-      </DialogTrigger>
-      <DialogContent>
+      </DrawerTrigger>
+      <DialogContent className="sm:max-w-[90vw] md:max-w-[50vw] lg:max-w-[40vw]">
         <DialogHeader>
-          <DialogTitle>Crear un nuevo cupon</DialogTitle>
+          <DialogTitle>Información del Usuario</DialogTitle>
           <DialogDescription>
-            Rellena el formulario para crear un nuevo cupón de descuento.
+            Información general del usuario.
           </DialogDescription>
         </DialogHeader>
-        <CreateCuponForm />
+        <UserInfoCard
+          user={{
+            name: "John Doe",
+            phoneNumber: "+123456789",
+            email: "example",
+            role: "admin",
+          }}  
+          />
       </DialogContent>
     </Dialog>
   );
@@ -60,21 +62,27 @@ export function ResponsiveCreateCupones() {
   const MobileDrawer = () => (
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>
-        <Button>
-          <CirclePlus />
-          Crear Cupón
+        <Button size={"icon"} className="cursor-pointer">
+          <Eye />
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="h-screen flex flex-col overflow-hidden px-4 py-6">
-        <div className="flex-1 overflow-y-auto">
+      <DrawerContent className="h-screen flex flex-col px-4 py-6">
+        <div className="flex-1 overflow-hidden">
           <DrawerHeader>
-            <DrawerTitle>Crear nuevo cupón de descuento</DrawerTitle>
+            <DrawerTitle>Información del Usuario</DrawerTitle>
             <DrawerDescription>
-              Rellena el formulario para crear un nuevo Cupón.
+              Información general del usuario.
             </DrawerDescription>
           </DrawerHeader>
-          <div className="mt-4">
-            <CreateCuponForm />
+          <div className="mt-4 overflow-y-auto max-h-[calc(100vh-450px)] px-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+          <UserInfoCard
+          user={{
+            name: "John Doe",
+            phoneNumber: "+123456789",
+            email: "example",
+            role: "admin",
+          }}  
+          />
           </div>
         </div>
         <DrawerFooter className="mt-6 flex justify-end">

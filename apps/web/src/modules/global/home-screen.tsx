@@ -1,4 +1,5 @@
 import { AboutLanding } from "../landing/about-landing";
+import { FAQSection } from "../landing/faq";
 import { GalleryPhotographer } from "../landing/gallery-photographer";
 import { HeroSection } from "../landing/hero";
 import { PhotographerGrid } from "../landing/photographer-landing";
@@ -14,6 +15,7 @@ export const HomeScreen = () => {
       <PhotographerGrid />
       <GalleryPhotographer />
       <TestimonialCarousel />
+      <FAQSection />
     </>
   );
 };
