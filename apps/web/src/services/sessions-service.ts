@@ -2,7 +2,6 @@ import { apiClient } from "@/utils/api-connection";
 
 interface CreateSessionDto {
   date: string;
-  timeSlots: { start: string; end: string }[];
 }
 
 interface UpdateSessionDto {
@@ -10,15 +9,7 @@ interface UpdateSessionDto {
 }
 
 export const SessionsService = {
-  create: async (values: CreateSessionDto) => {
-    const response = await apiClient.sessions.index.post(values, {
-      fetch: {
-        credentials: "include",
-      },
-    });
-    return response.data;
-  },
-
+  
   getAll: async () => {
     const response = await apiClient.sessions.index.get({
       fetch: {
@@ -27,12 +18,61 @@ export const SessionsService = {
     });
     return response.data;
   },
-
-  update: async (id: string, values: UpdateSessionDto) => {
-    const response = await apiClient.sessions({ id }).put(values, {
+  
+  createDay: async (values: CreateSessionDto) => {
+    const response = await apiClient.sessions.day.post(values, {
       fetch: {
         credentials: "include",
       },
+    });
+    return response.data;
+  },
+
+  addSlots: async (id: string, values: UpdateSessionDto) => {
+    const response = await apiClient.sessions.slots.post({
+      ...values,
+      id,
+    },{
+      fetch: {
+        credentials: "include",
+      }
+    });
+    return response.data;
+  },
+
+  updateSlots: async (id: string, values: UpdateSessionDto) => {
+    const response = await apiClient.sessions.slots.put({
+      ...values,
+      id,
+    },{
+      fetch: {
+        credentials: "include",
+      }
+    });
+    return response.data;
+  },
+
+  updateOneSlot: async (id: string, values: UpdateSessionDto) => {
+    const response = await apiClient.sessions.slots.put({
+      ...values,
+      id,
+    },{
+      fetch: {
+        credentials: "include",
+      }
+    });
+    return response.data;
+  },
+
+  deleteDay: async (id: string) => {
+    const response = await apiClient.sessions.day.delete({
+      params: {
+        id,
+      },
+    },{
+      fetch: {
+        credentials: "include",
+      }
     });
     return response.data;
   },

@@ -8,54 +8,60 @@ export const sessionsRouter = new Elysia({
 })
   .use(betterAuth)
   .use(sessionsModule)
-  .post(
-    "/",
-    ({ body, user, sessionsService }) => {
-      return sessionsService.createAvailableDay(
-        body.date,
-        body.timeSlots,
-        user.id
-      );
-    },
-    {
-      photographer: true,
-      body: t.Object({
-        date: t.String(),
-        timeSlots: t.Array(
-          t.Object({
-            start: t.String(),
-            end: t.String(),
-          })
-        ),
-      }),
-    }
-  )
-  .get(
-    "/",
-    ({ user, sessionsService }) => {
-      return sessionsService.getAvailableDays(user.id);
-    },
-    {
-      photographer: true,
-    }
-  )
-  .put(
-    "/:id",
-    ({ params, body, sessionsService }) => {
-      return sessionsService.updateAvailableDay(params.id, body.timeSlots);
-    },
-    {
-      photographer: true,
-      params: t.Object({
-        id: t.String(),
-      }),
-      body: t.Object({
-        timeSlots: t.Array(
-          t.Object({
-            start: t.String(),
-            end: t.String(),
-          })
-        ),
-      }),
-    }
-  );
+  .get("/", ({ sessionsService, user }) => sessionsService.getAll(user.id), {
+    photographer: true,
+  })
+  .post("/day", ({ body, user, sessionsService }) => {
+    return sessionsService.createAvailableDay(body.date, user.id);
+  }, {
+    photographer: true,
+    body: t.Object({
+      date: t.String(),
+    }),
+  })
+  .post("/slots", ({ body, sessionsService }) => {
+    return sessionsService.addSlotsTime(body.id, body.timeSlots);
+  }, {
+    photographer: true,
+    body: t.Object({
+      id: t.String(),
+      timeSlots: t.Array(
+        t.Object({
+          start: t.String(),
+          end: t.String(),
+        })
+      ),
+    }),
+  })
+  .put("/slots", ({ body, sessionsService }) => {
+    return sessionsService.updateSlotsTime(body.id, body.timeSlots);
+  }, {
+    photographer: true,
+    body: t.Object({
+      id: t.String(),
+      timeSlots: t.Array(
+        t.Object({
+          start: t.String(),
+          end: t.String(),
+        })
+      ),
+    }),
+  })
+  .put("/slot", ({ body, sessionsService }) => {
+    return sessionsService.updateOnlyOneSlot(body.id, body.start, body.end);
+  }, {
+    photographer: true,
+    body: t.Object({
+      id: t.String(),
+      start: t.String(),
+      end: t.String(),
+    }),
+  })
+  .delete("/day", ({ params, user, sessionsService }) => {
+    return sessionsService.deleteAvailableDay(params.id, user.id);
+  }, {
+    photographer: true,
+    params: t.Object({
+      id: t.String(),
+    }),
+  })

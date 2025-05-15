@@ -7,21 +7,31 @@ export class SessionsService {
     this.prisma = new PrismaClient();
   }
 
+  async getAll(userId: string) {
+    try {
+      const availableDays = await this.prisma.availableDay.findMany({
+        where: {
+          userId,
+        },
+        include: {
+          timeSlots: true,
+        },
+      });
+
+      return availableDays;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async createAvailableDay(
     date: string,
-    timeSlots: { start: string; end: string }[],
     userId: string
   ) {
     const availableDay = await this.prisma.availableDay.create({
       data: {
         date,
         userId,
-        timeSlots: {
-          create: timeSlots.map((slot) => ({
-            start: slot.start,
-            end: slot.end,
-          })),
-        },
       },
       include: {
         timeSlots: true,
@@ -31,32 +41,16 @@ export class SessionsService {
     return availableDay;
   }
 
-  async getAvailableDays(userId: string) {
-    return this.prisma.availableDay.findMany({
-      where: {
-        userId,
-      },
-      include: {
-        timeSlots: true,
-      },
-      orderBy: {
-        date: "asc",
-      },
-    });
-  }
-
-  async updateAvailableDay(
+  async addSlotsTime(
     dayId: string,
     timeSlots: { start: string; end: string }[]
   ) {
-    // First delete existing time slots
     await this.prisma.timeSlot.deleteMany({
       where: {
         availableDayId: dayId,
       },
     });
 
-    // Then create new time slots
     const updatedDay = await this.prisma.availableDay.update({
       where: {
         id: dayId,
@@ -75,5 +69,96 @@ export class SessionsService {
     });
 
     return updatedDay;
+  }
+
+  async updateSlotsTime(
+    dayId: string,
+    timeSlots: { start: string; end: string }[]
+  ) {
+    await this.prisma.timeSlot.deleteMany({
+      where: {
+        availableDayId: dayId,
+      },
+    });
+
+    const updatedDay = await this.prisma.availableDay.update({
+      where: {
+        id: dayId,
+      },
+      data: {
+        timeSlots: {
+          create: timeSlots.map((slot) => ({
+            start: slot.start,
+            end: slot.end,
+          })),
+        },
+      },
+      include: {
+        timeSlots: true,
+      },
+    });
+
+    return updatedDay;
+  }
+
+  async updateOnlyOneSlot(
+    dayId: string,
+    start: string,
+    end: string
+  ) {
+    await this.prisma.timeSlot.deleteMany({
+      where: {
+        availableDayId: dayId,
+      },
+    });
+
+    const updatedDay = await this.prisma.availableDay.update({
+      where: {
+        id: dayId,
+      },
+      data: {
+        timeSlots: {
+          create: [{
+            start,
+            end,
+          }],
+        },
+      },
+      include: {
+        timeSlots: true,
+      },
+    });
+
+    return updatedDay;
+  }
+
+  async deleteAvailableDay(
+    dayId: string,
+    userId: string
+  ) {
+
+    const availableDay = await this.prisma.availableDay.findUnique({
+      where: {
+        id: dayId,
+        userId,
+      },
+    });
+
+    if (!availableDay) {
+      throw new Error("Available day not found");
+    }
+
+    // Delete the slots associated with the available day
+    await this.prisma.timeSlot.deleteMany({
+      where: {
+        availableDayId: dayId,
+      },
+    });
+
+    await this.prisma.availableDay.delete({
+      where: {
+        id: dayId,
+      },
+    });
   }
 }
