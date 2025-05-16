@@ -93,7 +93,8 @@ model TimeSlot {
   id             String       @id @default(uuid())
   start          String
   end            String
-  ampm           String
+  ampmStart      String
+  ampmEnd        String
   isBooked       Boolean      @default(false)
   availableDayId String
   availableDay   AvailableDay @relation(fields: [availableDayId], references: [id])

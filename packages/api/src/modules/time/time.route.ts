@@ -14,7 +14,8 @@ export const timeRouter = new Elysia({
       timeService.createTimeSlot(
         body.startTime,
         body.endTime,
-        body.ampm,
+        body.ampmStart,
+        body.ampmEnd,
         body.availableDayId
       ),
     {
@@ -22,7 +23,8 @@ export const timeRouter = new Elysia({
       body: t.Object({
         startTime: t.String(),
         endTime: t.String(),
-        ampm: t.String(),
+        ampmStart: t.String(),
+        ampmEnd: t.String(),
         availableDayId: t.String(),
       }),
     }
@@ -41,7 +43,8 @@ export const timeRouter = new Elysia({
         params.id,
         body.startTime,
         body.endTime,
-        body.ampm,
+        body.ampmStart,
+        body.ampmEnd,
         body.availableDayId
       ),
     {
@@ -49,7 +52,8 @@ export const timeRouter = new Elysia({
       body: t.Object({
         startTime: t.String(),
         endTime: t.String(),
-        ampm: t.String(),
+        ampmStart: t.String(),
+        ampmEnd: t.String(),
         availableDayId: t.String(),
       }),
     }
