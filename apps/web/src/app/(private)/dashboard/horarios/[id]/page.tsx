@@ -1,10 +1,10 @@
 'use client'
 
 import { useParams } from "next/navigation";
-import { useFSessionById } from "@/hooks/use-fsessions";
+import { useDayById } from "@/hooks/use-day";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
-import { EyeIcon, Loader2, Pencil, PlusIcon, Trash } from "lucide-react";
+import { EyeIcon, Loader2, Pencil, Trash } from "lucide-react";
 import { capitalizeMonth } from "@/utils/capitalize-month";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@camaras/ui/src/components/card";
 import { Button } from "@camaras/ui/src/components/button";
@@ -15,7 +15,7 @@ import { ResponsiveCreateHorarios } from "@/modules/dashboard/horarios/responsiv
 export default function SessionPage() {
     const { id } = useParams();
 
-    const { data: fsession, isLoading } = useFSessionById(id as string);
+    const { data: day, isLoading } = useDayById(id as string);
 
     if (isLoading) {
         return (
@@ -32,13 +32,13 @@ export default function SessionPage() {
         <div className="px-4 py-2 space-y-4">
             <div className="flex items-center gap-2">
                 <ResponsiveCreateHorarios />
-                <h3 className="font-bold text-2xl">{capitalizeMonth(format(new Date(fsession?.date || ""), "d 'de' MMMM 'del' yyyy", {
+                <h3 className="font-bold text-2xl">{capitalizeMonth(format(new Date(day?.date || ""), "d 'de' MMMM 'del' yyyy", {
                     locale: es,
               }))}</h3>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-                {fsession?.timeSlots.map((slot, index) => (
+                {day?.timeSlots.map((slot, index) => (
                     <Card key={index} className="py-4">
                         <CardHeader>
                             <CardTitle className="flex items-center justify-between">

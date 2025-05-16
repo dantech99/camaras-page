@@ -23,8 +23,8 @@ import {
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@camaras/ui/src/components/select";
 import { toast } from "sonner";
 import { useParams } from "next/navigation";
-import { useFSessionById } from "@/hooks/use-fsessions";
-import { SessionsService } from "@/services/sessions-service";
+import { useDayById } from "@/hooks/use-day";
+import { TimeService } from "@/services/time-service";
 
 // Zod Schema
 const createAppointmentSchema = z.object({
@@ -39,7 +39,7 @@ const createAppointmentSchema = z.object({
 export function CreateHorarioForm() {
   const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
-  const { data, refetch } = useFSessionById(id as string);
+  const { data, refetch } = useDayById(id as string);
 
   const form = useForm<z.infer<typeof createAppointmentSchema>>({
     resolver: zodResolver(createAppointmentSchema),
@@ -78,13 +78,11 @@ export function CreateHorarioForm() {
         return;
       }
 
-      await SessionsService.updateSlots(id as string, {
-        timeSlots: [
-          {
-            start: startTime,
-            end: endTime,
-          },
-        ],
+      await TimeService.create({
+        startTime,
+        endTime,
+        ampm: values.startPeriod,
+        availableDayId: id as string,
       });
 
       await refetch();

@@ -12,24 +12,39 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@camaras/ui/src/components/popover"
-import { SessionsService } from "@/services/sessions-service"
+import { DaysService } from "@/services/day-service"
 import { toast } from "sonner"
-import { useFSessions } from "@/hooks/use-fsessions"
+import { useDays } from "@/hooks/use-day"
 
 export function AddDay() {
-    const { refetch } = useFSessions()
+    const { data, refetch } = useDays()
     const [date, setDate] = useState<Date>();
     const [isLoading, setIsLoading] = useState(false);
+
+    function normalizeDateToLocalMidnight(date: Date) {
+        const normalized = new Date(date);
+        normalized.setHours(0, 0, 0, 0);
+        return normalized;
+    }
 
     const onSubmit = async () => {
         try {
             setIsLoading(true)
-            await SessionsService.createDay({
-                date: format(date!, "yyyy-MM-dd"),
-            })
+    
+            const normalizedDate = normalizeDateToLocalMidnight(date!);
+            const formatted = format(normalizedDate, "yyyy-MM-dd");
+
+            console.log(formatted)
+    
+            if (data?.some(day => day.date === formatted)) {
+                toast.error("El día ya existe")
+                return
+            }
+    
+            await DaysService.create(formatted)
             await refetch()
             setDate(undefined)
-
+    
             toast.success("Día agregado correctamente")
         } catch (error) {
             toast.error("Error al agregar el día")
@@ -37,6 +52,7 @@ export function AddDay() {
             setIsLoading(false)
         }
     }
+    
 
     return (
         <div className="flex items-center justify-center gap-4">

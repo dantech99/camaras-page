@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { SessionsService } from "@/services/sessions-service";
+import { SessionsService } from "@/services/day-service";
 
 interface TimeSlot {
   id: string;
