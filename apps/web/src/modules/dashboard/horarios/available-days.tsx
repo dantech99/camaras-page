@@ -1,13 +1,13 @@
 "use client";
 
-import { useFSessions } from "@/hooks/use-fsessions";
-import { format } from "date-fns";
+import { useDays } from "@/hooks/use-day";
+import { format, parseISO } from "date-fns";
 import Link from "next/link";
 import { es } from "date-fns/locale";
 import { capitalizeMonth } from "@/utils/capitalize-month";
 
 export function AvailableDays() {
-  const { data: fsessions, isLoading } = useFSessions();
+  const { data: days, isLoading } = useDays();
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -15,13 +15,13 @@ export function AvailableDays() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-      {fsessions?.map((fsession) => (
+      {days?.map((day) => (
         <Link
-          key={fsession.id}
-          href={`/dashboard/horarios/${fsession.id}`}
+          key={day.id}
+          href={`/dashboard/horarios/${day.id}`}
           className="p-4 rounded-lg border"
         >
-          {capitalizeMonth(format(new Date(fsession.date), "d 'de' MMMM 'del' yyyy", {
+          {capitalizeMonth(format(parseISO(day.date), "d 'de' MMMM 'del' yyyy", {
             locale: es,
           }))}
         </Link>
