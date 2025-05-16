@@ -11,6 +11,9 @@ export const sessionsRouter = new Elysia({
   .get("/", ({ sessionsService, user }) => sessionsService.getAll(user.id), {
     photographer: true,
   })
+  .get("/:id", ({ params, sessionsService }) => sessionsService.getById(params.id), {
+    photographer: true,
+  })  
   .post("/day", ({ body, user, sessionsService }) => {
     return sessionsService.createAvailableDay(body.date, user.id);
   }, {
