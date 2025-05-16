@@ -24,6 +24,44 @@ export class SessionsService {
     }
   }
 
+  async getById(id: string) {
+    try {
+      const availableDay = await this.prisma.availableDay.findUnique({
+        where: {
+          id,
+        },
+        select: {
+          date: true,
+          timeSlots: {
+            select: {
+              start: true,
+              end: true,
+              availableDay: true,
+              id: true,
+              isBooked: true,
+            },
+          },
+        },
+      });
+
+      if (!availableDay) {
+        throw new Error("Available day not found");
+      }
+
+      return {
+        date: availableDay.date,
+        timeSlots: availableDay.timeSlots.map((slot) => ({
+          start: slot.start,
+          end: slot.end,
+          id: slot.id,
+          isBooked: slot.isBooked,
+        })),
+      };
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async createAvailableDay(
     date: string,
     userId: string

@@ -18,6 +18,17 @@ export const SessionsService = {
     });
     return response.data;
   },
+
+  getById: async (id: string) => {
+    const response = await apiClient.sessions({
+      id,
+    }).get({
+      fetch: {
+        credentials: "include",
+      },
+    });
+    return response.data;
+  },
   
   createDay: async (values: CreateSessionDto) => {
     const response = await apiClient.sessions.day.post(values, {

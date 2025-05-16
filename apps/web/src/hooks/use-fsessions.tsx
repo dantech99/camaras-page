@@ -8,3 +8,11 @@ export function useFSessions() {
     staleTime: 1000 * 60 * 5,
   });
 }
+
+export function useFSessionById(id: string) {
+  return useQuery({
+    queryKey: ["fsession", id],
+    queryFn: () => SessionsService.getById(id),
+    staleTime: 1000 * 60 * 5,
+  });
+}
