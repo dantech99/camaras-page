@@ -39,7 +39,7 @@ const data = {
       items: [
         {
           title: "Metricas",
-          url: "/dashboard",
+          url: "/dashboard/metricas",
         },
         {
           title: "Perfil",
@@ -98,7 +98,7 @@ const administradores = [
   },
   {
     name: "Metricas",
-    url: "/dashboard/admin/metrics",
+    url: "/dashboard/admin/metricas",
     icon: PieChart,
   },
   {

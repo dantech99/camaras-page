@@ -83,7 +83,7 @@ export function AditionalInformationForm() {
                   <FormItem>
                     <FormLabel>Sitio web</FormLabel>
                     <FormControl>
-                      <Input placeholder="https://miguelvalenzuela.com" {...field} />
+                      <Input placeholder="https://mipaginaweb.com" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -109,9 +109,9 @@ export function AditionalInformationForm() {
                 name="hobbie"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Hobbie</FormLabel>
+                    <FormLabel>Cargo</FormLabel>
                     <FormControl>
-                      <Input placeholder="Leer libros" {...field} />
+                      <Input placeholder="Fotógrafo" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

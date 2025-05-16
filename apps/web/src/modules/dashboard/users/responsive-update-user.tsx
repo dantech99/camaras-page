@@ -1,17 +1,14 @@
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@camaras/ui/src/components/dialog";
 
 import { useEffect, useState } from "react";
 import {
   Drawer,
   DrawerContent,
-  DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
@@ -40,20 +37,17 @@ export function ResponsiveUpdateUser() {
           <Eye />
         </Button>
       </DrawerTrigger>
-      <DialogContent className="sm:max-w-[90vw] md:max-w-[50vw] lg:max-w-[40vw]">
+      <DialogContent className="sm:max-w-[90dvw] md:max-w-[50dvw] lg:max-w-[40dvw]">
         <DialogHeader>
-          <DialogTitle>Información del Usuario</DialogTitle>
-          <DialogDescription>
-            Información general del usuario.
-          </DialogDescription>
+          <DialogTitle className="text-center">Información General del Usuario</DialogTitle>
         </DialogHeader>
         <UserInfoCard
-          user={{
+          user ={{
             name: "John Doe",
             phoneNumber: "+123456789",
-            email: "example",
+            email: "example@email.com",
             role: "admin",
-          }}  
+          }}
           />
       </DialogContent>
     </Dialog>
@@ -69,19 +63,16 @@ export function ResponsiveUpdateUser() {
       <DrawerContent className="h-screen flex flex-col px-4 py-6">
         <div className="flex-1 overflow-hidden">
           <DrawerHeader>
-            <DrawerTitle>Información del Usuario</DrawerTitle>
-            <DrawerDescription>
-              Información general del usuario.
-            </DrawerDescription>
+            <DrawerTitle className="text-center">Información del Usuario</DrawerTitle>
           </DrawerHeader>
           <div className="mt-4 overflow-y-auto max-h-[calc(100vh-450px)] px-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
           <UserInfoCard
           user={{
             name: "John Doe",
             phoneNumber: "+123456789",
-            email: "example",
+            email: "example@email.com",
             role: "admin",
-          }}  
+          }}
           />
           </div>
         </div>
