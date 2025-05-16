@@ -10,7 +10,8 @@ export class TimeService {
   createTimeSlot(
     startTime: string,
     endTime: string,
-    ampm: string,
+    ampmStart: string,
+    ampmEnd: string,
     availableDayId: string
   ) {
     try {
@@ -18,7 +19,8 @@ export class TimeService {
         data: {
           start: startTime,
           end: endTime,
-          ampm,
+          ampmStart,
+          ampmEnd,
           availableDayId,
         },
       });
@@ -45,7 +47,8 @@ export class TimeService {
     id: string,
     startTime: string,
     endTime: string,
-    ampm: string,
+    ampmStart: string,
+    ampmEnd: string,
     availableDayId: string
   ) {
     try {
@@ -56,7 +59,8 @@ export class TimeService {
         data: {
           start: startTime,
           end: endTime,
-          ampm,
+          ampmStart,
+          ampmEnd,
           availableDayId,
         },
       });

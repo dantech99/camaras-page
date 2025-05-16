@@ -81,13 +81,15 @@ export function CreateHorarioForm() {
       await TimeService.create({
         startTime,
         endTime,
-        ampm: values.startPeriod,
+        ampmStart: values.startPeriod,
+        ampmEnd: values.endPeriod,
         availableDayId: id as string,
       });
 
       await refetch();
       toast.success("Horario creado exitosamente");
     } catch (error) {
+      console.log(error);
       toast.error("Error al crear el horario");
     } finally {
       setIsLoading(false);

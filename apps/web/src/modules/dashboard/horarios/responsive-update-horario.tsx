@@ -20,10 +20,19 @@ import {
   DrawerTrigger,
 } from "@camaras/ui/src/components/drawer";
 import { Button } from "@camaras/ui/src/components/button";
-import { PlusIcon } from "lucide-react";
-import { CreateHorarioForm } from "./create-horario-form";
+import { Pencil } from "lucide-react";
+import { UpdateHorarioForm } from "./update-horario-form";
 
-export function ResponsiveCreateHorarios() {
+interface Horario {
+    id: string;
+    start: string;
+    end: string;
+    ampmStart: string;
+    ampmEnd: string;
+    availableDayId: string;
+}
+
+export function ResponsiveUpdateHorario({ horario }: { horario: Horario }) {
   const [isMobile, setIsMobile] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -37,18 +46,20 @@ export function ResponsiveCreateHorarios() {
   const DesktopDialog = () => (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button size="icon" >
-          <PlusIcon />
+        <Button variant="ghost" className="w-full text-center">
+          Editar
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Crear un nuevo horario</DialogTitle>
+          <DialogTitle>Actualiza tu horario</DialogTitle>
           <DialogDescription>
-            Rellena el formulario para crear un nuevo horario.
+            Rellena con la información actualizada para tu horario
           </DialogDescription>
         </DialogHeader>
-        <CreateHorarioForm />
+        <div>
+          <UpdateHorarioForm horario={horario} />
+        </div>
       </DialogContent>
     </Dialog>
   );
@@ -56,20 +67,20 @@ export function ResponsiveCreateHorarios() {
   const MobileDrawer = () => (
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>
-        <Button size="icon">
-          <PlusIcon />
+        <Button variant="ghost" className="w-full text-center">
+          Editar
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="h-screen flex flex-col overflow-hidden px-4 py-6">
+      <DrawerContent className="h-screen flex flex-col overflow-y-auto px-4 py-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
         <div className="flex-1 overflow-y-auto">
           <DrawerHeader>
-            <DrawerTitle>Crear nuevo horario</DrawerTitle>
+            <DrawerTitle>Actualiza tu horario</DrawerTitle>
             <DrawerDescription>
-              Rellena el formulario para crear un nuevo horario.
+              Rellena con la información actualizada para tu horario
             </DrawerDescription>
           </DrawerHeader>
           <div className="mt-4">
-            <CreateHorarioForm />
+            <UpdateHorarioForm horario={horario} />
           </div>
         </div>
         <DrawerFooter className="mt-6 flex justify-end">
