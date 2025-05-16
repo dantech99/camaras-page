@@ -27,15 +27,15 @@ const totalSales = chartData.reduce((sum, item) => sum + item.sales, 0);
 
 export function PackageGraphChart() {
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-1">
+    <div className="bg-muted/50 p-4 rounded-md h-full">
+      <h1 className="text-2xl font-bold">
         Resumen de ventas SOFA
       </h1>
       <h2 className="text-base text-muted-foreground mb-4">
         Se han vendido un total de {totalSales} paquetes
       </h2>
 
-      <ChartContainer config={chartConfig}>
+      <ChartContainer config={chartConfig} className="min-h-[200px]">
         <BarChart accessibilityLayer data={chartData} margin={{ top: 20 }}>
           <CartesianGrid vertical={false} />
           <XAxis

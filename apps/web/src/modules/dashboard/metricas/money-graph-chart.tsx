@@ -10,21 +10,21 @@ import {
 } from "@camaras/ui/src/components/chart";
 
 const chartData = [
-  { month: " Día 1", desktop: 186 },
-  { month: " Día 2", desktop: 305 },
-  { month: " Día 3", desktop: 237 },
-  { month: " Día 4", desktop: 73 },
-  { month: " Día 5", desktop: 209 },
+  { month: " Día 1", money: 186 },
+  { month: " Día 2", money: 305 },
+  { month: " Día 3", money: 237 },
+  { month: " Día 4", money: 73 },
+  { month: " Día 5", money: 209 },
 ];
 
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
+  money: {
+    label: "Monto total",
     color: "hsl(var(--chart-1))",
   },
 } satisfies ChartConfig;
 
-const totalRevenue = chartData.reduce((sum, item) => sum + item.desktop, 0);
+const totalRevenue = chartData.reduce((sum, item) => sum + item.money, 0);
 const formattedRevenue = totalRevenue.toLocaleString("es-CO", {
   style: "currency",
   currency: "COP",
@@ -32,7 +32,7 @@ const formattedRevenue = totalRevenue.toLocaleString("es-CO", {
 
 export function MoneyGraphChart() {
   return (
-    <div>
+    <div className="bg-muted/50 p-4 rounded-md">
       <h1 className="text-2xl font-bold mb-1">
         Resumen de dinero en SOFA
       </h1>
@@ -62,7 +62,7 @@ export function MoneyGraphChart() {
             content={<ChartTooltipContent indicator="line" />}
           />
           <Line
-            dataKey="desktop"
+            dataKey="money"
             type="natural"
             stroke="var(--color-desktop)"
             strokeWidth={2}
