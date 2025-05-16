@@ -20,17 +20,17 @@ const chartData = [
 const chartConfig = {
   desktop: {
     label: "Desktop",
-    color: "hsl(var(--chart-1))",
+    color: "var(--color-chart-1)",
   },
   mobile: {
     label: "Mobile",
-    color: "hsl(var(--chart-2))",
+    color: "var(--color-chart-2)",
   },
 } satisfies ChartConfig;
 
 export function GeneralPackageChart() {
   return (
-    <ChartContainer config={chartConfig}>
+    <ChartContainer config={chartConfig} className="max-h-[400px] w-full">
       <LineChart
         accessibilityLayer
         data={chartData}
@@ -41,7 +41,7 @@ export function GeneralPackageChart() {
       >
         <CartesianGrid vertical={false} />
         <XAxis
-          dataKey="month"
+          dataKey="day"
           tickLine={false}
           axisLine={false}
           tickMargin={8}
@@ -51,14 +51,14 @@ export function GeneralPackageChart() {
         <Line
           dataKey="desktop"
           type="monotone"
-          stroke="var(--color-desktop)"
+          stroke={chartConfig.desktop.color}
           strokeWidth={2}
           dot={false}
         />
         <Line
           dataKey="mobile"
           type="monotone"
-          stroke="var(--color-mobile)"
+          stroke= {chartConfig.mobile.color}
           strokeWidth={2}
           dot={false}
         />

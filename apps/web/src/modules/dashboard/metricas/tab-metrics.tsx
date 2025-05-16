@@ -8,16 +8,20 @@ import { GeneralPackageChart } from "./general-package-chart";
 
 export const TabMetrics = () => {
   return (
-    <Tabs defaultValue="account" className="">
-      <TabsList className="grid w-full grid-cols-2">
-        <TabsTrigger value="generalPackages">Paquetes</TabsTrigger>
-        <TabsTrigger value="generalMoney">Dinero</TabsTrigger>
+    <Tabs defaultValue="generalPackages" className="">
+      <TabsList className="w-fit">
+        <TabsTrigger value="generalPackages" className="px-4">
+          Paquetes
+        </TabsTrigger>
+        <TabsTrigger value="generalMoney" className="px-4">
+          Dinero
+        </TabsTrigger>
       </TabsList>
       <TabsContent value="generalPackages">
         <GeneralPackageChart />
       </TabsContent>
       <TabsContent value="generalMoney">
-        
+        <GeneralPackageChart />
       </TabsContent>
     </Tabs>
   );

@@ -114,14 +114,15 @@ const chartData = [
 const chartConfig = {
   views: {
     label: "Page Views",
+    color: "var(--color-chart-4)",
   },
   desktop: {
     label: "Desktop",
-    color: "hsl(var(--chart-1))",
+    color: "var(--color-chart-1)",
   },
   mobile: {
     label: "Mobile",
-    color: "hsl(var(--chart-2))",
+    color: "var(--color-chart-2)",
   },
 } satisfies ChartConfig;
 
@@ -213,7 +214,7 @@ export function ScheduleChart() {
             <Line
               dataKey={activeChart}
               type="monotone"
-              stroke={`var(--color-${activeChart})`}
+              stroke={chartConfig[activeChart].color}
               strokeWidth={2}
               dot={false}
             />
