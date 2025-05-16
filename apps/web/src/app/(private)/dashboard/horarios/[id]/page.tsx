@@ -40,7 +40,7 @@ export default function SessionPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
                 {day?.timeSlots.map((slot, index) => (
                     <Card key={index} className="py-4">
-                        <CardHeader>
+                        <CardHeader className="px-4">
                             <CardTitle className="flex items-center justify-between">
                                 <p>Horario</p>
                                 {
@@ -52,10 +52,10 @@ export default function SessionPage() {
                                 }
                             </CardTitle>
                         </CardHeader>
-                        <CardContent>
+                        <CardContent className="px-4">
                             <p>{slot.start} - {slot.end}</p>
                         </CardContent>
-                        <CardFooter className="flex justify-between">
+                        <CardFooter className="flex justify-between px-4">
                             <Button variant="outline" size={"icon"}>
                                 <Pencil />
                             </Button>

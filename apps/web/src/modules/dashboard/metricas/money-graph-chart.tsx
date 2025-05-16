@@ -20,7 +20,7 @@ const chartData = [
 const chartConfig = {
   money: {
     label: "Monto total",
-    color: "hsl(var(--chart-1))",
+    color: "var(--color-chart-4)",
   },
 } satisfies ChartConfig;
 
@@ -64,10 +64,10 @@ export function MoneyGraphChart() {
           <Line
             dataKey="money"
             type="natural"
-            stroke="var(--color-desktop)"
+            stroke={chartConfig.money.color}
             strokeWidth={2}
             dot={{
-              fill: "var(--color-desktop)",
+              fill: chartConfig.money.color,
             }}
             activeDot={{
               r: 6,

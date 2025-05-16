@@ -19,7 +19,7 @@ const chartData = [
 const chartConfig = {
   sales: {
     label: "Ventas",
-    color: "hsl(var(--chart-1))",
+    color: "var(--color-chart-4)",
   },
 } satisfies ChartConfig;
 
@@ -49,7 +49,7 @@ export function PackageGraphChart() {
             cursor={false}
             content={<ChartTooltipContent hideLabel />}
           />
-          <Bar dataKey="sales" fill="var(--color-desktop)" radius={8}>
+          <Bar dataKey="sales" fill={chartConfig.sales.color} radius={8}>
             <LabelList
               position="top"
               offset={12}
