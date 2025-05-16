@@ -19,14 +19,14 @@ interface TestimonialProps {
 
 export function TestimonialCard({ props }: { props: TestimonialProps }) {
   return (
-    <div className="aspect-[5/3] rounded-2xl h-72 flex flex-col justify-between shadow-md p-6 bg-white space-y-4">
+    <div className="aspect-[5/3] rounded-2xl h-64 flex flex-col justify-between shadow-md p-6 bg-white space-y-4">
       <div className="flex items-center gap-4">
-        <Avatar className="size-16">
+        <Avatar className="size-12">
           <AvatarImage src={props.avatar} />
           <AvatarFallback>{props.name.charAt(0).toUpperCase()}</AvatarFallback>
         </Avatar>
         <div>
-          <p className="font-semibold text-lg text-black">{props.name}</p>
+          <p className="font-semibold text-base text-black">{props.name}</p>
           <div className="flex text-yellow-400">
             {Array(5)
               .fill(0)
@@ -34,19 +34,19 @@ export function TestimonialCard({ props }: { props: TestimonialProps }) {
                 i + 1 <= props.rating ? (
                   <Star
                     key={i}
-                    size={28}
+                    size={14}
                     fill="currentColor"
                     stroke="currentColor"
                   />
                 ) : i + 0.5 <= props.rating ? (
                   <StarHalf
                     key={i}
-                    size={28}
+                    size={14}
                     fill="currentColor"
                     stroke="currentColor"
                   />
                 ) : (
-                  <Star key={i} size={28} fill="none" stroke="currentColor" />
+                  <Star key={i} size={14} fill="none" stroke="currentColor" />
                 )
               )}
           </div>

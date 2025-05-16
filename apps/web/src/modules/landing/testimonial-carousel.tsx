@@ -1,4 +1,3 @@
-import { cn } from "@camaras/ui/src/lib/utils";
 import { Marquee } from "@camaras/ui/src/components/magicui/marquee";
 import { TestimonialCard } from "./testimonial-card";
 
