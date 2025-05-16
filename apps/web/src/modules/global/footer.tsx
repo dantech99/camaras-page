@@ -144,13 +144,13 @@ export function Footer() {
               href="#"
               className="text-gray-500 hover:text-white text-sm transition-colors"
             >
-              Privacy Policy
+              Políticias de privacidad
             </Link>
             <Link
               href="#"
               className="text-gray-500 hover:text-white text-sm transition-colors"
             >
-              Terms of Service
+              Términos y condiciones
             </Link>
             <Link
               href="#"

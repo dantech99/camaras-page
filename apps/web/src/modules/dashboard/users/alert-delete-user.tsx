@@ -12,7 +12,7 @@ import {
   AlertDialogTrigger,
 } from "@camaras/ui/src/components/alert-dialog";
 import { Button, buttonVariants } from "@camaras/ui/src/components/button";
-import { Trash, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 
 import { CouponService } from "@/services/coupon-service";
 import { useState } from "react";

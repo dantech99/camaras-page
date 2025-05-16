@@ -8,10 +8,9 @@ import {
   TableHeader,
   TableRow,
 } from "@camaras/ui/src/components/table";
-import { Eye, Loader2, Pencil, Trash } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { useUsers } from "@/hooks/use-users";
 import { Badge } from "@camaras/ui/src/components/badge";
-import { Button } from "@camaras/ui/src/components/button";
 import { getRolesConfig } from "@/utils/get-roles-config";
 import { ResponsiveUpdateUser } from "./responsive-update-user";
 import { AlertDeteleUser } from "./alert-delete-user";
