@@ -20,11 +20,11 @@ import {
 } from "@camaras/ui/src/components/chart"
 
 const chartData = [
-  { day: "Día 1", desktop: 186, mobile: 80, tablet: 50 },
-  { day: "Día 2", desktop: 305, mobile: 200, tablet: 100 },
-  { day: "Día 3", desktop: 237, mobile: 120, tablet: 70 },
-  { day: "Día 4", desktop: 73, mobile: 190, tablet: 40 },
-  { day: "Día 5", desktop: 209, mobile: 130, tablet: 60 },
+  { day: "Día 1", desktop: 26, mobile: 80, tablet: 50 },
+  { day: "Día 2", desktop: 3205, mobile: 200, tablet: 100 },
+  { day: "Día 3", desktop: 237, mobile: 3120, tablet: 70 },
+  { day: "Día 4", desktop: 73, mobile: 190, tablet: 540 },
+  { day: "Día 5", desktop: 2019, mobile: 1303, tablet: 760 },
 ]
 
 const chartConfig = {
@@ -47,15 +47,20 @@ const totalPackagesSold = chartData.reduce(
   0
 );
 
-export function GeneralPackageChart() {
+const totalMoneyCollected = chartData.reduce(
+  (sum, item) => sum + (item.desktop ?? 0) + (item.mobile ?? 0) + (item.tablet ?? 0),
+  0
+);
+
+export function GeneralMoneyChart() {
   return (
     <Card>
       <CardHeader className="py-4">
-        <CardTitle className="text-xl md:text-2xl font-bold leading-tight mb-1">
-          Ventas de paquetes por cada día
+        <CardTitle className="text-2xl md:text-3xl font-extrabold leading-tight mb-1">
+          Dinero recolectado por día y tipo de paquete
         </CardTitle>
         <CardDescription className="text-sm md:text-base text-muted-foreground font-medium mb-2">
-          SOFA · Total paquetes vendidos: {totalPackagesSold}
+          SOFA · Total dinero recolectado: ${totalMoneyCollected.toLocaleString("es-CO")}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -84,7 +89,7 @@ export function GeneralPackageChart() {
           Trending up by 5.2% este semestre <TrendingUp className="h-4 w-4" />
         </div>
         <div className="leading-none text-muted-foreground">
-          Mostrando ventas de paquetes por cada mes y tipo (desktop y mobile)
+          Mostrando dinero recolectado por cada día y tipo de paquete
         </div>
       </CardFooter>
     </Card>
