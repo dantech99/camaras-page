@@ -1,64 +1,92 @@
-"use client";
+"use client"
 
-import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts";
+import { TrendingUp } from "lucide-react"
+import { Bar, BarChart, CartesianGrid, XAxis, LabelList } from "recharts"
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@camaras/ui/src/components/card"
 
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@camaras/ui/src/components/chart";
+} from "@camaras/ui/src/components/chart"
 
 const chartData = [
-  { photoPackage: "Paquete 1", sales: 186 },
-  { photoPackage: "Paquete 2", sales: 500 },
-  { photoPackage: "Paquete 3", sales: 237 },
-  { photoPackage: "Paquete 4", sales: 73 },
+  { day: "Día 1", salesPackage: 186 },
+  { day: "Día 2", salesPackage: 305 },
+  { day: "Día 3", salesPackage: 237 },
+  { day: "Día 4", salesPackage: 73 },
+  { day: "Día 5", salesPackage: 209 },
 ];
 
+const totalSalesPackage = chartData.reduce((sum, item) => sum + item.salesPackage, 0);
+
 const chartConfig = {
-  sales: {
-    label: "Ventas",
+  salesPackage: {
+    label: "Paquetes vendidos: ",
     color: "var(--color-chart-4)",
   },
-} satisfies ChartConfig;
-
-const totalSales = chartData.reduce((sum, item) => sum + item.sales, 0);
+} satisfies ChartConfig
 
 export function PackageGraphChart() {
   return (
-    <div className="bg-muted/50 p-4 rounded-md h-full">
-      <h1 className="text-2xl font-bold">
-        Resumen de ventas SOFA
-      </h1>
-      <h2 className="text-base text-muted-foreground mb-4">
-        Se han vendido un total de {totalSales} paquetes
-      </h2>
-
-      <ChartContainer config={chartConfig} className="min-h-[200px]">
-        <BarChart accessibilityLayer data={chartData} margin={{ top: 20 }}>
-          <CartesianGrid vertical={false} />
-          <XAxis
-            dataKey="photoPackage"
-            tickLine={false}
-            tickMargin={10}
-            axisLine={false}
-            tickFormatter={(value) => value.slice(0, 50)}
-          />
-          <ChartTooltip
-            cursor={false}
-            content={<ChartTooltipContent hideLabel />}
-          />
-          <Bar dataKey="sales" fill={chartConfig.sales.color} radius={8}>
-            <LabelList
-              position="top"
-              offset={12}
-              className="fill-foreground"
-              fontSize={12}
+    <Card>
+      <CardHeader className="py-4">
+        <CardTitle className="text-xl md:text-2xl font-bold leading-tight mb-1">
+          Resumen de paquetes vendidos en SOFA
+        </CardTitle>
+        <CardDescription className="text-sm md:text-base text-muted-foreground font-medium mb-2">
+          Enero - Junio 2024 · Total vendidos: {totalSalesPackage}
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <ChartContainer config={chartConfig} className="min-h-[350px] w-full">
+          <BarChart
+            accessibilityLayer
+            data={chartData}
+            margin={{
+              top: 20,
+            }}
+          >
+            <CartesianGrid vertical={false} />
+            <XAxis
+              dataKey="day"
+              tickLine={false}
+              tickMargin={10}
+              axisLine={false}
+              tickFormatter={(value) => value.slice(0, 5)}
             />
-          </Bar>
-        </BarChart>
-      </ChartContainer>
-    </div>
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent hideLabel />}
+            />
+            <Bar dataKey="salesPackage" fill="var(--color-chart-4)" radius={8}>
+              <LabelList
+                position="top"
+                offset={12}
+                className="fill-foreground"
+                fontSize={12}
+              />
+            </Bar>
+          </BarChart>
+        </ChartContainer>
+      </CardContent>
+      <CardFooter className="flex-col items-start gap-2 text-sm pb-4">
+        <div className="flex gap-2 font-medium leading-none">
+          Trending up by 5.2% este mes <TrendingUp className="h-4 w-4" />
+        </div>
+        <div className="leading-none text-muted-foreground">
+          Mostrando total de paquetes vendidos en los últimos 5 días
+        </div>
+      </CardFooter>
+    </Card>
   );
 }

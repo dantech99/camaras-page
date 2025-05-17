@@ -5,6 +5,7 @@ import {
   TabsTrigger,
 } from "@camaras/ui/src/components/tabs";
 import { GeneralPackageChart } from "./general-package-chart";
+import { GeneralMoneyChart } from "./general-money-chart";
 
 export const TabMetrics = () => {
   return (
@@ -21,7 +22,7 @@ export const TabMetrics = () => {
         <GeneralPackageChart />
       </TabsContent>
       <TabsContent value="generalMoney">
-        <GeneralPackageChart />
+        <GeneralMoneyChart />
       </TabsContent>
     </Tabs>
   );
