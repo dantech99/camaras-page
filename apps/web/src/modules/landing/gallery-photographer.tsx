@@ -1,6 +1,7 @@
 "use client";
 
 import { Avatar, AvatarFallback } from "@camaras/ui/src/components/avatar";
+import { Button } from "@camaras/ui/src/components/button";
 
 export function GalleryPhotographer() {
   const cosplayCards = [
@@ -71,9 +72,8 @@ export function GalleryPhotographer() {
   ];
 
   return (
-    <div className="w-full py-8 sm:py-12 md:py-16 px-4 sm:px-6 md:px-8">
+    <div className="relative w-full py-8 sm:py-12 md:py-36 px-4 sm:px-6 md:px-8">
       <div className="max-w-6xl mx-auto">
-        {/* Layout tipo Pinterest para todas las pantallas */}
         <div className="columns-2 sm:columns-2 md:columns-3 lg:columns-4 gap-3 sm:gap-4 md:gap-5 space-y-3 sm:space-y-4 md:space-y-5">
           {cosplayCards.map((card) => (
             <div
@@ -83,7 +83,6 @@ export function GalleryPhotographer() {
               <div
                 className={`w-full h-full ${card.backgroundColor} transition-transform duration-500 hover:scale-[1.02]`}
               >
-                {/* Imagen con overlay de gradiente */}
                 <img
                   src={card.image}
                   alt={`${card.photographer} - ${card.name}`}
@@ -91,7 +90,6 @@ export function GalleryPhotographer() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
 
-                {/* Información del fotógrafo siempre visible */}
                 <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-3 md:p-4 flex items-center gap-2 sm:gap-3">
                   <Avatar className="h-8 w-8 sm:h-10 sm:w-10 shadow-md flex-shrink-0">
                     <AvatarFallback
@@ -115,6 +113,13 @@ export function GalleryPhotographer() {
           ))}
         </div>
       </div>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+      <Button
+        className="absolute bottom-16 left-1/2 transform -translate-x-1/2"
+        variant={"landing"}
+      >
+        Ver más fotos en nuestra galería
+      </Button>
     </div>
   );
 }

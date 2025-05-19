@@ -40,10 +40,10 @@ export function PackageGraphChart() {
   return (
     <Card>
       <CardHeader className="py-4">
-        <CardTitle className="text-xl md:text-2xl font-bold leading-tight mb-1">
-          Resumen de paquetes vendidos en SOFA
+        <CardTitle>
+          Paquetes vendidos en SOFA
         </CardTitle>
-        <CardDescription className="text-sm md:text-base text-muted-foreground font-medium mb-2">
+        <CardDescription>
           Enero - Junio 2024 · Total vendidos: {totalSalesPackage}
         </CardDescription>
       </CardHeader>
