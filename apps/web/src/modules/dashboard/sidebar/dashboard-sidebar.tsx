@@ -39,7 +39,7 @@ const data = {
       items: [
         {
           title: "Metricas",
-          url: "/dashboard/metricas",
+          url: "/dashboard",
         },
         {
           title: "Perfil",

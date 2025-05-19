@@ -51,10 +51,10 @@ export function GeneralPackageChart() {
   return (
     <Card>
       <CardHeader className="py-4">
-        <CardTitle className="text-xl md:text-2xl font-bold leading-tight mb-1">
+        <CardTitle>
           Ventas de paquetes por cada día
         </CardTitle>
-        <CardDescription className="text-sm md:text-base text-muted-foreground font-medium mb-2">
+        <CardDescription>
           SOFA · Total paquetes vendidos: {totalPackagesSold}
         </CardDescription>
       </CardHeader>

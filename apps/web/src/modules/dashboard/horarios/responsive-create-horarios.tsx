@@ -32,20 +32,21 @@ export function ResponsiveCreateHorarios() {
     checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
-  });
+  }, []);
 
   const DesktopDialog = () => (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button size="icon" >
-          <PlusIcon />
+        <Button variant="outline" className="flex items-center gap-2">
+          <PlusIcon size={16} />
+          Agregar horario
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="max-w-2xl">
         <DialogHeader>
-          <DialogTitle>Crear un nuevo horario</DialogTitle>
+          <DialogTitle>Registro de Horarios Disponibles</DialogTitle>
           <DialogDescription>
-            Rellena el formulario para crear un nuevo horario.
+            Ingresa los horarios disponibles en formato de 12 horas
           </DialogDescription>
         </DialogHeader>
         <CreateHorarioForm />
@@ -56,16 +57,17 @@ export function ResponsiveCreateHorarios() {
   const MobileDrawer = () => (
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>
-        <Button size="icon">
-          <PlusIcon />
+        <Button variant="outline" className="flex items-center gap-2">
+          <PlusIcon size={16} />
+          Agregar horario
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="h-screen flex flex-col overflow-hidden px-4 py-6">
+      <DrawerContent className="h-[90vh] flex flex-col overflow-hidden px-4 py-6">
         <div className="flex-1 overflow-y-auto">
           <DrawerHeader>
-            <DrawerTitle>Crear nuevo horario</DrawerTitle>
+            <DrawerTitle>Registro de Horarios Disponibles</DrawerTitle>
             <DrawerDescription>
-              Rellena el formulario para crear un nuevo horario.
+              Ingresa los horarios disponibles en formato de 12 horas
             </DrawerDescription>
           </DrawerHeader>
           <div className="mt-4">

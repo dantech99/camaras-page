@@ -27,6 +27,18 @@ export default function SessionPage() {
   const { id } = useParams();
   const { data: day, isLoading } = useDayById(id as string);
 
+  // Utilidad para convertir de 24h a 12h con AM/PM
+  const to12Hour = (time24: string) => {
+    const [hours, minutes] = time24.split(':');
+    let hour = parseInt(hours, 10);
+    const period = hour >= 12 ? 'PM' : 'AM';
+    
+    if (hour === 0) hour = 12;
+    else if (hour > 12) hour -= 12;
+    
+    return `${String(hour).padStart(2, '0')}:${minutes} ${period}`;
+  };
+
   if (isLoading) {
     return (
       <div className="h-52 flex justify-center items-center">
@@ -57,13 +69,66 @@ export default function SessionPage() {
         <Input placeholder="Buscar" className="max-w-56" />
       </div>
 
+      {/* Resumen de horarios - estilo similar al de la imagen */}
+      {day?.timeSlots?.length ? (
+        <div className="border rounded-lg p-4">
+          <h3 className="text-lg font-semibold mb-3">Resumen de horarios:</h3>
+          <div className="space-y-2">
+            {day.timeSlots.map((slot, index) => (
+              <div key={index} className="flex items-center justify-between p-3 rounded border">
+                <div className="flex items-center gap-2">
+                  <Clock size={16} />
+                  <span className="font-medium">
+                    {to12Hour(slot.start)} - {to12Hour(slot.end)}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  {slot.isBooked ? (
+                    <span className="flex items-center gap-1 text-green-600 text-sm">
+                      <CheckCircle2Icon size={16} />
+                      Reservado
+                    </span>
+                  ) : (
+                    <span className="flex items-center gap-1 text-yellow-600 text-sm">
+                      <CheckCircle2Icon size={16} />
+                      Disponible
+                    </span>
+                  )}
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" size="icon">
+                        <MoreHorizontal size={16} />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem asChild>
+                        <ResponsiveUpdateHorario horario={slot} />
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <AlertDeleteHorario idTime={slot.id} />
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div className="border rounded-lg p-8 text-center">
+          <p className="text-muted-foreground mb-4">No hay horarios disponibles</p>
+          <ResponsiveCreateHorarios />
+        </div>
+      )}
+
+      {/* Grid de horarios individuales (opcional, para mostrar en tarjetas) */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-        {day?.timeSlots?.length ? day?.timeSlots?.map((slot, index) => (
+        {day?.timeSlots?.map((slot, index) => (
           <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
             <div className="flex items-center gap-2">
               <Clock size={16} />
               <p className="font-semibold">
-                {slot.start} - {slot.end}
+                {to12Hour(slot.start)} - {to12Hour(slot.end)}
               </p>
             </div>
             <div className="flex items-center gap-2">
@@ -93,11 +158,7 @@ export default function SessionPage() {
               </DropdownMenu>
             </div>
           </div>
-        )) : (
-          <div className="col-span-3 h-52 flex items-center justify-center">
-            <p className="text-center text-muted-foreground">No hay horarios</p>
-          </div>
-        )}
+        ))}
       </div>
     </div>
   );

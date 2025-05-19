@@ -37,7 +37,7 @@ export function CustomerGraphChart() {
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center py-4">
-        <CardTitle>Radial Chart - Text</CardTitle>
+        <CardTitle>Clientes atendidos</CardTitle>
         <CardDescription>January - June 2024</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
@@ -94,12 +94,12 @@ export function CustomerGraphChart() {
           </RadialBarChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col gap-2 text-sm py-4">
-        <div className="flex items-center gap-2 font-medium leading-none">
+      <CardFooter className="flex flex-col gap-2 items-start text-sm pb-4">
+        <div className="flex items-center gap-2">
           Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
         </div>
         <div className="leading-none text-muted-foreground">
-          Mostrando el total de clientes atendidos en los últimos 5 días de SOFA 2025
+         Clientes atendidos en los últimos 5 días de SOFA 2025
         </div>
       </CardFooter>
     </Card>

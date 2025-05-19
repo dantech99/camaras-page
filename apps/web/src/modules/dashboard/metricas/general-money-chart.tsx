@@ -56,10 +56,10 @@ export function GeneralMoneyChart() {
   return (
     <Card>
       <CardHeader className="py-4">
-        <CardTitle className="text-2xl md:text-3xl font-extrabold leading-tight mb-1">
+        <CardTitle>
           Dinero recolectado por día y tipo de paquete
         </CardTitle>
-        <CardDescription className="text-sm md:text-base text-muted-foreground font-medium mb-2">
+        <CardDescription>
           SOFA · Total dinero recolectado: ${totalMoneyCollected.toLocaleString("es-CO")}
         </CardDescription>
       </CardHeader>

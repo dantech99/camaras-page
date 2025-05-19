@@ -40,10 +40,10 @@ export function MoneyGraphChart() {
   return (
     <Card>
       <CardHeader className="py-4">
-        <CardTitle className="text-xl md:text-2xl font-bold leading-tight mb-1">
+        <CardTitle>
           Ventas totales en dinero
         </CardTitle>
-        <CardDescription className="text-sm md:text-base text-muted-foreground font-medium mb-2">
+        <CardDescription>
           Enero - Junio 2024 · Total vendido: ${totalAmountSold.toLocaleString("es-CO")}
         </CardDescription>
       </CardHeader>
@@ -84,7 +84,7 @@ export function MoneyGraphChart() {
           </LineChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col items-start gap-2 text-sm pb-4">
+      <CardFooter className="flex-col items-start gap-2 text-sm">
         <div className="flex gap-2 font-medium leading-none">
           Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
         </div>
