@@ -1,8 +1,7 @@
 "use client";
 
-import * as React from "react";
 import { TrendingUp } from "lucide-react";
-import { Label, Pie, PieChart } from "recharts";
+import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts";
 
 import {
   Card,
@@ -12,7 +11,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@camaras/ui/src/components/card";
-
 import {
   ChartConfig,
   ChartContainer,
@@ -20,99 +18,84 @@ import {
   ChartTooltipContent,
 } from "@camaras/ui/src/components/chart";
 
-const chartData = [
-  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "firefox", visitors: 287, fill: "var(--color-firefox)" },
-  { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-  { browser: "other", visitors: 190, fill: "var(--color-other)" },
-];
+const chartData = [{ month: "january", desktop: 1260, mobile: 570 }];
 
 const chartConfig = {
-  visitors: {
-    label: "Visitors",
-  },
-  chrome: {
-    label: "Chrome",
+  desktop: {
+    label: "Inscritos",
     color: "var(--color-chart-1)",
   },
-  safari: {
-    label: "Safari",
+  mobile: {
+    label: "Anonimos",
     color: "var(--color-chart-2)",
-  },
-  firefox: {
-    label: "Firefox",
-    color: "var(--color-chart-3)",
-  },
-  edge: {
-    label: "Edge",
-    color: "var(--color-chart-4)",
-  },
-  other: {
-    label: "Other",
-    color: "var(--color-chart-5)",
   },
 } satisfies ChartConfig;
 
-export function CustomerGraphChart() {
-  const totalVisitors = React.useMemo(() => {
-    return chartData.reduce((acc, curr) => acc + curr.visitors, 0);
-  }, []);
+export function TotalUsersPageChart() {
+  const totalVisitors = chartData[0].desktop + chartData[0].mobile;
 
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center py-4">
-        <CardTitle>Total de usuarios atendidos</CardTitle>
-        <CardDescription>SOFA 2025</CardDescription>
+        <CardTitle>Radial Chart - Stacked</CardTitle>
+        <CardDescription>January - June 2024</CardDescription>
       </CardHeader>
-      <CardContent className="flex-1 pb-0">
+      <CardContent className="flex flex-1 items-center pb-0">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square max-h-[350px]"
+          className="mx-auto aspect-square w-full max-w-[250px]"
         >
-          <PieChart>
+          <RadialBarChart
+            data={chartData}
+            endAngle={180}
+            innerRadius={80}
+            outerRadius={130}
+          >
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
-            <Pie
-              data={chartData}
-              dataKey="visitors"
-              nameKey="browser"
-              innerRadius={60}
-              strokeWidth={5}
-            >
+            <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
               <Label
                 content={({ viewBox }) => {
                   if (viewBox && "cx" in viewBox && "cy" in viewBox) {
                     return (
-                      <text
-                        x={viewBox.cx}
-                        y={viewBox.cy}
-                        textAnchor="middle"
-                        dominantBaseline="middle"
-                      >
+                      <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle">
                         <tspan
                           x={viewBox.cx}
-                          y={viewBox.cy}
-                          className="fill-foreground text-3xl font-bold"
+                          y={(viewBox.cy || 0) - 16}
+                          className="fill-foreground text-2xl font-bold"
                         >
                           {totalVisitors.toLocaleString()}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
-                          y={(viewBox.cy || 0) + 24}
+                          y={(viewBox.cy || 0) + 4}
                           className="fill-muted-foreground"
                         >
-                          Usuarios
+                          Visitors
                         </tspan>
                       </text>
                     );
                   }
                 }}
               />
-            </Pie>
-          </PieChart>
+            </PolarRadiusAxis>
+            <RadialBar
+              dataKey="desktop"
+              stackId="a"
+              cornerRadius={5}
+              fill="var(--color-desktop)"
+              className="stroke-transparent stroke-2"
+            />
+            <RadialBar
+              dataKey="mobile"
+              fill="var(--color-mobile)"
+              stackId="a"
+              cornerRadius={5}
+              className="stroke-transparent stroke-2"
+            />
+          </RadialBarChart>
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm py-4">
