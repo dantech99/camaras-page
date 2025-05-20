@@ -23,9 +23,6 @@ export const TableVentas = () => {
           <TableHead className="min-w-[100px] text-center">Precio</TableHead>
           <TableHead className="min-w-[100px] text-center">Descuento</TableHead>
           <TableHead className="min-w-[100px] text-center">
-            % de descuento
-          </TableHead>
-          <TableHead className="min-w-[100px] text-center">
             Precio Final
           </TableHead>
           <TableHead className="min-w-[100px] text-center">

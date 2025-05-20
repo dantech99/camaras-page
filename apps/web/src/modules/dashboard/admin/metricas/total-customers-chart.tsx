@@ -12,7 +12,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@camaras/ui/src/components/card";
-
 import {
   ChartConfig,
   ChartContainer,
@@ -30,7 +29,7 @@ const chartData = [
 
 const chartConfig = {
   visitors: {
-    label: "Visitors",
+    label: "Usuarios",
   },
   chrome: {
     label: "Chrome",
@@ -54,7 +53,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function CustomerGraphChart() {
+export function TotalCustomerChart() {
   const totalVisitors = React.useMemo(() => {
     return chartData.reduce((acc, curr) => acc + curr.visitors, 0);
   }, []);
@@ -62,13 +61,13 @@ export function CustomerGraphChart() {
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center py-4">
-        <CardTitle>Total de usuarios atendidos</CardTitle>
+        <CardTitle>Total de visitantes en Las Cámarás del Dragón</CardTitle>
         <CardDescription>SOFA 2025</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square max-h-[350px]"
+          className="mx-auto aspect-square max-h-[250px]"
         >
           <PieChart>
             <ChartTooltip
