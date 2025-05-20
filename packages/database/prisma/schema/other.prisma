@@ -17,6 +17,19 @@ enum AuditEntity {
   ORGANIZATION
 }
 
+enum PaymentMethod {
+  CASH
+  CREDIT_CARD
+  NEQUI
+}
+
+enum SaleStatus {
+  PENDING
+  COMPLETED
+  CANCELLED
+  PARTIAL
+}
+
 model AuditLog {
   id         String      @id @default(uuid())
   actor      User        @relation("AuditLogActor", fields: [actorId], references: [id])
@@ -27,11 +40,8 @@ model AuditLog {
   details    Json?
   createdAt  DateTime    @default(now())
 
-  // Para cambios que afectan a otro usuario (ej. cambio de rol)
   targetUser   User?   @relation("AuditLogTarget", fields: [targetUserId], references: [id])
   targetUserId String?
-  User         User?   @relation(fields: [userId], references: [id])
-  userId       String?
 
   @@index([entityType])
   @@index([action])
@@ -48,6 +58,7 @@ model Package {
   photoCount         Int              @default(0)
   discountPercentage Float            @default(0)
   features           PackageFeature[]
+  sales              Sale[]
   isActive           Boolean          @default(true)
   deletedAt          DateTime?
 
@@ -71,6 +82,8 @@ model Discount {
   photographerName   String
   isActive           Boolean  @default(true)
   createdat          DateTime @default(now())
+
+  sales              Sale[] @relation("discountCode")
 
   userId String?
   user   User?   @relation(fields: [userId], references: [id])
@@ -100,4 +113,39 @@ model TimeSlot {
   availableDay   AvailableDay @relation(fields: [availableDayId], references: [id])
 
   @@map("time_slot")
+}
+
+model Sale {
+  id String @id @default(uuid())
+
+  saleStatus SaleStatus @default(PENDING)
+
+  photographer User @relation(fields: [photographerId], references: [id])
+  photographerId String
+
+  package Package @relation(fields: [packageId], references: [id]) 
+  packageId String
+
+  buyer User @relation("buyer", fields: [buyerId], references: [id])
+  buyerId String
+
+  discountCode Discount? @relation("discountCode", fields: [discountCodeId], references: [id])
+  discountCodeId String?
+
+  price Float
+  finalPrice Float
+
+  cancelledAt DateTime?
+  cancelledById String?
+  cancelledBy User? @relation("cancelledBy", fields: [cancelledById], references: [id])
+
+  methodPayment PaymentMethod
+
+  paymentConfirmation Boolean @default(false)
+  paymentConfirmationAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("sale")
 }

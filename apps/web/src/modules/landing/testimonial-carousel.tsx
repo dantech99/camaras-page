@@ -75,7 +75,7 @@ const secondRow = TestimonialData.slice(TestimonialData.length / 2);
 
 export function TestimonialCarousel() {
   return (
-    <div className="relative flex w-full flex-col items-center justify-center overflow-hidden py-8 md:py-32">
+    <div className="relative flex w-full flex-col items-center justify-center overflow-hidden py-8 md:py-32 bg-black">
       <div className="w-full">
         <Marquee pauseOnHover className="[--duration:25s]">
           {firstRow.map((review) => (
@@ -96,8 +96,8 @@ export function TestimonialCarousel() {
         </Marquee>
       </div>
 
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-background"></div>
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-background"></div>
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-black"></div>
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-black"></div>
     </div>
   );
 }

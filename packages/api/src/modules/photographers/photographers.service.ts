@@ -5,7 +5,9 @@ export class PhotographerService {
     try {
       const photographers = await prisma.user.findMany({
         where: {
-          role: "photographer",
+          role: {
+            contains: "photographer",
+          }
         },
       });
 
