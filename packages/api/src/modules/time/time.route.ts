@@ -11,21 +11,19 @@ export const timeRouter = new Elysia({
   .post(
     "/",
     ({ timeService, body }) =>
-      timeService.createTimeSlot(
-        body.startTime,
-        body.endTime,
-        body.ampmStart,
-        body.ampmEnd,
-        body.availableDayId
-      ),
+      timeService.createMultipleTimeSlots(body.timeSlots),
     {
       photographer: true,
       body: t.Object({
-        startTime: t.String(),
-        endTime: t.String(),
-        ampmStart: t.String(),
-        ampmEnd: t.String(),
-        availableDayId: t.String(),
+        timeSlots: t.Array(
+          t.Object({
+            startTime: t.String(),
+            endTime: t.String(),
+            ampmStart: t.String(),
+            ampmEnd: t.String(),
+            availableDayId: t.String(),
+          })
+        ),
       }),
     }
   )
@@ -37,24 +35,22 @@ export const timeRouter = new Elysia({
     }
   )
   .patch(
-    "/:id",
-    ({ timeService, params, body }) =>
-      timeService.updateTimeSlot(
-        params.id,
-        body.startTime,
-        body.endTime,
-        body.ampmStart,
-        body.ampmEnd,
-        body.availableDayId
-      ),
+    "/",
+    ({ timeService, body }) =>
+      timeService.updateMultipleTimeSlots(body.timeSlots),
     {
       photographer: true,
       body: t.Object({
-        startTime: t.String(),
-        endTime: t.String(),
-        ampmStart: t.String(),
-        ampmEnd: t.String(),
-        availableDayId: t.String(),
+        timeSlots: t.Array(
+          t.Object({
+            id: t.String(),
+            startTime: t.String(),
+            endTime: t.String(),
+            ampmStart: t.String(),
+            ampmEnd: t.String(),
+            availableDayId: t.String(),
+          })
+        ),
       }),
     }
   );
