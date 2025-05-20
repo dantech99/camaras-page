@@ -1,18 +1,27 @@
 import { apiClient } from "@/utils/api-connection";
 
+interface TimeSlotData {
+  startTime: string;
+  endTime: string;
+  ampmStart: string;
+  ampmEnd: string;
+  availableDayId: string;
+}
+
+interface UpdateTimeSlotData extends TimeSlotData {
+  id: string;
+}
+
 export const TimeService = {
-  create: async (data: {
-    startTime: string;
-    endTime: string;
-    ampmStart: string;
-    ampmEnd: string;
-    availableDayId: string;
-  }) => {
-    const response = await apiClient.time.index.post(data, {
-      fetch: {
-        credentials: "include",
-      },
-    });
+  create: async (timeSlots: TimeSlotData[]) => {
+    const response = await apiClient.time.index.post(
+      { timeSlots },
+      {
+        fetch: {
+          credentials: "include",
+        },
+      }
+    );
     return response.data;
   },
 
@@ -25,18 +34,15 @@ export const TimeService = {
     return response.data;
   },
 
-  update: async (id: string, data: {
-    startTime: string;
-    endTime: string;
-    ampmStart: string;
-    ampmEnd: string;
-    availableDayId: string;
-  }) => {
-    const response = await apiClient.time({ id }).patch(data, {
-      fetch: {
-        credentials: "include",
-      },
-    });
+  update: async (timeSlots: UpdateTimeSlotData[]) => {
+    const response = await apiClient.time.index.patch(
+      { timeSlots },
+      {
+        fetch: {
+          credentials: "include",
+        },
+      }
+    );
     return response.data;
   },
 };
