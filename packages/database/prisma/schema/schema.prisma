@@ -46,8 +46,11 @@ model User {
   discounts         Discount[]
   auditLogs         AuditLog[]     @relation("AuditLogActor")
   receivedAuditLogs AuditLog[]     @relation("AuditLogTarget")
-  AuditLog          AuditLog[]
   availableDays     AvailableDay[]
+  sales             Sale[]
+
+  purchases Sale[] @relation("buyer")
+  cancelledSales Sale[] @relation("cancelledBy")
 
   createdAt DateTime
   updatedAt DateTime
