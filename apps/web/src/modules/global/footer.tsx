@@ -2,13 +2,17 @@ import Link from "next/link";
 import Image from "next/image";
 import { Twitter, Instagram, ChevronRight, Facebook } from "lucide-react";
 
-const quickLinks = [
-  { name: "Inicio", href: "/" },
-  { name: "Somos", href: "/somos" },
-  { name: "Fotógrafos", href: "/fotografos" },
-  { name: "Agenda", href: "/agenda" },
-  { name: "Galeria", href: "/galeria" },
-  { name: "Contacto", href: "/contacto" },
+const InfoLikns = [
+  { name: "Quienes Somos", href: "/somos" },
+  { name: "Misión y Visión", href: "/" },
+  { name: "Nuestro Equipo", href: "/" },
+  { name: "Testimonios", href: "/" },
+];
+
+const accountLinks = [
+  { name: "Perfil", href: "/" },
+  { name: "Agendar", href: "/" },
+  { name: "Mi Carrito", href: "/" },
 ];
 
 export function Footer() {
@@ -66,11 +70,11 @@ export function Footer() {
           {/* Quick links */}
           <div>
             <h3 className="text-lg font-semibold mb-4 relative inline-block">
-              Quick Links
+              Ayuda y Contacto
               <span className="absolute -bottom-1 left-0 w-12 h-0.5 bg-linear-to-r from-purple-500 to-blue-500" />
             </h3>
             <ul className="space-y-2">
-              {quickLinks.map((item) => (
+              {InfoLikns.map((item) => (
                 <li key={item.name} className="group">
                   <Link
                     href={item.href}
@@ -87,24 +91,18 @@ export function Footer() {
           {/* Services */}
           <div>
             <h3 className="text-lg font-semibold mb-4 relative inline-block">
-              Services
+              Mi Cuenta
               <span className="absolute -bottom-1 left-0 w-12 h-0.5 bg-linear-to-r from-purple-500 to-blue-500" />
             </h3>
             <ul className="space-y-2">
-              {[
-                "Web Development",
-                "App Design",
-                "UI/UX Design",
-                "Consulting",
-                "Digital Marketing",
-              ].map((item) => (
-                <li key={item} className="group">
+              {accountLinks.map((item) => (
+                <li key={item.name} className="group">
                   <Link
-                    href="#"
+                    href={item.href}
                     className="text-gray-400 hover:text-white transition-colors flex items-center group-hover:translate-x-1 duration-200"
                   >
                     <ChevronRight className="h-3 w-3 mr-1 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    {item}
+                    {item.name}
                   </Link>
                 </li>
               ))}
@@ -114,14 +112,13 @@ export function Footer() {
           {/* Contact */}
           <div>
             <h3 className="text-lg font-semibold mb-4 relative inline-block">
-              Contact Us
+              Contactenos
               <span className="absolute -bottom-1 left-0 w-12 h-0.5 bg-linear-to-r from-purple-500 to-blue-500" />
             </h3>
             <ul className="space-y-2 text-gray-400">
-              <li>123 Future Avenue</li>
-              <li>Tech City, TC 10101</li>
-              <li>contact@futurespace.com</li>
-              <li>+1 (555) 123-4567</li>
+              
+              <li><a href="mailto:lascamarasdeldragon@gmail.com">lascamarasdeldragon@gmail.com</a></li>
+              <li>+57 312 1235467</li>
             </ul>
             <div className="mt-4">
               <Link
