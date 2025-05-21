@@ -2,34 +2,37 @@
 
 import { Loader2, UserIcon } from "lucide-react";
 import { usePhotographers } from "@/hooks/use-photographers";
+import { useSaleStore } from "./store/sale.store";
+import { Card } from "@camaras/ui/src/components/card";
 
 export function SelectPhotographer() {
+  const { setPhotographerId, setPhotographerName } = useSaleStore();
   const { data, isLoading, isError } = usePhotographers();
 
   return (
-    <div className="flex flex-col">
-      <div className="mb-4">
-        <p className="text-2xl font-bold">Seleccionar Fotógrafo</p>
-        <p>Selecciona el fotógrafo que deseas contratar para tu evento.</p>
-      </div>
+    <div className="flex flex-col flex-1">
       {isLoading ? (
-        <div className="flex items-center justify-center p-4 h-screen">
+        <div className="flex items-center justify-center p-4">
           <Loader2 className="animate-spin" />
         </div>
       ) : isError ? (
-        <div className="flex items-center justify-center p-4 h-screen">
+        <div className="flex items-center justify-center p-4">
           <p>Error al cargar los fotógrafos</p>
         </div>
       ) : data?.photographers?.length === 0 ? (
-        <div className="flex items-center justify-center p-4 h-screen">
+        <div className="flex items-center justify-center p-4">
           <p>No hay fotógrafos disponibles</p>
         </div>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {data?.photographers?.map((photographer) => (
-            <div
+            <Card
               key={photographer.id}
-              className="flex flex-col rounded-xl overflow-hidden bg-black border border-gray-800 shadow-lg transition-all hover:shadow-xl"
+              className="flex flex-col rounded-xl overflow-hidden transition-all hover:shadow-xl cursor-pointer"
+              onClick={() => {
+                setPhotographerId(photographer.id);
+                setPhotographerName(photographer.name);
+              }}
             >
               <div className="relative w-full aspect-[3/4] overflow-hidden">
                 {photographer.image ? (
@@ -56,7 +59,7 @@ export function SelectPhotographer() {
                   {photographer.email}
                 </p>
               </div>
-            </div>
+            </Card>
           ))}
         </div>
       )}

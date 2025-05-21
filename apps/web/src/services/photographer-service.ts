@@ -7,9 +7,12 @@ export const PhotographersService = {
   },
 
   getPackageFromPhotographer: async (id: string) => {
-    const response = await apiClient.photographer.index.get({
-      query: {
-        id,
+
+    console.log("entrando a la función", id)
+
+    const response = await apiClient.photographer({photographerId: id}).get({
+      fetch: {
+        credentials: "include",
       },
     });
     return response.data;

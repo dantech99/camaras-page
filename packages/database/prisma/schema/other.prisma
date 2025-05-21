@@ -50,7 +50,7 @@ model AuditLog {
 
 model Package {
   id                 String           @id @default(uuid())
-  photographerName   String
+  photographerId     String
   name               String
   description        String
   imageUrl           String
@@ -61,6 +61,7 @@ model Package {
   sales              Sale[]
   isActive           Boolean          @default(true)
   deletedAt          DateTime?
+  photographer       User             @relation(fields: [photographerId], references: [id])
 
   @@map("package")
 }
@@ -79,14 +80,14 @@ model Discount {
   code               String   @unique
   discountPercentage Float
   expirationDate     DateTime
-  photographerName   String
+  photographerId     String
   isActive           Boolean  @default(true)
   createdat          DateTime @default(now())
 
   sales              Sale[] @relation("discountCode")
+  photographer       User   @relation("discountPhotographer", fields: [photographerId], references: [id])
 
   userId String?
-  user   User?   @relation(fields: [userId], references: [id])
 
   @@map("discount")
 }

@@ -60,7 +60,7 @@ export class PackagesService {
           description,
           price,
           photoCount,
-          photographerName: photographer.name,
+          photographerId: photographer.id,
           isActive: true,
           discountPercentage: 0,
           imageUrl: imageUrl,
@@ -104,7 +104,7 @@ export class PackagesService {
 
       const packages = await prisma.package.findMany({
         where: {
-          photographerName: photographer.name,
+          photographerId: photographer.id,
           deletedAt: null,
         },
         include: {
@@ -173,7 +173,7 @@ export class PackagesService {
       const existingPackage = await prisma.package.findUnique({
         where: {
           id,
-          photographerName: photographer.name,
+          photographerId: photographer.id,
         },
         include: { features: true },
       });
@@ -196,7 +196,7 @@ export class PackagesService {
       const photoPackage = await prisma.package.update({
         where: {
           id,
-          photographerName: photographer.name,
+          photographerId: photographer.id,
         },
         data: {
           name,
@@ -250,7 +250,7 @@ export class PackagesService {
       const existingPackage = await prisma.package.findUnique({
         where: {
           id,
-          photographerName: photographer.name,
+          photographerId: photographer.id,
         },
       });
 
@@ -269,7 +269,7 @@ export class PackagesService {
       await prisma.package.update({
         where: {
           id,
-          photographerName: photographer.name,
+          photographerId: photographer.id,
         },
         data: {
           deletedAt: new Date(),

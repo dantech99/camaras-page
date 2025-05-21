@@ -8,3 +8,11 @@ export function usePhotographers() {
         staleTime: 1000 * 60 * 5, // 5 minutes
     })
 }
+
+export function getPhotographerPackages(id: string) {
+    return useQuery({
+        queryKey: ['photographer-packages', id],
+        queryFn: () => PhotographersService.getPackageFromPhotographer(id),
+        staleTime: 1000 * 60 * 5,
+    })
+}
