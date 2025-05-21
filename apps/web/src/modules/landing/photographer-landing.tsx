@@ -10,49 +10,34 @@ const photographers = [
     image:
       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000",
     role: "Fotógrafo Cosplay",
+    description:
+      "Hola me llamo Carlos y tomo fotos en Camaras del Dragon.png muchas gracias",
   },
   {
     name: "Carlos Hernandez",
     image:
       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000",
     role: "Fotógrafo Cosplay",
+    description:
+      "Hola me llamo Carlos y tomo fotos en Camaras del Dragon.png muchas gracias",
   },
   {
     name: "Carlos Pietro",
     image:
       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000",
     role: "Fotógrafo Cosplay",
+    description:
+      "Hola me llamo Carlos y tomo fotos en Camaras del Dragon.png muchas gracias",
   },
   {
     name: "Carlos Sanchez",
     image:
       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000",
     role: "Fotógrafo Cosplay",
+    description:
+      "Hola me llamo Carlos y tomo fotos en Camaras del Dragon.png muchas gracias",
   },
 ];
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { y: 20, opacity: 0 },
-  show: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      type: "spring",
-      stiffness: 100,
-      damping: 15,
-    },
-  },
-};
 
 export function PhotographerGrid() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -83,54 +68,31 @@ export function PhotographerGrid() {
     return (
       <div className="w-full px-4 py-8">
         <AnimatePresence mode="wait">
-          <motion.div
-            key={currentIndex}
-            initial={{ opacity: 0, x: 100 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -100 }}
-            transition={{ duration: 0.5 }}
-            className="w-full max-w-sm mx-auto"
-          >
-            <PhotographerCard {...photographers[currentIndex]} />
-          </motion.div>
+          <PhotographerCard {...photographers[currentIndex]} />
         </AnimatePresence>
 
-        <motion.div
-          className="flex justify-center mt-6 gap-2"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-        >
+        <div className="flex justify-center mt-6 gap-2">
           {photographers.map((_, index) => (
-            <motion.button
+            <button
               key={`${index + 1}`}
-              className={`w-2 h-2 rounded-full ${index === currentIndex ? "bg-white" : "bg-gray-500"
-                }`}
-              whileHover={{ scale: 1.2 }}
-              whileTap={{ scale: 0.8 }}
+              className={`w-2 h-2 rounded-full ${
+                index === currentIndex ? "bg-white" : "bg-gray-500"
+              }`}
               onClick={() => setCurrentIndex(index)}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: index * 0.1 }}
             />
           ))}
-        </motion.div>
+        </div>
       </div>
     );
   }
 
   return (
-    <motion.div
-      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-8 w-full"
-      variants={containerVariants}
-      initial="hidden"
-      animate="show"
-    >
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-8 w-full">
       {photographers.map((photographer, index) => (
-        <motion.div key={photographer.name} variants={itemVariants} layout>
+        <div key={photographer.name}>
           <PhotographerCard {...photographer} />
-        </motion.div>
+        </div>
       ))}
-    </motion.div>
+    </div>
   );
 }

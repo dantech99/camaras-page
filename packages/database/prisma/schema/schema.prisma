@@ -43,11 +43,12 @@ model User {
   sessions          Session[]
   members           Member[]
   invitations       Invitation[]
-  discounts         Discount[]
   auditLogs         AuditLog[]     @relation("AuditLogActor")
   receivedAuditLogs AuditLog[]     @relation("AuditLogTarget")
   availableDays     AvailableDay[]
   sales             Sale[]
+  packages          Package[]
+  discounts         Discount[] @relation("discountPhotographer")
 
   purchases Sale[] @relation("buyer")
   cancelledSales Sale[] @relation("cancelledBy")
