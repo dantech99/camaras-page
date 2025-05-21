@@ -15,6 +15,10 @@ interface SaleStore {
   packagePrice: number;
   packageFinalPrice: number;
 
+  day: string;
+  timeSlot: string;
+  timeSlotId: string;
+
   discountCode: string;
   discountId: string;
 
@@ -31,6 +35,9 @@ interface SaleStoreActions {
   setDiscountCode: (code: string) => void;
   setDiscountId: (id: string) => void;
   setMethodPayment: (method: PaymentMethod) => void;
+  setDay: (day: string) => void;
+  setTimeSlot: (timeSlot: string) => void;
+  setTimeSlotId: (id: string) => void;
 }
 
 export const useSaleStore = create<SaleStore & SaleStoreActions>((set) => ({
@@ -40,12 +47,15 @@ export const useSaleStore = create<SaleStore & SaleStoreActions>((set) => ({
   packageName: "",
   packagePrice: 0,
   packageFinalPrice: 0,
+  day: "",
+  timeSlot: "",
+  timeSlotId: "",
   discountCode: "",
   discountId: "",
   methodPayment: PaymentMethod.CASH,
 
   setPhotographerId: (id: string) => set({ photographerId: id }),
-  setPhotographerName: (name: string) => set({ photographerName: name }),
+  setPhotographerName: (name: string) => set({ photographerName: name, packageId: "", packageName: "", packagePrice: 0, packageFinalPrice: 0 }),
   setPackageId: (id: string) => set({ packageId: id }),
   setPackageName: (name: string) => set({ packageName: name }),
   setPackagePrice: (price: number) => set({ packagePrice: price }),
@@ -53,4 +63,7 @@ export const useSaleStore = create<SaleStore & SaleStoreActions>((set) => ({
   setDiscountCode: (code: string) => set({ discountCode: code }),
   setDiscountId: (id: string) => set({ discountId: id }),
   setMethodPayment: (method: PaymentMethod) => set({ methodPayment: method }),
+  setDay: (day: string) => set({ day }),
+  setTimeSlot: (timeSlot: string) => set({ timeSlot }),
+  setTimeSlotId: (id: string) => set({ timeSlotId: id }),
 }));

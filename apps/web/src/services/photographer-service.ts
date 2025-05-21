@@ -7,9 +7,6 @@ export const PhotographersService = {
   },
 
   getPackageFromPhotographer: async (id: string) => {
-
-    console.log("entrando a la función", id)
-
     const response = await apiClient.photographer({photographerId: id}).get({
       fetch: {
         credentials: "include",
@@ -17,4 +14,13 @@ export const PhotographersService = {
     });
     return response.data;
   },
+
+  getAvailableDays: async (id: string) => {
+    const response = await apiClient.photographer.available({ photographerId: id }).get({
+      fetch: {
+        credentials: "include",
+      },
+    });
+    return response.data;
+  }
 };

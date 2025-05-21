@@ -4,12 +4,13 @@ import { Progress } from "@camaras/ui/src/components/progress";
 import { GlobalStepper } from "@/modules/agenda/config/stepper.config";
 import { SelectPhotographer } from "@/modules/agenda/select-photographer";
 import { SelectPackage } from "@/modules/agenda/select-package";
+import { SelectDay } from "@/modules/agenda/select-day";
 import { useSaleStore } from "@/modules/agenda/store/sale.store";
 import { Button } from "@camaras/ui/src/components/button";
 
 export default function AgendaPage() {
   const methods = GlobalStepper.useStepper();
-  const { photographerName } = useSaleStore();
+  const { photographerName, packageName, packagePrice, day, timeSlot } = useSaleStore();
 
   return (
     <GlobalStepper.Scoped>
@@ -25,6 +26,7 @@ export default function AgendaPage() {
               {methods.switch({
                 first: () => <SelectPhotographer />,
                 second: () => <SelectPackage />,
+                third: () => <SelectDay />,
               })}
             </div>
             <div className="flex gap-2 w-full justify-between ">
@@ -45,6 +47,10 @@ export default function AgendaPage() {
           <aside className="w-64 p-4 border rounded-md h-full">
             <p className="text-lg font-bold">Resumen de compra:</p>
             <p>Fotógrafo: {photographerName || "Seleccionar"}</p>
+            <p>Paquete: {packageName || "Seleccionar"}</p>
+            <p>Precio: {packagePrice || "Seleccionar"}</p>
+            <p>Día: {day || "Seleccionar"}</p>
+            <p>Horario: {timeSlot || "Seleccionar"}</p>
           </aside>
         </div>
       </div>

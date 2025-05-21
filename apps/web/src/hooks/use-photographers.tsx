@@ -16,3 +16,11 @@ export function getPhotographerPackages(id: string) {
         staleTime: 1000 * 60 * 5,
     })
 }
+
+export function getPhotographerAvailableDays(id: string) {
+    return useQuery({
+        queryKey: ['photographer-available-days', id],
+        queryFn: () => PhotographersService.getAvailableDays(id),
+        staleTime: 1000 * 60 * 5,
+    })
+}

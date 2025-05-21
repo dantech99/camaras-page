@@ -15,4 +15,9 @@ export const photographersRouter = new Elysia({
     "/:photographerId",
     ({ params, photographerService }) =>
       photographerService.getPhotographerPackages(params.photographerId)
-  );
+  )
+  .get(
+    "/available/:photographerId",
+    ({ params, photographerService }) =>
+      photographerService.getAvailablePhotographerPackages(params.photographerId)
+  )
