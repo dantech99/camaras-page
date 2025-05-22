@@ -31,7 +31,7 @@ export class CouponService {
       if (
         cuponNameAlreadyExists &&
         !cuponNameAlreadyExists.isActive &&
-        cuponNameAlreadyExists.photographerName === photographer.name
+        cuponNameAlreadyExists.photographerId === photographer.id
       ) {
         await prisma.discount.update({
           where: {
@@ -60,7 +60,7 @@ export class CouponService {
           code,
           discountPercentage,
           expirationDate,
-          photographerName: photographer.name,
+          photographerId: photographer.id,
         },
       });
 
@@ -100,7 +100,7 @@ export class CouponService {
 
       const coupons = await prisma.discount.findMany({
         where: {
-          photographerName: photographer.name,
+          photographerId: photographer.id,
           isActive: true,
         },
         select: {
@@ -159,7 +159,7 @@ export class CouponService {
       const coupon = await prisma.discount.update({
         where: {
           id,
-          photographerName: photographer.name,
+          photographerId: photographer.id,
         },
         data: {
           code,
@@ -204,7 +204,7 @@ export class CouponService {
       await prisma.discount.delete({
         where: {
           id,
-          photographerName: photographer.name,
+          photographerId: photographer.id,
         },
       });
 

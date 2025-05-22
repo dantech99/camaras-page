@@ -8,7 +8,7 @@ import { Card } from "@camaras/ui/src/components/card"
 
 export function SelectPackage() {
     const methods = GlobalStepper.useStepper()
-    const { photographerId, setPackageId, setPackageName, setPackagePrice } = useSaleStore()
+    const { photographerId, setPackageId, setPackageName, setPackagePrice, packageId } = useSaleStore()
     const { data, isLoading, isError } = getPhotographerPackages(photographerId)
 
     return (
@@ -31,7 +31,7 @@ export function SelectPackage() {
                         {data?.packages?.map((pkg) => (
                             <Card
                                 key={pkg.id}
-                                className="flex flex-col rounded-xl overflow-hidden transition-all hover:shadow-xl cursor-pointer"
+                                className={`flex flex-col rounded-xl overflow-hidden transition-all hover:shadow-xl cursor-pointer ${packageId === pkg.id ? "border-2 border-primary-blue" : ""}`}
                                 onClick={() => {
                                     setPackageId(pkg.id)
                                     setPackageName(pkg.name)
