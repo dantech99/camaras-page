@@ -22,10 +22,9 @@ export class ProfileService {
           facebookUrl: true,
           instagramUrl: true,
           tiktokUrl: true,
-          fullName: true,
+          nameTag: true,
           website: true,
           location: true,
-          hobbie: true,
         },
       });
 
@@ -151,10 +150,10 @@ export class ProfileService {
   async updateAdditionalInformation(
     userId: string,
     data: {
-      fullName?: string;
+      nameTag?: string;
       website?: string;
       location?: string;
-      hobbie?: string;
+      phoneNumber?: string;
     }
   ) {
     try {
@@ -173,10 +172,10 @@ export class ProfileService {
       await prisma.user.update({
         where: { id: userId },
         data: {
-          fullName: data.fullName,
+          nameTag: data.nameTag,
           website: data.website,
           location: data.location,
-          hobbie: data.hobbie,
+          phoneNumber: data.phoneNumber,
         },
       });
 

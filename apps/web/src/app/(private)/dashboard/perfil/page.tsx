@@ -1,11 +1,10 @@
 "use client"
 
 import { useProfile } from "@/hooks/use-profile"
-import { Facebook, Instagram, Loader2, Globe, MapPin, Heart, Mail, Phone } from "lucide-react"
+import { Facebook, Instagram, Loader2, Globe, MapPin, Mail, Phone } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { Card } from "@camaras/ui/src/components/card"
-import { Badge } from "@camaras/ui/src/components/badge"
 
 export default function PerfilPage() {
   const { data, isLoading } = useProfile()
@@ -78,9 +77,8 @@ export default function PerfilPage() {
 
             {/* Información del usuario */}
             <div className="p-4 text-center">
-              <h2 className="text-xl font-bold">{data.user.name}</h2>
-              <p className="text-sm text-muted-foreground">{data.user.fullName}</p>
-              <Badge variant="outline" className="mt-2">{data.user.hobbie}</Badge>
+              <h2 className="text-xl font-bold">{data.user.nameTag || data.user.name}</h2>
+              <p className="text-sm text-muted-foreground">{data.user.nameTag ? data.user.name : ""}</p>
 
               {/* Información de contacto */}
               <div className="mt-4 space-y-2 text-sm">
