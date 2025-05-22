@@ -14,10 +14,10 @@ import { useProfile } from "@/hooks/use-profile"
 import { useState } from "react"
 
 const aditionalInformationSchema = z.object({
-  fullName: z.string().optional(),
+  nameTag: z.string().optional(),
   website: z.string().optional(),
   location: z.string().optional(),
-  hobbie: z.string().optional(),
+  phoneNumber: z.string().optional(),
 })
 
 export function AditionalInformationForm() {
@@ -28,10 +28,10 @@ export function AditionalInformationForm() {
   const form = useForm<z.infer<typeof aditionalInformationSchema>>({
     resolver: zodResolver(aditionalInformationSchema),
     defaultValues: {
-      fullName: data?.user?.fullName || "",
+      nameTag: data?.user?.nameTag || "",
       website: data?.user?.website || "",
       location: data?.user?.location || "",
-      hobbie: data?.user?.hobbie || "",
+      phoneNumber: data?.user?.phoneNumber || "",
     }
   })
 
@@ -39,10 +39,10 @@ export function AditionalInformationForm() {
     try {
       setIsLoading(true)
       await ProfileService.updateAdditionalInformation({
-        fullName: values.fullName || "",
+        nameTag: values.nameTag || "",
         website: values.website || "",
         location: values.location || "",
-        hobbie: values.hobbie || "",
+        phoneNumber: values.phoneNumber || "",
       })
       toast.success("Información actualizada correctamente")
       await refetch()
@@ -65,12 +65,12 @@ export function AditionalInformationForm() {
             <div className="space-y-4 w-full">
               <FormField
                 control={form.control}
-                name="fullName"
+                name="nameTag"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Nombre completo</FormLabel>
+                    <FormLabel>Nombre de usuario</FormLabel>
                     <FormControl>
-                      <Input placeholder="Miguel Valenzuela" {...field} />
+                      <Input placeholder="@miguelvalenzuela" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -106,12 +106,12 @@ export function AditionalInformationForm() {
               />
               <FormField
                 control={form.control}
-                name="hobbie"
+                name="phoneNumber"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Cargo</FormLabel>
+                    <FormLabel>Número de teléfono</FormLabel>
                     <FormControl>
-                      <Input placeholder="Fotógrafo" {...field} />
+                      <Input placeholder="+57 312 123 1234" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

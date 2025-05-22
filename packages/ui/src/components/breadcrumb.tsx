@@ -2,6 +2,7 @@ import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cn } from "@camaras/ui/src/lib/utils"
 import { ChevronRightIcon, DotsHorizontalIcon } from "@radix-ui/react-icons"
+import Link from "next/link"
 
 function Breadcrumb({ ...props }: React.ComponentProps<"nav">) {
   return <nav aria-label="breadcrumb" data-slot="breadcrumb" {...props} />
@@ -33,14 +34,36 @@ function BreadcrumbItem({ className, ...props }: React.ComponentProps<"li">) {
 function BreadcrumbLink({
   asChild,
   className,
+  href,
   ...props
-}: React.ComponentProps<"a"> & {
+}: Omit<React.ComponentProps<"a"> & React.ComponentProps<typeof Link>, 'href'> & {
   asChild?: boolean
+  href?: string
 }) {
-  const Comp = asChild ? Slot : "a"
+  if (asChild) {
+    return (
+      <Slot
+        data-slot="breadcrumb-link"
+        className={cn("hover:text-foreground transition-colors", className)}
+        {...props}
+      />
+    )
+  }
 
+  if (href) {
+    return (
+      <Link
+        href={href}
+        data-slot="breadcrumb-link"
+        className={cn("hover:text-foreground transition-colors", className)}
+        {...props}
+      />
+    )
+  }
+
+  // Fallback para casos sin href
   return (
-    <Comp
+    <span
       data-slot="breadcrumb-link"
       className={cn("hover:text-foreground transition-colors", className)}
       {...props}

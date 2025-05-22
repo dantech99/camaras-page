@@ -4,13 +4,11 @@ export const signUpWithEmailAndPassword = async (
   email: string,
   password: string,
   name: string,
-  phoneNumber: string
 ) => {
   const response = await authClient.signUp.email({
     email,
     password,
     name,
-    phoneNumber,
   });
 
   if (response.error) {

@@ -288,6 +288,7 @@ export function CreatePaqueteForm() {
         <Button
           type="submit"
           className="w-full"
+          disabled={isLoading}
         >
           {isLoading ? "Subiendo paquete..." : "Crear Paquete"}
         </Button>

@@ -22,13 +22,12 @@ model User {
   tiktokUrl    String?
 
   // Información adicional
-  fullName String?
-  website  String?
-  location String?
-  hobbie   String?
+  nameTag     String?
+  website     String?
+  location    String?
+  phoneNumber String?
 
   // Better Auth 
-  phoneNumber         String?
   email               String
   emailVerified       Boolean
   phoneNumberVerified Boolean?
@@ -48,9 +47,9 @@ model User {
   availableDays     AvailableDay[]
   sales             Sale[]
   packages          Package[]
-  discounts         Discount[] @relation("discountPhotographer")
+  discounts         Discount[]     @relation("discountPhotographer")
 
-  purchases Sale[] @relation("buyer")
+  purchases      Sale[] @relation("buyer")
   cancelledSales Sale[] @relation("cancelledBy")
 
   createdAt DateTime
