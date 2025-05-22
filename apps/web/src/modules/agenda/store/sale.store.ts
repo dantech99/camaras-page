@@ -1,9 +1,9 @@
 import { create } from "zustand";
 
-enum PaymentMethod {
-  CASH,
-  CREDIT_CARD,
-  NEQUI,
+export enum PaymentMethod {
+  CASH = "CASH",
+  CREDIT_CARD = "CREDIT_CARD",
+  NEQUI = "NEQUI",
 }
 
 interface SaleStore {

@@ -5,12 +5,50 @@ import { GlobalStepper } from "@/modules/agenda/config/stepper.config";
 import { SelectPhotographer } from "@/modules/agenda/select-photographer";
 import { SelectPackage } from "@/modules/agenda/select-package";
 import { SelectDay } from "@/modules/agenda/select-day";
-import { useSaleStore } from "@/modules/agenda/store/sale.store";
 import { Button } from "@camaras/ui/src/components/button";
+import { SelectPaymentMethod } from "@/modules/agenda/select-payment-method";
+import { ConfirmPayment } from "@/modules/agenda/confirm-payment";
+import { useSaleStore } from "@/modules/agenda/store/sale.store";
+import { toast } from "sonner";
 
 export default function AgendaPage() {
   const methods = GlobalStepper.useStepper();
-  const { photographerName, packageName, packagePrice, day, timeSlot } = useSaleStore();
+  const saleStore = useSaleStore();
+
+  const handleNext = () => {
+    const currentStepId = methods.current.id;
+
+    switch (currentStepId) {
+      case "first":
+        if (!saleStore.photographerId) {
+          toast.error("Por favor, selecciona un fotógrafo antes de continuar.");
+          return;
+        }
+        break;
+      case "second":
+        if (!saleStore.packageId) {
+          toast.error("Por favor, selecciona un paquete antes de continuar.");
+          return;
+        }
+        break;
+      case "third":
+        if (!saleStore.timeSlotId) {
+          toast.error("Por favor, selecciona un horario antes de continuar.");
+          return;
+        }
+        break;
+      case "fourth":
+        if (!saleStore.methodPayment) {
+          toast.error("Por favor, selecciona un método de pago antes de continuar.");
+          return;
+        }
+        break;
+      default:
+        break;
+    }
+
+    methods.next();
+  };
 
   return (
     <GlobalStepper.Scoped>
@@ -20,13 +58,15 @@ export default function AgendaPage() {
           <p className="text-2xl font-bold">{methods.current.title}</p>
           <p className="text-sm text-gray-500">{methods.current.description}</p>
         </div>
-        <div className="flex items-center justify-center gap-4">
-          <div className="flex flex-col w-full gap-4 h-full">
-            <div className="flex-1 py-4">
+        <div className="flex items-center w-full justify-center gap-4">
+          <div className="flex flex-col w-full h-full">
+            <div className="w-full py-4">
               {methods.switch({
                 first: () => <SelectPhotographer />,
                 second: () => <SelectPackage />,
                 third: () => <SelectDay />,
+                fourth: () => <SelectPaymentMethod />,
+                fifth: () => <ConfirmPayment />,
               })}
             </div>
             <div className="flex gap-2 w-full justify-between ">
@@ -36,22 +76,13 @@ export default function AgendaPage() {
               >
                 Atrás
               </Button>
-              <Button
-                onClick={() => methods.next()}
-                disabled={methods.current.id === "fifth"}
-              >
-                Siguiente
-              </Button>
+              {methods.current.id !== "fifth" && (
+                <Button onClick={handleNext}>
+                  Siguiente
+                </Button>
+              )}
             </div>
           </div>
-          <aside className="w-64 p-4 border rounded-md h-full">
-            <p className="text-lg font-bold">Resumen de compra:</p>
-            <p>Fotógrafo: {photographerName || "Seleccionar"}</p>
-            <p>Paquete: {packageName || "Seleccionar"}</p>
-            <p>Precio: {packagePrice || "Seleccionar"}</p>
-            <p>Día: {day || "Seleccionar"}</p>
-            <p>Horario: {timeSlot || "Seleccionar"}</p>
-          </aside>
         </div>
       </div>
     </GlobalStepper.Scoped>
