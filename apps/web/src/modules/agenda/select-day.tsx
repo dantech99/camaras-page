@@ -11,7 +11,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@c
 import { Button } from "@camaras/ui/src/components/button";
 
 export function SelectDay() {
-    const { photographerId, setDay, setTimeSlotId, setTimeSlot } = useSaleStore()
+    const { photographerId, setDay, setTimeSlotId, setTimeSlot, timeSlotId } = useSaleStore()
     const {data: availableDays, isLoading, isError} = getPhotographerAvailableDays(photographerId)
 
     return (
@@ -44,7 +44,7 @@ export function SelectDay() {
                                             <Button
                                                 key={slot.id}
                                                 variant="outline"
-
+                                                className={`flex flex-col rounded-xl overflow-hidden transition-all hover:shadow-xl cursor-pointer ${timeSlotId === slot.id ? "border-2 border-primary-blue" : ""}`}
                                                 onClick={() => {
                                                     setDay(day.day)
                                                     setTimeSlotId(slot.id)

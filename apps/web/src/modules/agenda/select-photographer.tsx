@@ -6,7 +6,7 @@ import { useSaleStore } from "./store/sale.store";
 import { Card } from "@camaras/ui/src/components/card";
 
 export function SelectPhotographer() {
-  const { setPhotographerId, setPhotographerName } = useSaleStore();
+  const { setPhotographerId, setPhotographerName, photographerId } = useSaleStore();
   const { data, isLoading, isError } = usePhotographers();
 
   return (
@@ -28,7 +28,7 @@ export function SelectPhotographer() {
           {data?.photographers?.map((photographer) => (
             <Card
               key={photographer.id}
-              className="flex flex-col rounded-xl overflow-hidden transition-all hover:shadow-xl cursor-pointer"
+              className={`flex flex-col rounded-xl overflow-hidden transition-all hover:shadow-xl cursor-pointer ${photographerId === photographer.id ? "border-2 border-primary-blue" : ""}`}
               onClick={() => {
                 setPhotographerId(photographer.id);
                 setPhotographerName(photographer.name);

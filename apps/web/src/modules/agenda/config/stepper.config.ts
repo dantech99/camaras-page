@@ -1,4 +1,5 @@
 import { defineStepper } from "@stepperize/react";
+import { useSaleStore } from "@/modules/agenda/store/sale.store";
 
 export const GlobalStepper = defineStepper(
   {
