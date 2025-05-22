@@ -1,3 +1,5 @@
+"use client";
+
 import { Card, CardContent } from "@camaras/ui/src/components/card";
 import {
   Tabs,
@@ -8,6 +10,9 @@ import {
 
 import { LoginForm } from "./login-form";
 import { RegisterForm } from "./register-form";
+import { Button } from "@camaras/ui/src/components/button";
+import { GoogleIcon } from "@camaras/ui/src/icons/google-icon";
+import { signInWithGoogle } from "@/utils/auth-connection";
 
 export function AuthScreens() {
   return (
@@ -32,15 +37,41 @@ export function AuthScreens() {
               </TabsList>
               <TabsContent
                 value="login"
-                className="transition-opacity duration-1000 animate-in fade-in"
+                className="transition-opacity duration-1000 animate-in fade-in space-y-2"
               >
                 <LoginForm />
+                <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
+                  <span className="relative z-10 bg-card px-2 text-muted-foreground">
+                    O continuar con
+                  </span>
+                </div>
+                <Button
+                  variant="outline"
+                  onClick={signInWithGoogle}
+                  className="w-full rounded-full"
+                >
+                  <GoogleIcon />
+                  Iniciar sesión con Google
+                </Button>
               </TabsContent>
               <TabsContent
                 value="signup"
-                className="transition-opacity duration-1000 animate-in fade-in"
+                className="transition-opacity duration-1000 animate-in fade-in space-y-2"
               >
                 <RegisterForm />
+                <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
+                  <span className="relative z-10 bg-card px-2 text-muted-foreground">
+                    O continuar con
+                  </span>
+                </div>
+                <Button
+                  variant="outline"
+                  onClick={signInWithGoogle}
+                  className="w-full rounded-full"
+                >
+                  <GoogleIcon />
+                  Iniciar sesión con Google
+                </Button>
               </TabsContent>
             </Tabs>
           </div>

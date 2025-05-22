@@ -113,6 +113,8 @@ model TimeSlot {
   availableDayId String
   availableDay   AvailableDay @relation(fields: [availableDayId], references: [id])
 
+  sales Sale[]
+
   @@map("time_slot")
 }
 
@@ -132,6 +134,10 @@ model Sale {
 
   discountCode Discount? @relation("discountCode", fields: [discountCodeId], references: [id])
   discountCodeId String?
+  discountPercentage Float
+
+  timeSlotId String
+  timeSlot TimeSlot @relation(fields: [timeSlotId], references: [id])
 
   price Float
   finalPrice Float

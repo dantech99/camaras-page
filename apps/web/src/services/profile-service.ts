@@ -39,10 +39,10 @@ export const ProfileService = {
   },
 
   updateAdditionalInformation: async (data: {
-    fullName: string;
+    nameTag: string;
     website: string;
     location: string;
-    hobbie: string;
+    phoneNumber: string;
   }) => {
     const response = await apiClient.profile.additional.patch(data, {
       fetch: {

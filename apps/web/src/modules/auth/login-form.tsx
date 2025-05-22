@@ -4,10 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import {
-  signInWithEmailAndPassword,
-  signInWithGoogle,
-} from "@/utils/auth-connection";
+import { signInWithEmailAndPassword } from "@/utils/auth-connection";
 import { Button } from "@camaras/ui/src/components/button";
 import {
   Form,
@@ -19,8 +16,6 @@ import {
 } from "@camaras/ui/src/components/form";
 import { Input } from "@camaras/ui/src/components/input";
 import { toast } from "sonner";
-
-import { GoogleIcon } from "@camaras/ui/src/icons/google-icon";
 
 const loginFormSchema = z.object({
   email: z.string().email("El correo electrónico no es válido"),
@@ -87,19 +82,6 @@ export function LoginForm() {
           variant="outline"
         >
           Iniciar Sesión
-        </Button>
-        <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
-          <span className="relative z-10 bg-card px-2 text-muted-foreground">
-            O continuar con
-          </span>
-        </div>
-        <Button
-          variant="outline"
-          onClick={signInWithGoogle}
-          className="w-full rounded-full"
-        >
-          <GoogleIcon />
-          Iniciar sesión con Google
         </Button>
       </form>
     </Form>
