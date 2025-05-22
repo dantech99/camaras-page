@@ -31,10 +31,10 @@ export const profileRouter = new Elysia({
     {
       photographer: true,
       body: t.Object({
-        fullName: t.Optional(t.String()),
+        nameTag: t.Optional(t.String()),
         website: t.Optional(t.String()),
         location: t.Optional(t.String()),
-        hobbie: t.Optional(t.String()),
+        phoneNumber: t.Optional(t.String()),
       }),
     }
   )
