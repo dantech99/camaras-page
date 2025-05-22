@@ -3,11 +3,11 @@ import { useQuery } from "@tanstack/react-query";
 
 export function usePackages() {
   return useQuery({
-    queryKey: ['packages'],
+    queryKey: ["packages"],
     queryFn: () => PackageService.getAll(),
     staleTime: 1000 * 60 * 5,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     refetchOnReconnect: false,
-  })
+  });
 }

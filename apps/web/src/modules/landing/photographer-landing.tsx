@@ -1,47 +1,52 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { PhotographerCard } from "./photographer-card";
+import { usePhotographers } from "@/hooks/use-photographers";
+import { Skeleton } from "@camaras/ui/src/components/skeleton";
 
-const photographers = [
-  {
-    name: "Carlos Mendoza",
-    image:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000",
-    role: "Fotógrafo Cosplay",
-    description:
-      "Hola me llamo Carlos y tomo fotos en Camaras del Dragon.png muchas gracias",
-  },
-  {
-    name: "Carlos Hernandez",
-    image:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000",
-    role: "Fotógrafo Cosplay",
-    description:
-      "Hola me llamo Carlos y tomo fotos en Camaras del Dragon.png muchas gracias",
-  },
-  {
-    name: "Carlos Pietro",
-    image:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000",
-    role: "Fotógrafo Cosplay",
-    description:
-      "Hola me llamo Carlos y tomo fotos en Camaras del Dragon.png muchas gracias",
-  },
-  {
-    name: "Carlos Sanchez",
-    image:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000",
-    role: "Fotógrafo Cosplay",
-    description:
-      "Hola me llamo Carlos y tomo fotos en Camaras del Dragon.png muchas gracias",
-  },
-];
+// const photographers = [
+//   {
+//     name: "Carlos Mendoza",
+//     image:
+//       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000",
+//     role: "Fotógrafo Cosplay",
+//     description:
+//       "Hola me llamo Carlos y tomo fotos en Camaras del Dragon.png muchas gracias",
+//   },
+//   {
+//     name: "Carlos Hernandez",
+//     image:
+//       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000",
+//     role: "Fotógrafo Cosplay",
+//     description:
+//       "Hola me llamo Carlos y tomo fotos en Camaras del Dragon.png muchas gracias",
+//   },
+//   {
+//     name: "Carlos Pietro",
+//     image:
+//       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000",
+//     role: "Fotógrafo Cosplay",
+//     description:
+//       "Hola me llamo Carlos y tomo fotos en Camaras del Dragon.png muchas gracias",
+//   },
+//   {
+//     name: "Carlos Sanchez",
+//     image:
+//       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000",
+//     role: "Fotógrafo Cosplay",
+//     description:
+//       "Hola me llamo Carlos y tomo fotos en Camaras del Dragon.png muchas gracias",
+//   },
+// ];
 
 export function PhotographerGrid() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+
+  const { data, isLoading } = usePhotographers();
+  const photographers = data?.photographers || [];
 
   useEffect(() => {
     const checkMobile = () => {
@@ -63,6 +68,27 @@ export function PhotographerGrid() {
       return () => clearInterval(interval);
     }
   }, [isMobile]);
+
+  if (isLoading) {
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-8 w-full">
+        {Array.from({ length: 4 }).map((_, index) => (
+          <Skeleton
+            className="rounded-3xl aspect-9/16 w-full cursor-pointer shadow-2xl"
+            key={index}
+          />
+        ))}
+      </div>
+    );
+  }
+
+  if (!photographers.length) {
+    return (
+      <div className="flex justify-center items-center w-full h-full">
+        <p className="text-lg text-gray-500">No hay fotógrafos disponibles</p>
+      </div>
+    );
+  }
 
   if (isMobile) {
     return (
