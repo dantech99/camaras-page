@@ -52,7 +52,7 @@ export default function AgendaPage() {
 
   return (
     <GlobalStepper.Scoped>
-      <div className="flex flex-col items-center justify-center h-[100dvh] max-w-6xl mx-auto">
+      <div className="flex flex-col items-center justify-center h-[100dvh] max-w-6xl mx-auto p-4">
         <div className="w-full space-y-2">
           <Progress value={methods.current.percentage} />
           <p className="text-2xl font-bold">{methods.current.title}</p>

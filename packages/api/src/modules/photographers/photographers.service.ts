@@ -71,7 +71,9 @@ export class PhotographerService {
             },
           },
         },
-        include: {
+        select: {
+          id: true,
+          date: true,
           timeSlots: {
             where: {
               isBooked: false,
@@ -89,6 +91,7 @@ export class PhotographerService {
 
       const availableDays = days.map(day => ({
         day: day.date,
+        dayId: day.id,
         timeSlots: day.timeSlots.map(slot => ({
           id: slot.id,
           start: slot.start,

@@ -31,7 +31,7 @@ export function SelectPackage() {
                         {data?.packages?.map((pkg) => (
                             <Card
                                 key={pkg.id}
-                                className={`flex flex-col rounded-xl overflow-hidden transition-all hover:shadow-xl cursor-pointer ${packageId === pkg.id ? "border-2 border-primary-blue" : ""}`}
+                                className={`flex flex-col rounded-xl overflow-hidden transition-all hover:shadow-xl cursor-pointer ${packageId === pkg.id ? "border-2 border-primary-blue" : "border-2"}`}
                                 onClick={() => {
                                     setPackageId(pkg.id)
                                     setPackageName(pkg.name)
