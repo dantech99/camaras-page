@@ -84,8 +84,8 @@ model Discount {
   isActive           Boolean  @default(true)
   createdat          DateTime @default(now())
 
-  sales              Sale[] @relation("discountCode")
-  photographer       User   @relation("discountPhotographer", fields: [photographerId], references: [id])
+  sales        Sale[] @relation("discountCode")
+  photographer User   @relation("discountPhotographer", fields: [photographerId], references: [id])
 
   userId String?
 
@@ -99,6 +99,7 @@ model AvailableDay {
   userId      String
   user        User       @relation(fields: [userId], references: [id])
   timeSlots   TimeSlot[]
+  sales       Sale[]
 
   @@map("available_day")
 }
@@ -123,32 +124,35 @@ model Sale {
 
   saleStatus SaleStatus @default(PENDING)
 
-  photographer User @relation(fields: [photographerId], references: [id])
+  photographer   User   @relation(fields: [photographerId], references: [id])
   photographerId String
 
-  package Package @relation(fields: [packageId], references: [id]) 
+  package   Package @relation(fields: [packageId], references: [id])
   packageId String
 
-  buyer User @relation("buyer", fields: [buyerId], references: [id])
+  buyer   User   @relation("buyer", fields: [buyerId], references: [id])
   buyerId String
 
-  discountCode Discount? @relation("discountCode", fields: [discountCodeId], references: [id])
-  discountCodeId String?
+  discountCode       Discount? @relation("discountCode", fields: [discountCodeId], references: [id])
+  discountCodeId     String?
   discountPercentage Float
 
-  timeSlotId String
-  timeSlot TimeSlot @relation(fields: [timeSlotId], references: [id])
+  day   AvailableDay @relation(fields: [dayId], references: [id])
+  dayId String
 
-  price Float
+  timeSlotId String
+  timeSlot   TimeSlot @relation(fields: [timeSlotId], references: [id])
+
+  price      Float
   finalPrice Float
 
-  cancelledAt DateTime?
+  cancelledAt   DateTime?
   cancelledById String?
-  cancelledBy User? @relation("cancelledBy", fields: [cancelledById], references: [id])
+  cancelledBy   User?     @relation("cancelledBy", fields: [cancelledById], references: [id])
 
   methodPayment PaymentMethod
 
-  paymentConfirmation Boolean @default(false)
+  paymentConfirmation   Boolean   @default(false)
   paymentConfirmationAt DateTime?
 
   createdAt DateTime @default(now())

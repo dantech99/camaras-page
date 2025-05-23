@@ -8,6 +8,12 @@ export const couponRouter = new Elysia({
 })
   .use(betterAuth)
   .use(couponModule)
+  .post("/validate", ({ couponService, body }) => couponService.validateCoupon(body.code, body.photographerId), {
+    body: t.Object({
+      code: t.String(),
+      photographerId: t.String(),
+    }),
+  })
   .get("/", ({ couponService, user }) => couponService.getCoupons(user.id), {
     photographer: true,
   })

@@ -26,7 +26,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@camaras/ui/src/components/sidebar";
-import { useProfile } from "@/hooks/use-profile";
 import { authClient } from "@camaras/auth/client";
 
 const data = {
@@ -47,7 +46,6 @@ const data = {
         },
       ],
     },
-    
   ],
   navSecondary: [
     {
@@ -153,11 +151,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent className="overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
-        {isAdmin && <NavMain items={data.navMain} />}
         {isAdmin && <NavAdmins projects={administradores} label="Administrador"/>}
         {isPhotographer && <NavAdmins projects={photographer} label="Fotógrafos"/>}
         {isUser && <NavAdmins projects={endUsers} label="Usuarios"/>}
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        {
+          isPhotographer || isUser ? (
+            <NavSecondary items={data.navSecondary} className="mt-auto" />
+          ) : null
+        }
       </SidebarContent>
       <SidebarFooter>
         <NavUser />

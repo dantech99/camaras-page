@@ -16,6 +16,7 @@ interface SaleStore {
   packageFinalPrice: number;
 
   day: string;
+  dayId: string;
   timeSlot: string;
   timeSlotId: string;
 
@@ -36,6 +37,7 @@ interface SaleStoreActions {
   setDiscountId: (id: string) => void;
   setMethodPayment: (method: PaymentMethod) => void;
   setDay: (day: string) => void;
+  setDayId: (id: string) => void;
   setTimeSlot: (timeSlot: string) => void;
   setTimeSlotId: (id: string) => void;
 }
@@ -48,6 +50,7 @@ export const useSaleStore = create<SaleStore & SaleStoreActions>((set) => ({
   packagePrice: 0,
   packageFinalPrice: 0,
   day: "",
+  dayId: "",
   timeSlot: "",
   timeSlotId: "",
   discountCode: "",
@@ -64,6 +67,7 @@ export const useSaleStore = create<SaleStore & SaleStoreActions>((set) => ({
   setDiscountId: (id: string) => set({ discountId: id }),
   setMethodPayment: (method: PaymentMethod) => set({ methodPayment: method }),
   setDay: (day: string) => set({ day }),
+  setDayId: (id: string) => set({ dayId: id }),
   setTimeSlot: (timeSlot: string) => set({ timeSlot }),
   setTimeSlotId: (id: string) => set({ timeSlotId: id }),
 }));

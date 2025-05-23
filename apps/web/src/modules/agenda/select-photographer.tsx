@@ -28,7 +28,7 @@ export function SelectPhotographer() {
           {data?.photographers?.map((photographer) => (
             <Card
               key={photographer.id}
-              className={`flex flex-col rounded-xl overflow-hidden transition-all hover:shadow-xl cursor-pointer ${photographerId === photographer.id ? "border-2 border-primary-blue" : ""}`}
+              className={`flex flex-col rounded-xl overflow-hidden transition-all hover:shadow-xl cursor-pointer ${photographerId === photographer.id ? "border-2 border-primary-blue" : "border-2"}`}
               onClick={() => {
                 setPhotographerId(photographer.id);
                 setPhotographerName(photographer.name);

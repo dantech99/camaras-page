@@ -1,6 +1,48 @@
 import { prisma } from "@camaras/api/src/modules/prisma";
 
 export class CouponService {
+
+  async validateCoupon(code: string, photographerId: string) {    
+    try {
+      const coupon = await prisma.discount.findUnique({
+        where: {
+          code,
+          photographerId,
+        },
+      });
+
+      if (!coupon) {
+        throw new Error("Coupon not found");
+      }
+
+      if (coupon.expirationDate < new Date()) {
+        throw new Error("Coupon expired");
+      }
+
+      if (!coupon.isActive) {
+        throw new Error("Coupon is already used");
+      }
+
+      return {
+        message: "Coupon validated successfully",
+        status: 200,
+        coupon,
+      };
+    } catch (error) {
+      if (error instanceof Error) {
+        return {
+          message: error.message,
+          status: 500,
+        };
+      }
+
+      return {
+        message: "An unknown error occurred",
+        status: 500,
+      };
+    }
+  }
+
   async createCoupon(
     id: string,
     body: {

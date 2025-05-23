@@ -32,6 +32,19 @@ export const CouponService = {
     return response.data;
   },
 
+  validate: async (code: string, photographerId: string) => {
+    const response = await apiClient.coupon.validate.post(
+      { code, photographerId },
+      {
+        fetch: {
+          credentials: "include",
+        },
+      }
+    );
+    return response.data;
+  },
+  
+
   update: async (id: string, values: UpdateCouponDto) => {
     const response = await apiClient
       .coupon({
@@ -50,6 +63,7 @@ export const CouponService = {
           },
         }
       );
+    return response.data;
   },
 
   delete: async (id: string) => {
