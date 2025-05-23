@@ -13,7 +13,9 @@ import Link from "next/link";
 
 export function NavAdmins({
   projects,
+  label
 }: {
+  label: string;
   projects: {
     name: string;
     url: string;
@@ -22,7 +24,7 @@ export function NavAdmins({
 }) {
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel>Administrador</SidebarGroupLabel>
+      <SidebarGroupLabel>{label}</SidebarGroupLabel>
       <SidebarMenu>
         {projects.map((item) => (
           <SidebarMenuItem key={item.name}>
