@@ -47,29 +47,7 @@ const data = {
         },
       ],
     },
-    {
-      title: "Fotografo",
-      url: "#",
-      icon: CameraIcon,
-      items: [
-        {
-          title: "Paquetes",
-          url: "/dashboard/paquetes",
-        },
-        {
-          title: "Cupones",
-          url: "/dashboard/cupones",
-        },
-        {
-          title: "Horarios",
-          url: "/dashboard/horarios",
-        },
-        {
-          title: "Ventas",
-          url: "/dashboard/ventas",
-        },
-      ],
-    },
+    
   ],
   navSecondary: [
     {
@@ -109,11 +87,49 @@ const administradores = [
 ];
 
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+const photographer = [
+  {
+    name: "Paquetes",
+    url: "/dashboard/paquetes",
+    icon: CameraIcon,
+  },
+  {
+    name: "Cupones",
+    url: "/dashboard/cupones",
+    icon: File,
+    
+  },
+  {
+    name: "Horarios",
+    url: "/dashboard/horarios",
+    icon: File,
+  },
+  {
+    name: "Ventas",
+    url: "/dashboard/ventas",
+    icon: ShoppingCart,
+  },
+];
 
+const endUsers = [
+  {
+    name: "Mi Perfil",
+    url: "/dashboard/perfil",
+    icon: User,
+  },
+  {
+    name: "Mis Compras",
+    url: "/dashboard/compras",
+    icon: ShoppingCart,
+  },
+];
+
+export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: session } = authClient.useSession();
 
   const isAdmin = session?.user?.role.includes("admin");
+  const isUser = session?.user?.role.includes("user");
+  const isPhotographer = session?.user?.role.includes("photographer");
 
   return (
     <Sidebar variant="inset" {...props}>
@@ -137,8 +153,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent className="overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
-        <NavMain items={data.navMain} />
-        {isAdmin && <NavAdmins projects={administradores} />}
+        {isAdmin && <NavMain items={data.navMain} />}
+        {isAdmin && <NavAdmins projects={administradores} label="Administrador"/>}
+        {isPhotographer && <NavAdmins projects={photographer} label="Fotógrafos"/>}
+        {isUser && <NavAdmins projects={endUsers} label="Usuarios"/>}
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
