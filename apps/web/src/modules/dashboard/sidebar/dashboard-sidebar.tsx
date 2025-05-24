@@ -87,6 +87,11 @@ const administradores = [
 
 const photographer = [
   {
+    name: "Perfil",
+    url: "/dashboard/perfil",
+    icon: User,
+  },
+  {
     name: "Paquetes",
     url: "/dashboard/paquetes",
     icon: CameraIcon,
