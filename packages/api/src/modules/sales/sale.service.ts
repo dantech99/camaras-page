@@ -118,6 +118,215 @@ export class SaleService {
         }
     }
 
+    async getSalesByPhotographer(photographerId: string) {
+        try {
+            const sales = await this.prisma.sale.findMany({
+                where: {
+                    photographerId,
+                },
+                select: {
+                    id: true,
+                    buyer: {
+                        select: {
+                            name: true,
+                        },
+                    },
+                    saleStatus: true,
+                    package: {
+                        select: {
+                            name: true,
+                        },
+                    },
+                    finalPrice: true,
+                    discountCode: {
+                        select: {
+                            discountPercentage: true,
+                        },
+                        where: {
+                            discountPercentage: {
+                                not: 0,
+                            },
+                        },
+                    },
+                },
+            });
+            const formattedSales = sales.map(sale => ({
+                id: sale.id,
+                buyerName: sale.buyer.name,
+                status: sale.saleStatus,
+                packageName: sale.package.name,
+                price: sale.finalPrice,
+                hasDiscount: !!sale.discountCode?.discountPercentage,
+            }));
+            return {
+                status: 200,
+                message: "Sales found",
+                sales: formattedSales,
+            }
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
+    async getSalesByUser(userId: string) {
+        try {
+            const sales = await this.prisma.sale.findMany({
+                where: {
+                    buyerId: userId,
+                },
+                select: {
+                    id: true,
+                    buyer: {
+                        select: {
+                            name: true,
+                            email: true,
+                            phoneNumber: true,
+                        },
+                    },
+                    saleStatus: true,
+                    package: {
+                        select: {
+                            name: true,
+                        },
+                    },
+                    finalPrice: true,
+                    discountCode: {
+                        select: {
+                            discountPercentage: true,
+                        },
+                        where: {
+                            discountPercentage: {
+                                not: 0,
+                            },
+                        },
+                    },
+                },
+            });
+            return {
+                status: 200,
+                message: "Sales found",
+                sales,
+            }
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
+    async getSaleByPhotographerAndId(id: string, photographerId: string) {
+        try {
+            const sale = await this.prisma.sale.findUnique({
+                where: {
+                    id,
+                    photographerId,
+                },
+                select: {
+                    id: true,
+                    buyer: {
+                        select: {
+                            name: true,
+                            email: true,
+                            phoneNumber: true,
+                            id: true,
+                        }
+                    },
+                    package: {
+                        select: {
+                            name: true,
+                            price: true,
+                            photoCount: true,
+                        }
+                    },
+                    discountCode: {
+                        select: {
+                            code: true,
+                            discountPercentage: true,
+                        },
+                        where: {
+                            discountPercentage: {
+                                not: 0,
+                            },
+                        },
+                    },
+                    finalPrice: true,
+                    saleStatus: true,
+                    paymentConfirmation: true,
+                    paymentConfirmationAt: true,
+                    cancelledAt: true,
+                    cancelledById: true,
+                    methodPayment: true,
+                    createdAt: true,
+                    price: true,
+                    updatedAt: true,
+                    day: {
+                        select: {
+                            date: true,
+                        }
+                    },
+                    timeSlot: {
+                        select: {
+                            start: true,
+                            end: true,
+                            ampmStart: true,
+                            ampmEnd: true,
+                        }
+                    }
+                },
+            });
+            return {
+                status: 200,
+                message: "Sale found",
+                sale,
+            }
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
+    async getSaleByUserAndId(userId: string, saleId: string) {
+        try {
+            const sale = await this.prisma.sale.findUnique({
+                where: {
+                    id: saleId,
+                    buyerId: userId,
+                },
+            });
+            return {
+                status: 200,
+                message: "Sale found",
+                sale,
+            }
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
+    async confirmSale(saleId: string, userId: string) {
+        try {
+            const sale = await this.prisma.sale.update({
+                where: {
+                    id: saleId,
+                    photographerId: userId,
+                },
+                data: {
+                    paymentConfirmation: true,
+                    saleStatus: SaleStatus.COMPLETED,
+                },
+            });
+            return {
+                status: 200,
+                message: "Sale confirmed",
+                sale,
+            }
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
     private async validatePhotographer(photographerId: string) {
         const photographer = await this.prisma.user.findUnique({
             where: {
