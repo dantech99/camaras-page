@@ -20,4 +20,58 @@ export const SaleService = {
         );
         return response.data;
     },
+
+    // Photographer
+    getSalesByPhotographer: async () => {
+        const response = await apiClient.sale.photographer.get(
+            {
+                fetch: {
+                    credentials: "include",
+                }
+            }
+        );
+        return response.data;
+    },
+
+    getSalesByPhotographerAndId: async (saleId: string) => {
+        const response = await apiClient.sale.photographer({ id: saleId }).get({
+            fetch: {
+                credentials: "include",
+            }
+        });
+        return response.data;
+    },
+
+    confirmSale: async (saleId: string) => {
+        const response = await apiClient.sale.confirm({ id: saleId }).post(
+            {},
+            {
+                fetch: {
+                    credentials: "include",
+                }
+            }
+        );
+        return response.data;
+    },
+
+    // User
+    getSalesByUser: async () => {
+        const response = await apiClient.sale.user.get(
+            {
+                fetch: {
+                    credentials: "include",
+                }
+            }
+        );
+        return response.data;
+    },
+
+    getSalesByUserAndId: async (saleId: string) => {
+        const response = await apiClient.sale.user({ id: saleId }).get({
+            fetch: {
+                credentials: "include",
+            }
+        });
+        return response.data;
+    },
 }
