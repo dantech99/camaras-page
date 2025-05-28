@@ -64,22 +64,22 @@ const data = {
 const administradores = [
   {
     name: "Usuarios",
-    url: "/dashboard/admin/usuarios",
+    url: "/admin/usuarios",
     icon: User,
   },
   {
     name: "Auditorías",
-    url: "/dashboard/admin/auditorias",
+    url: "/admin/auditorias",
     icon: File,
   },
   {
     name: "Metricas",
-    url: "/dashboard/admin/metricas",
+    url: "/admin/metricas",
     icon: PieChart,
   },
   {
     name: "Ventas",
-    url: "/dashboard/admin/ventas",
+    url: "/admin/ventas",
     icon: ShoppingCart,
   },
 ];
@@ -88,28 +88,28 @@ const administradores = [
 const photographer = [
   {
     name: "Perfil",
-    url: "/dashboard/perfil",
+    url: "/photographer/perfil",
     icon: User,
   },
   {
     name: "Paquetes",
-    url: "/dashboard/paquetes",
+    url: "/photographer/paquetes",
     icon: CameraIcon,
   },
   {
     name: "Cupones",
-    url: "/dashboard/cupones",
+    url: "/photographer/cupones",
     icon: File,
     
   },
   {
     name: "Horarios",
-    url: "/dashboard/horarios",
+    url: "/photographer/horarios",
     icon: File,
   },
   {
     name: "Ventas",
-    url: "/dashboard/ventas",
+    url: "/photographer/ventas",
     icon: ShoppingCart,
   },
 ];
