@@ -6,6 +6,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@camaras/ui/src/components/accordion";
+import { Button } from "@camaras/ui/src/components/button";
+import Link from "next/link";
 
 export function FAQSection() {
   const faqItems = [
@@ -43,7 +45,7 @@ export function FAQSection() {
 
   return (
     <div className="bg-black w-full">
-      <section className="w-full max-w-4xl mx-auto py-12 px-4 md:px-6 text-white">
+      <section className="w-full max-w-4xl mx-auto py-4 px-4 md:px-6 text-white">
         <div className="text-center mb-10">
           <h2 className="text-3xl font-bold tracking-tight mb-2 text-white">
             Preguntas Frecuentes
@@ -79,12 +81,13 @@ export function FAQSection() {
           <p className="text-gray-400 mb-4">
             ¿No encuentra la respuesta que busca?
           </p>
-          <a
-            href="#contact"
-            className="inline-flex h-10 items-center justify-center rounded-md bg-zinc-800 px-8 text-sm font-medium text-white shadow transition-colors hover:bg-zinc-700 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-600"
-          >
-            Contáctenos
-          </a>
+          <Link href="/contacto" className="inline-flex items-center gap-2">
+            <Button
+              className="inline-flex h-10 items-center justify-center rounded-full bg-zinc-800 px-8 text-sm font-medium text-white shadow transition-colors hover:bg-zinc-700 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-600"
+            >
+              Contáctenos
+            </Button>
+          </Link>
         </div>
       </section>
     </div>

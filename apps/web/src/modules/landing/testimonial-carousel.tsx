@@ -75,29 +75,40 @@ const secondRow = TestimonialData.slice(TestimonialData.length / 2);
 
 export function TestimonialCarousel() {
   return (
-    <div className="relative flex w-full flex-col items-center justify-center overflow-hidden py-8 md:py-32 bg-black">
-      <div className="w-full">
-        <Marquee pauseOnHover className="[--duration:25s]">
-          {firstRow.map((review) => (
-            <div key={review.id}>
-              <TestimonialCard props={review} />
-            </div>
-          ))}
-        </Marquee>
-      </div>
+    <>
+      <div className="relative flex w-full flex-col items-center justify-center overflow-hidden py-4 md:py-12 bg-black">
+        <div className="w-full max-w-4xl mx-auto text-white">
+          <h2 className="text-3xl font-bold tracking-tight mb-6 text-center">
+            Lo que dicen nuestros clientes
+          </h2>
+          <p className="text-gray-400 text-center mb-8">
+            Descubre las experiencias de quienes han confiado en nosotros.
+          </p>
+        </div>
 
-      <div className="w-full">
-        <Marquee reverse pauseOnHover className="[--duration:25s]">
-          {secondRow.map((review) => (
-            <div key={review.id}>
-              <TestimonialCard props={review} />
-            </div>
-          ))}
-        </Marquee>
-      </div>
+        <div className="w-full">
+          <Marquee pauseOnHover className="[--duration:25s]">
+            {firstRow.map((review) => (
+              <div key={review.id}>
+                <TestimonialCard props={review} />
+              </div>
+            ))}
+          </Marquee>
+        </div>
 
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-black"></div>
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-black"></div>
-    </div>
+        <div className="w-full">
+          <Marquee reverse pauseOnHover className="[--duration:25s]">
+            {secondRow.map((review) => (
+              <div key={review.id}>
+                <TestimonialCard props={review} />
+              </div>
+            ))}
+          </Marquee>
+        </div>
+
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-black"></div>
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-black"></div>
+      </div>
+    </>
   );
 }
