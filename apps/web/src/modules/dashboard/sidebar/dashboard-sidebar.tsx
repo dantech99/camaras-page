@@ -3,17 +3,19 @@
 import * as React from "react";
 import {
   BookOpen,
+  Calendar1Icon,
   CameraIcon,
   Command,
   File,
+  Home,
   LifeBuoy,
   PieChart,
   Send,
   ShoppingCart,
+  TicketIcon,
   User,
 } from "lucide-react";
 
-import { NavMain } from "./nav-main";
 import { NavAdmins } from "./nav-projects";
 import { NavSecondary } from "./nav-secondary";
 import { NavUser } from "./nav-user";
@@ -63,6 +65,11 @@ const data = {
 
 const administradores = [
   {
+    name: "Inicio",
+    url: "/admin",
+    icon: Home,
+  },
+  {
     name: "Usuarios",
     url: "/admin/usuarios",
     icon: User,
@@ -87,6 +94,11 @@ const administradores = [
 
 const photographer = [
   {
+    name: "Inicio",
+    url: "/photographer",
+    icon: Home,
+  },
+  {
     name: "Perfil",
     url: "/photographer/perfil",
     icon: User,
@@ -99,13 +111,13 @@ const photographer = [
   {
     name: "Cupones",
     url: "/photographer/cupones",
-    icon: File,
+    icon: TicketIcon,
     
   },
   {
     name: "Horarios",
     url: "/photographer/horarios",
-    icon: File,
+    icon: Calendar1Icon,
   },
   {
     name: "Ventas",
@@ -115,6 +127,11 @@ const photographer = [
 ];
 
 const endUsers = [
+  {
+    name: "Inicio",
+    url: "/dashboard",
+    icon: Home,
+  },
   {
     name: "Mi Perfil",
     url: "/dashboard/perfil",

@@ -1,18 +1,14 @@
 import { apiClient } from "@/utils/api-connection";
 
-interface UsersPagination {
-  limit: number;
-  offset: number;
-}
-
 export const UsersService = {
-  getAll: async (query: UsersPagination) => {
+  getAll: async () => {
     const response = await apiClient.users.index.get({
-      query,
       fetch: {
         credentials: "include",
-      },
+      }
     });
+
+    console.log(response.data);
 
     return response.data;
   },

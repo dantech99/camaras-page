@@ -4,6 +4,7 @@ import { adminClient, inferAdditionalFields } from "better-auth/client/plugins"
 import { NextRequest } from "next/server"
 import type { auth } from "utils/auth"
 
+
 export const authClient = createAuthClient({
     baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
     plugins: [

@@ -14,6 +14,8 @@ export const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const { data: session } = authClient.useSession();
 
+  const role = session?.user?.role;
+
   const navItems = [
     { name: "Somos", href: "/somos" },
     { name: "Fotógrafos", href: "/fotografos" },
@@ -69,9 +71,20 @@ export const Navbar = () => {
 
             {/* Right section - Login button */}
             <div className="hidden md:flex items-center">
-              {session ? (
+              {role === "admin" ? (
                 <Link
-                  href="/dashboard"
+                  href="/admin"
+                  className={cn(
+                    buttonVariants({
+                      variant: "landing",
+                    })
+                  )}
+                >
+                  {session.user?.name}
+                </Link>
+              ) : role === "photographer" ? (
+                <Link
+                  href="/photographer"
                   className={cn(
                     buttonVariants({
                       variant: "landing",

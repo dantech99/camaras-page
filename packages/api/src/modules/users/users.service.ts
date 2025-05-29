@@ -2,50 +2,21 @@ import { prisma } from "@camaras/api/src/modules/prisma";
 import { auth } from "@camaras/auth/index";
 
 export class UsersService {
-  async getUsers(
-    headers: Record<string, string>,
-    query: {
-      limit: number;
-      offset: number;
-      email?: string;
-      role?: "user" | "admin" | "photographer";
-    }
-  ) {
+  async getUsers( headers: Record<string, string>) {
     try {
       const users = await auth.api.listUsers({
-        headers,
         query: {
-          limit: query.limit,
-          offset: query.offset,
-          searchField: query.email ? "email" : undefined,
-          searchOperator: query.email ? "contains" : undefined,
-          searchValue: query.email,
-          filterField: query.role ? "role" : undefined,
-          filterOperator: query.role ? "eq" : undefined,
-          filterValue: query.role,
+          limit: 10,
         },
+        headers,
       });
 
       const totalUsers = users.total;
-      const totalPages = Math.ceil(totalUsers / query.limit);
-      const currentPage = Math.floor(query.offset / query.limit) + 1;
-      const hasNextPage = currentPage < totalPages;
-      const hasPreviousPage = currentPage > 1;
 
       return {
         users: users.users,
         pagination: {
           totalUsers,
-          totalPages,
-          currentPage,
-          limit: query.limit,
-          offset: query.offset,
-          hasNextPage,
-          hasPreviousPage,
-          nextPage: hasNextPage ? currentPage + 1 : null,
-          previousPage: hasPreviousPage ? currentPage - 1 : null,
-          startIndex: query.offset + 1,
-          endIndex: Math.min(query.offset + query.limit, totalUsers),
         },
       };
     } catch (error) {

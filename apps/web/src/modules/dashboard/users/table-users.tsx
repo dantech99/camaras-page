@@ -17,7 +17,7 @@ import { AlertDeteleUser } from "./alert-delete-user";
 
 export const TableUsers = () => {
   const { data, isLoading, isError } = useUsers();
-  console.log(data);
+  const users = data?.users || [];
 
   return (
     <Table className="w-full rounded-lg overflow-hidden">
@@ -50,8 +50,8 @@ export const TableUsers = () => {
               </div>
             </TableCell>
           </TableRow>
-        ) : data?.users.length > 0 ? (
-          data?.users.map((user) => (
+        ) : users.length > 0 ? (
+          users.map((user) => (
             <TableRow key={user.id} className="text-center">
               <TableCell className="text-left">{user.name}</TableCell>
               <TableCell>

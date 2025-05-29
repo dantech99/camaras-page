@@ -13,21 +13,26 @@ import { SidebarTrigger } from "@camaras/ui/src/components/sidebar";
 import { Separator } from "@camaras/ui/src/components/separator";
 import { usePathname } from "next/navigation";
 import React from "react";
+import { authClient } from "@camaras/auth/client";
 
 export function DashboardNavbar() {
   const pathname = usePathname();
   const segments = pathname.split('/').filter(Boolean);
+  const session = authClient.useSession();
+
+  const isPhotographer = session?.user?.role.includes('photographer');
+  const isAdmin = session?.user?.role.includes('admin');
 
   const breadcrumbs = [
     {
       label: 'Dashboard',
-      href: '/dashboard',
+      href: isPhotographer ? '/photographer' : '/admin',
       isCurrentPage: segments.length === 1
     }
   ];
 
   if (segments.length > 1) {
-    let currentPath = '/dashboard';
+    let currentPath = isPhotographer ? '/admin' : '/photographer'
     segments.slice(1).forEach((segment, index) => {
       currentPath += `/${segment}`;
       breadcrumbs.push({

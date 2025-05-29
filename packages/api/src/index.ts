@@ -15,14 +15,6 @@ import { saleRouter } from "@camaras/api/src/modules/sales/sale.route";
 export const api = new Elysia({
   prefix: "/api",
 })
-  .use(
-    cors({
-      origin: process.env.NEXT_PUBLIC_FRONTEND_URL,
-      methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-      credentials: true,
-      allowedHeaders: ["Authorization", "Content-Type"],
-    })
-  )
   .use(betterAuth)
   .use(packagesRouter)
   .use(photographersRouter)

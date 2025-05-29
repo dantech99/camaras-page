@@ -1,18 +1,31 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSessionCookie } from "better-auth/cookies";
+import { headers } from "next/headers";
+import { authClientVanilla } from "@camaras/auth/client/vanilla";
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const sessionCookie = getSessionCookie(request);
+  const session = await authClientVanilla.getSession({
+      fetchOptions: {
+          headers: await headers(),
+          next: {
+            revalidate: 0,
+          }
+      }
+  })
+
+  const role = session?.data?.user?.role;
 
   if (
-    (!sessionCookie && pathname === "/dashboard") ||
-    pathname.startsWith("/dashboard/")
+    (!role || role !== "admin") &&
+    (pathname === "/admin" || pathname.startsWith("/admin/"))
   ) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
-  if (sessionCookie && pathname === "/auth") {
+  if (
+    (!role || role !== "photographer") &&
+    (pathname === "/photographer" || pathname.startsWith("/photographer/"))
+  ) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
@@ -20,5 +33,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard", "/auth"],
+  matcher: ["/admin", "/photographer"],
 };
