@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "@camaras/ui/src/components/button";
+import Link from "next/link";
+
 // Imágenes de ejemplo - puedes reemplazarlas con tus propias URLs
 const images = [
   "/images/about-us/1.webp",
@@ -78,13 +80,15 @@ export function AboutLanding() {
               event, we strive to capture your essence in every shot.
             </p>
 
-            {/* Botón "Saber Más" con animación en Tailwind */}
-            <Button variant={"landing"}>
-              Saber más
-              <span className="inline-block transition-transform duration-300 animate-bounce-x">
-                →
-              </span>
-            </Button>
+            <Link href="/somos" className="inline-flex items-center gap-2">
+              <Button variant={"landing"}>
+                Saber más
+                <span className="inline-block transition-transform duration-300 animate-bounce-x">
+                  →
+                </span>
+              </Button>
+            </Link>
+            
           </div>
         </div>
       </div>

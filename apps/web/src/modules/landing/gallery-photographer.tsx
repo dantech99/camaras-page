@@ -2,6 +2,7 @@
 
 import { Avatar, AvatarFallback } from "@camaras/ui/src/components/avatar";
 import { Button } from "@camaras/ui/src/components/button";
+import Link from "next/link";
 
 export function GalleryPhotographer() {
   const cosplayCards = [
@@ -72,7 +73,7 @@ export function GalleryPhotographer() {
   ];
 
   return (
-    <div className="relative w-full py-8 sm:py-12 md:py-36 px-4 sm:px-6 md:px-8">
+    <div className="relative w-full py-2 sm:py-6 md:py-10 px-2 sm:px-3 md:px-4">
       <div className="max-w-6xl mx-auto">
         <div className="columns-2 sm:columns-2 md:columns-3 lg:columns-4 gap-3 sm:gap-4 md:gap-5 space-y-3 sm:space-y-4 md:space-y-5">
           {cosplayCards.map((card) => (
@@ -114,12 +115,14 @@ export function GalleryPhotographer() {
         </div>
       </div>
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
-      <Button
-        className="absolute bottom-16 left-1/2 transform -translate-x-1/2"
-        variant={"landing"}
-      >
-        Ver más fotos en nuestra galería
-      </Button>
+      <Link href="/gallery" className="inline-flex items-center gap-2">
+        <Button
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+          variant={"landing"}
+        >
+          Ver más fotos en nuestra galería
+        </Button>
+      </Link>
     </div>
   );
 }

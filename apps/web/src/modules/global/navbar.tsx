@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Search, Menu, X } from "lucide-react";
 import { motion } from "framer-motion";
-import { Button, buttonVariants } from "@camaras/ui/src/components/button";
+import { buttonVariants } from "@camaras/ui/src/components/button";
 import { authClient } from "@camaras/auth/client";
 
 import Link from "next/link";
