@@ -10,27 +10,15 @@ export const usersRouter = new Elysia({
   .use(usersModule)
   .get(
     "/",
-    ({ usersService, request, query }) => {
+    ({ usersService, request }) => {
       const headers: Record<string, string> = {};
       request.headers.forEach((value, key) => {
         headers[key] = value;
       });
-      return usersService.getUsers(headers, query);
+      return usersService.getUsers(headers);
     },
     {
       admin: true,
-      query: t.Object({
-        limit: t.Number(),
-        offset: t.Number(),
-        email: t.Optional(t.String()),
-        role: t.Optional(
-          t.Enum({
-            admin: "admin",
-            photographer: "photographer",
-            user: "user",
-          })
-        ),
-      }),
     }
   )
   .put(

@@ -18,7 +18,7 @@ export function AvailableDays() {
       {days?.map((day) => (
         <Link
           key={day.id}
-          href={`/dashboard/horarios/${day.id}`}
+          href={`/photographer/horarios/${day.id}`}
           className="p-4 rounded-lg border"
         >
           {capitalizeMonth(format(parseISO(day.date), "d 'de' MMMM 'del' yyyy", {

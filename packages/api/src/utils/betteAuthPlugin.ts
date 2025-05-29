@@ -82,11 +82,11 @@ export const betterAuth = new Elysia({ name: "better-auth" })
 
         if (!session) return error(401);
 
-        const role = await auth.api.userHasPermission({
+        const role = await auth.api.hasPermission({
+          headers,
           body: {
-            role: "admin",
             permissions: {
-              project: ["realm"],
+              organization: ["update"],
             },
           },
         });

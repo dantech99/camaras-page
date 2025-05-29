@@ -37,6 +37,7 @@ export function NavUser() {
   const { isMobile } = useSidebar();
   const { data: session, isPending } = authClient.useSession();
   const user = session?.user;
+  const isPhotographer = session?.user?.role.includes("photographer");
 
   const handleLogout = async () => {
     await authClient.signOut({
@@ -103,7 +104,7 @@ export function NavUser() {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem onClick={() => router.push("/dashboard/cuenta")}>
+              <DropdownMenuItem onClick={() => router.push(isPhotographer ? "/photographer/cuenta" : "/admin/cuenta")}>
                 <BadgeCheck />
                 Cuenta
               </DropdownMenuItem>

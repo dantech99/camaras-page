@@ -4,7 +4,7 @@ import { UsersService } from "../services/users-service";
 export function useUsers() {
   return useQuery({
     queryKey: ["users"],
-    queryFn: () => UsersService.getAll({ limit: 100, offset: 0 }),
+    queryFn: () => UsersService.getAll(),
     staleTime: 1000 * 60 * 5,
   });
 }
