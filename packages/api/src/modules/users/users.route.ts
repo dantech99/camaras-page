@@ -10,12 +10,8 @@ export const usersRouter = new Elysia({
   .use(usersModule)
   .get(
     "/",
-    ({ usersService, request }) => {
-      const headers: Record<string, string> = {};
-      request.headers.forEach((value, key) => {
-        headers[key] = value;
-      });
-      return usersService.getUsers(headers);
+    ({ usersService }) => {
+      return usersService.getUsers();
     },
     {
       admin: true,
@@ -23,12 +19,8 @@ export const usersRouter = new Elysia({
   )
   .put(
     "/:id",
-    ({ usersService, params, body, request }) => {
-      const headers: Record<string, string> = {};
-      request.headers.forEach((value, key) => {
-        headers[key] = value;
-      });
-      return usersService.updateUserRole(params.id, body.role, headers);
+    ({ usersService, params, body }) => {
+      return usersService.updateUserRole(params.id, body.role);
     },
     {
       admin: true,
