@@ -2,22 +2,16 @@ import { prisma } from "@camaras/api/src/modules/prisma";
 import { auth } from "@camaras/auth/index";
 
 export class UsersService {
-  async getUsers( headers: Record<string, string>) {
+  async getUsers() {
     try {
       const users = await auth.api.listUsers({
         query: {
-          limit: 10,
+          limit: 100,
         },
-        headers,
       });
-
-      const totalUsers = users.total;
 
       return {
         users: users.users,
-        pagination: {
-          totalUsers,
-        },
       };
     } catch (error) {
       console.log(error);
@@ -38,7 +32,6 @@ export class UsersService {
   async updateUserRole(
     id: string,
     role: "user" | "admin" | "photographer",
-    headers: Record<string, string>
   ) {
     try {
       const user = await prisma.user.findUnique({
@@ -54,11 +47,12 @@ export class UsersService {
         };
       }
 
-      const updatedUser = await auth.api.setRole({
-        headers,
-        body: {
-          userId: id,
-          role: role as "user" | "admin" | "photographer",
+      const updatedUser = await prisma.user.update({
+        where: {
+          id,
+        },
+        data: {
+          role,
         },
       });
 
