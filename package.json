@@ -5,6 +5,7 @@
     "build": "turbo build",
     "envs": "turbo envs",
     "dev": "turbo dev",
+    "landing-dev": "turbo --filter landing dev",
     "lint": "oxlint",
     "check-types": "turbo check-types",
     "shadcn": "bun --filter @camaras/ui shadcn",
