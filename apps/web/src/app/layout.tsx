@@ -15,7 +15,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Las Cámaras del Dragon",
-  description: "Las Cámaras del Dragon, un lugar donde agendar tu cita con los mejores fotógrafos de la ciudad",
+  description:
+    "Las Cámaras del Dragon, un lugar donde agendar tu cita con los mejores fotógrafos de la ciudad",
 };
 
 export default function RootLayout({
@@ -29,9 +30,7 @@ export default function RootLayout({
         suppressHydrationWarning={true}
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Providers>
-          {children}
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

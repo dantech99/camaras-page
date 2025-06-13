@@ -3,7 +3,7 @@ import { authClient } from "@camaras/auth/client/index";
 export const signUpWithEmailAndPassword = async (
   email: string,
   password: string,
-  name: string,
+  name: string
 ) => {
   const response = await authClient.signUp.email({
     email,

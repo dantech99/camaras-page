@@ -12,10 +12,10 @@ import {
 export const SalesSearch = () => {
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-      <Input placeholder="Buscar Ticket" className="w-full rounded-full" />
-      <Input placeholder="Buscar Nombre" className="w-full rounded-full" />
+      <Input placeholder="Buscar Ticket" className="w-full rounded-full border border-gray-300 focus:border-primary" />
+      <Input placeholder="Buscar Nombre" className="w-full rounded-full border border-gray-300 focus:border-primary" />
       <Select>
-        <SelectTrigger className="w-full cursor-pointer">
+        <SelectTrigger className="w-full cursor-pointer rounded-full border border-gray-300 focus:border-primary">
           <SelectValue placeholder="Buscar por Estado" />
         </SelectTrigger>
         <SelectContent>
@@ -28,7 +28,7 @@ export const SalesSearch = () => {
         </SelectContent>
       </Select>
       <Select>
-        <SelectTrigger className="w-full cursor-pointer">
+        <SelectTrigger className="w-full cursor-pointer rounded-full border border-gray-300 focus:border-primary">
           <SelectValue placeholder="Descuento" />
         </SelectTrigger>
         <SelectContent>

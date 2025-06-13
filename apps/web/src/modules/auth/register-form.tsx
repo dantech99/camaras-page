@@ -37,11 +37,7 @@ export function RegisterForm() {
   async function onSubmit(data: z.infer<typeof registerSchema>) {
     const { name, email, password } = data;
 
-    const response = await signUpWithEmailAndPassword(
-      email,
-      password,
-      name
-    );
+    const response = await signUpWithEmailAndPassword(email, password, name);
 
     if (response.error) {
       toast.error(response.error.message);
@@ -92,7 +88,7 @@ export function RegisterForm() {
               <FormMessage />
             </FormItem>
           )}
-        />        
+        />
         <Button
           type="submit"
           className="w-full rounded-full mt-2"

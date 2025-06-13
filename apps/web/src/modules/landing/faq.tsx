@@ -37,7 +37,8 @@ export function FAQSection() {
         "Si el cliente cancela con más de cinco días de anticipación a la fecha agendada, se reembolsa el 100% del anticipo. Si la cancelación se realiza entre dos y cinco días antes, se devuelve únicamente el 50%. En caso de cancelación con menos de 48 horas de antelación, el anticipo no es reembolsable. Sin embargo, si la cancelación se da por razones de fuerza mayor debidamente justificadas, se puede reagendar la sesión sin costo adicional una única vez. En caso de que el fotógrafo deba cancelar la sesión por razones de fuerza mayor, se reembolsará el 100% del anticipo y se ofrecerá una nueva fecha sin costo adicional. Las Cámaras del Dragón no se hace responsable por cambios climáticos o situaciones ajenas a su control que puedan afectar la realización de la sesión, pero siempre se buscará una solución adecuada para ambas partes.",
     },
     {
-      question: "¿Qué pasa si el cliente no asiste a la hora pactada para la sesión?",
+      question:
+        "¿Qué pasa si el cliente no asiste a la hora pactada para la sesión?",
       answer:
         "En caso de que el cliente no llegue a la hora establecida, se otorga un margen de espera máximo de 20 minutos. Si transcurrido ese tiempo el cliente no se presenta, la sesión se considera cancelada sin derecho a devolución del anticipo. Si el cliente llega tarde pero aún dentro del límite de espera, la sesión se realizará con el tiempo disponible restante. Para reprogramar una sesión perdida por inasistencia, será necesario pagar un nuevo anticipo o una tarifa de reprogramación, dependiendo de las condiciones del caso. En caso de que el fotógrafo llegue tarde, se extenderá el tiempo de la sesión hasta completar el tiempo pactado inicialmente, o se reprogramará sin costo adicional. Las Cámaras del Dragón no se hace responsable por cambios climáticos o situaciones ajenas a su control que puedan afectar la realización de la sesión, pero siempre se buscará una solución adecuada para ambas partes.",
     },
@@ -75,19 +76,6 @@ export function FAQSection() {
               </AccordionItem>
             ))}
           </Accordion>
-        </div>
-
-        <div className="mt-10 text-center">
-          <p className="text-gray-400 mb-4">
-            ¿No encuentra la respuesta que busca?
-          </p>
-          <Link href="/contacto" className="inline-flex items-center gap-2">
-            <Button
-              className="inline-flex h-10 items-center justify-center rounded-full bg-zinc-800 px-8 text-sm font-medium text-white shadow transition-colors hover:bg-zinc-700 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-600"
-            >
-              Contáctenos
-            </Button>
-          </Link>
         </div>
       </section>
     </div>

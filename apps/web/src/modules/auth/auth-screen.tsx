@@ -26,7 +26,7 @@ export function AuthScreens() {
                   value="login"
                   className="transition-colors duration-500 rounded-full"
                 >
-                  Iniciar sesión
+                  Iniciar Sesión
                 </TabsTrigger>
                 <TabsTrigger
                   value="signup"
@@ -51,7 +51,7 @@ export function AuthScreens() {
                   className="w-full rounded-full"
                 >
                   <GoogleIcon />
-                  Iniciar sesión con Google
+                  Iniciar Sesión con Google
                 </Button>
               </TabsContent>
               <TabsContent
@@ -70,7 +70,7 @@ export function AuthScreens() {
                   className="w-full rounded-full"
                 >
                   <GoogleIcon />
-                  Iniciar sesión con Google
+                  Iniciar Sesión con Google
                 </Button>
               </TabsContent>
             </Tabs>
