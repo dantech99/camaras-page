@@ -1,0 +1,100 @@
+<section class="flex justify-start p-8 md:p-24">
+    <div class="flex flex-col items-start justify-start gap-4">
+      <h4 class="text-5xl font-normal reveal-text" data-reveal>
+        <span>LOS MEJORES SERVICIOS</span>
+      </h4>
+      <h4 class="text-5xl font-bold font-unbounded reveal-text" data-reveal>
+        <span>TE ESPERAN CON NOSOTROS</span>
+      </h4>
+    </div>
+  </section>
+  
+  <style>
+    .reveal-text {
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+    }
+  
+    .reveal-text span {
+      position: relative;
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(0.25em);
+      transition:
+        opacity 0.6s ease 0.2s,
+        transform 0.6s ease 0.2s;
+      z-index: 1;
+    }
+  
+    .reveal-text::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-color: #47b7e4;
+      transform: translateX(0%);
+      transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+      z-index: 2;
+    }
+  
+    .reveal-text.revealed::before {
+      transform: translateX(-100%);
+    }
+  
+    .reveal-text.revealed span {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  
+    /* Escalonado opcional */
+    .reveal-text:nth-of-type(1)::before {
+      transition-delay: 0s;
+    }
+  
+    .reveal-text:nth-of-type(2)::before {
+      transition-delay: 0.15s;
+    }
+  
+    .reveal-text:nth-of-type(1) span {
+      transition-delay: 0.3s;
+    }
+  
+    .reveal-text:nth-of-type(2) span {
+      transition-delay: 0.45s;
+    }
+  </style>
+  
+  <script is:inline>
+    function initRevealAnimation() {
+      const revealElements = document.querySelectorAll('[data-reveal]');
+  
+      if (revealElements.length === 0) return;
+  
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('revealed');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          root: null,
+          rootMargin: '0px 0px -20% 0px',
+          threshold: 0.1,
+        }
+      );
+  
+      revealElements.forEach((el) => observer.observe(el));
+    }
+  
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initRevealAnimation);
+    } else {
+      initRevealAnimation();
+    }
+  
+    document.addEventListener('astro:page-load', initRevealAnimation);
+  </script>
+  

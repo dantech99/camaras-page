@@ -4,6 +4,8 @@
     "": {
       "name": "pages-d",
       "dependencies": {
+        "@fontsource-variable/geist": "^5.2.6",
+        "@fontsource-variable/unbounded": "^5.2.6",
         "@heroui/button": "^2.2.16",
         "@radix-ui/react-icons": "^1.3.2",
         "@react-spring/web": "^9.7.5",
@@ -303,6 +305,10 @@
     "@floating-ui/react-dom": ["@floating-ui/react-dom@2.1.2", "", { "dependencies": { "@floating-ui/dom": "^1.0.0" }, "peerDependencies": { "react": ">=16.8.0", "react-dom": ">=16.8.0" } }, "sha512-06okr5cgPzMNBy+Ycse2A6udMi4bqwW/zgBF/rwjcNqWkyr82Mcg8b0vjX8OJpZFy/FKjJmw6wV7t44kK6kW7A=="],
 
     "@floating-ui/utils": ["@floating-ui/utils@0.2.9", "", {}, "sha512-MDWhGtE+eHw5JW7lq4qhc5yRLS11ERl1c7Z6Xd0a58DozHES6EnNNwUWbMiG4J9Cgj053Bhk8zvlhFYKVhULwg=="],
+
+    "@fontsource-variable/geist": ["@fontsource-variable/geist@5.2.6", "", {}, "sha512-Bt9pdD55Fojq4h9yFKQAzh5+Xj4tKFpwbcDzK6t5PPSH2GrjPoPqm6N8y+tK6vzwKZ9hHyaOz/tAbO9cQd9UFQ=="],
+
+    "@fontsource-variable/unbounded": ["@fontsource-variable/unbounded@5.2.6", "", {}, "sha512-5bf5OYhhA6F7lHaY+Snd4d1UqjFYr5001OoOYqsPr/PF5GZ3T2eSyKu5cAoJ1IBFF3uSRUur8zrlk9y1PSDVaw=="],
 
     "@formatjs/ecma402-abstract": ["@formatjs/ecma402-abstract@2.3.4", "", { "dependencies": { "@formatjs/fast-memoize": "2.2.7", "@formatjs/intl-localematcher": "0.6.1", "decimal.js": "^10.4.3", "tslib": "^2.8.0" } }, "sha512-qrycXDeaORzIqNhBOx0btnhpD1c+/qFIHAN9znofuMJX6QBwtbrmlpWfD4oiUUD2vJUOIYFA/gYtg2KAMGG7sA=="],
 
