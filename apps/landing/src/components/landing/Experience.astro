@@ -1,0 +1,68 @@
+<section id="experience-section" class="relative h-screen overflow-hidden">
+  <!-- 🎞 Imagenes de fondo -->
+  <div id="image-grid" class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+    <div class="grid grid-cols-3 gap-6 w-full h-full animate-scroll-vertical">
+      {Array.from({ length: 9 }).map((_, i) => (
+        <img
+          src={`/equipo/photo-${(i % 5) + 1}.jpg`}
+          alt={`Equipo ${i}`}
+          class="w-full h-full object-cover opacity-30 grayscale rounded-xl"
+        />
+      ))}
+    </div>
+  </div>
+
+  <!-- ✍️ Texto centrado -->
+  <div class="relative z-10 h-full flex flex-col items-center justify-center text-center px-8 md:px-24 space-y-4">
+    <p class="text-4xl md:text-5xl font-light tracking-wide">POTENCIADOS POR SU</p>
+    <p class="text-6xl md:text-7xl font-extrabold text-primary-blue font-unbounded">EXPERIENCIA</p>
+    <p class="max-w-xl text-sm md:text-base text-primary-blue/70 leading-relaxed">
+      Contamos con más de 50 fotógrafos que han trabajado a lo largo de 3 años,
+      siempre mejorando sus habilidades y comprometidos con entregar el mejor trabajo.
+    </p>
+    <button class="bg-primary-blue text-white px-6 py-2 font-semibold font-unbounded">CONOCE NUESTRO EQUIPO</button>
+  </div>
+</section>
+
+<style>
+  @keyframes scroll-vertical {
+    0% {
+      transform: translateY(0%);
+    }
+    100% {
+      transform: translateY(-33.33%);
+    }
+  }
+
+  .animate-scroll-vertical {
+    animation: scroll-vertical 30s linear infinite;
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+  }
+
+  /* Responsive tweaks if needed */
+  @media (max-width: 768px) {
+    #image-grid {
+      display: none;
+    }
+  }
+</style>
+
+<script is:inline>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const section = document.getElementById('experience-section');
+
+    ScrollTrigger.create({
+      trigger: section,
+      start: 'top top',
+      end: '+=300vh',
+      pin: true,
+      pinSpacing: false,
+    });
+  });
+</script>
