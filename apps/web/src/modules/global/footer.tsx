@@ -1,56 +1,68 @@
-import { FaFacebook, FaInstagram, FaTiktok, FaDiscord, FaWhatsapp } from "react-icons/fa";
+import {
+  FaFacebook,
+  FaInstagram,
+  FaTiktok,
+  FaDiscord,
+  FaWhatsapp,
+} from "react-icons/fa";
 
-// Agrega la propiedad hoverClass a cada red social
 const navigation = {
   main: [
-    { name: 'Nosotros', href: '#' },
-    { name: 'Buscar Ticket', href: '#' },
-    { name: 'Galería', href: '#' },
-    { name: 'Términos y Condiciones', href: '#' },
-    { name: 'Políticas de privacidad', href: '#' },
-    { name: 'Contacto', href: '#' },
+    { name: "Nosotros", href: "#" },
+    { name: "Buscar Ticket", href: "#" },
+    { name: "Galería", href: "#" },
+    { name: "Términos y Condiciones", href: "#" },
+    { name: "Políticas de privacidad", href: "#" },
+    { name: "Contacto", href: "#" },
   ],
   social: [
     {
-      name: 'Facebook',
-      href: '#',
+      name: "Facebook",
+      href: "#",
       icon: FaFacebook,
-      hoverClass: 'hover:text-[#1877F3]', // Facebook blue
+      hoverClass: "hover:text-[#1877F3]", 
     },
     {
-      name: 'Instagram',
-      href: '#',
+      name: "Instagram",
+      href: "#",
       icon: FaInstagram,
-      hoverClass: 'hover:text-[#E4405F]', // Instagram pink
+      hoverClass: "hover:text-[#E4405F]", 
     },
     {
-      name: 'TikTok',
-      href: '#',
+      name: "TikTok",
+      href: "#",
       icon: FaTiktok,
-      hoverClass: 'hover:text-[#25F4EE]', // TikTok blue
+      hoverClass: "hover:text-[#25F4EE]", 
     },
     {
-      name: 'Discord',
-      href: '#',
+      name: "Discord",
+      href: "#",
       icon: FaDiscord,
-      hoverClass: 'hover:text-[#5865F2]', // Discord blurple
+      hoverClass: "hover:text-[#5865F2]", 
     },
     {
-      name: 'Whatsapp',
-      href: '#',
+      name: "Whatsapp",
+      href: "#",
       icon: FaWhatsapp,
-      hoverClass: 'hover:text-[#25D366]', // Whatsapp green
+      hoverClass: "hover:text-[#25D366]", 
     },
   ],
-}
+};
 
 export function Footer() {
   return (
     <footer className="w-full">
       <div className="mx-auto max-w-7xl overflow-hidden px-6 py-12 sm:py-16 lg:px-8">
-        <nav aria-label="Footer" className="-mb-6 flex flex-wrap justify-center gap-x-12 gap-y-3 text-sm/6">
+        <nav
+          aria-label="Footer"
+          className="-mb-6 flex flex-wrap justify-center gap-x-12 gap-y-3 text-sm/6"
+        >
           {navigation.main.map((item) => (
-            <a key={item.name} href={item.href} className="text-gray-400 hover:text-white">
+            <a
+              key={item.name}
+              href={item.href}
+              className="text-gray-400 hover:text-white"
+            >
               {item.name}
             </a>
           ))}
@@ -69,8 +81,10 @@ export function Footer() {
             </a>
           ))}
         </div>
-        <p className="mt-10 text-center text-sm/6 text-gray-400">&copy; 2025 Las Cámaras del Dragón. Todos los derechos reservados.</p>
+        <p className="mt-10 text-center text-sm/6 text-gray-400">
+          &copy; 2025 Las Cámaras del Dragón. Todos los derechos reservados.
+        </p>
       </div>
     </footer>
-  )
+  );
 }
