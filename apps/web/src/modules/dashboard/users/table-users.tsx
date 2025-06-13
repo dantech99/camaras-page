@@ -16,7 +16,7 @@ import { ResponsiveUpdateUser } from "./responsive-update-user";
 import { AlertDeteleUser } from "./alert-delete-user";
 
 export const TableUsers = () => {
-  const { data, isLoading, isError } = useUsers();
+  const { data, isLoading, isError, error } = useUsers();
   const users = data?.users || [];
 
   return (

@@ -7,9 +7,6 @@ export const UsersService = {
         credentials: "include",
       }
     });
-
-    console.log(response.data);
-
     return response.data;
   },
 
