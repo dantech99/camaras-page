@@ -1,13 +1,14 @@
 ---
 import "@camaras/ui/global.css"
 import Navbar from "@/components/global/Navbar.astro"
+import "@fontsource-variable/geist"
+import "@fontsource-variable/unbounded"
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="es">
 	<head>
 		<meta charset="UTF-8" />
-		<!-- <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/gsap.min.js"></script> -->
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
@@ -25,6 +26,7 @@ import Navbar from "@/components/global/Navbar.astro"
 		margin: 0;
 		width: 100%;
 		height: 100%;
+		font-family: var(--font-geist);
 	}
 </style>
 
