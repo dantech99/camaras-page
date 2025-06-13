@@ -36,7 +36,6 @@ const navSections: NavSection[] = [
   {
     title: "Legal",
     links: [
-      { name: "CREDITS", href: "#" },
       { name: "Política de Privacidad", href: "#" },
       { name: "Términos de Servicio", href: "#" },
     ],
@@ -44,7 +43,6 @@ const navSections: NavSection[] = [
 ]
 
 const socialIcons: SocialIcon[] = [
-  
   { name: "Facebook", icon: FacebookIcon, href: "#" },
   { name: "Instagram", icon: InstagramIcon, href: "#" },
   { name: "TikTok", icon: TikTokIcon, href: "#" },
@@ -56,10 +54,10 @@ const socialIcons: SocialIcon[] = [
   <div class="container mx-auto">
     <!-- Logo and tagline -->
     <div class="flex flex-col items-center mb-10">
-      <h2 class="text-black dark:text-white text-4xl md:text-5xl font-bold tracking-tighter text-center">
-        <span>MEET YOUR LEGEND</span>
+      <h2 class="text-black dark:text-white text-4xl md:text-5xl font-unbounded font-bold tracking-tighter text-center text-lg font-unbounded font-semibold text-primary-blue/70">
+        <span>LAS CÁMARAS DEL DRAGÓN</span>
       </h2>
-      <p class="mt-3 text-gray-600 dark:text-gray-400 text-center max-w-md">
+      <p class="mt-3 text-white text-center max-w-md font-unbounded">
         Descubre tu potencial y construye tu legado con nosotros
       </p>
     </div>
@@ -68,13 +66,14 @@ const socialIcons: SocialIcon[] = [
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
       {navSections.map((section) => (
         <div class="flex flex-col items-center md:items-start">
-          <h3 class="font-semibold text-black dark:text-white mb-4 text-lg">{section.title}</h3>
+          <h3 class="font-semibold font-unbounded text-white dark:text-white mb-4 text-lg">{section.title}</h3>
           <ul class="space-y-2">
             {section.links.map((link) => (
               <li>
                 <a
                   href={link.href}
-                  class="text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
+                  class="font-unbounded text-gray-600 dark:text-gray-400 hover:text-gray-50 dark:hover:text-white transition-colors"
+                  target="_blank"
                 >
                   {link.name}
                 </a>
@@ -101,9 +100,11 @@ const socialIcons: SocialIcon[] = [
         </div>
       </div>
 
-      <p class="text-gray-600 dark:text-gray-400 text-sm">
-        © {new Date().getFullYear()} MEET YOUR LEGEND. Todos los derechos reservados.
+      <p class="font-unbounded text-gray-600 dark:text-gray-400 text-sm">
+        © {new Date().getFullYear()} Las Cámaras del Dragón. Todos los derechos reservados.
       </p>
     </div>
   </div>
 </footer>
+
+
