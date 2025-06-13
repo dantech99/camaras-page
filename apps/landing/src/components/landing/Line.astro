@@ -1,0 +1,168 @@
+---
+// LineBlue.astro
+export interface Props {
+  messages?: string[];
+  speed?: number;
+  className?: string;
+  iconColor?: string;
+  textColor?: string;
+}
+
+const {
+  messages = [
+    "LAS MEJORES FOTOS",
+    "EXCELENTE CALIDAD", 
+    "SIN CAMBIOS REPENTINOS",
+    "LISTOS EN CUALQUIER MOMENTO"
+  ],
+  speed = 15,
+  className = "",
+  iconColor = "text-white",
+  textColor = "text-white"
+} = Astro.props;
+
+// Función para crear el contenido duplicado
+const createContent = () => {
+  return Array(2).fill(null).map((_, setIndex) => 
+    messages.map((message, index) => ({
+      setIndex,
+      index,
+      message,
+      key: `${setIndex}-${index}`
+    }))
+  ).flat();
+};
+
+const contentItems = createContent();
+---
+
+<div 
+  class={`line-blue-container overflow-hidden w-full bg-primary-blue relative ${className}`}
+  role="marquee"
+  aria-label="Texto en movimiento con servicios destacados"
+  data-speed={speed}
+  style={`--speed: ${speed}s`}
+>
+  <div
+    class={`line-blue-text flex whitespace-nowrap font-unbounded text-2xl font-bold p-4 ${textColor}`}
+  >
+    {contentItems.map((item, index) => (
+      <div key={index} class="flex items-center whitespace-nowrap">
+        <p class="mx-8">{item.message}</p>
+        <svg 
+          class={`mx-4 ${iconColor}`} 
+          width="24" 
+          height="24" 
+          viewBox="0 0 24 24" 
+          fill="none" 
+          stroke="currentColor" 
+          stroke-width="2" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="m11 17-5-5 5-5"/>
+          <path d="m18 17-5-5 5-5"/>
+        </svg>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .line-blue-text {
+    will-change: transform;
+    animation: marquee var(--speed, 15s) linear infinite;
+  }
+  
+  /* Animación CSS pura */
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+</style>
+
+<script>
+  // Script que se ejecuta en el cliente
+  class LineBlueComponent {
+    private container: HTMLElement;
+    private textElement: HTMLElement | null;
+    private animation: any;
+    
+    constructor(container: HTMLElement) {
+      this.container = container;
+      this.textElement = container.querySelector('.line-blue-text');
+      
+      if (this.textElement) {
+        this.init();
+      }
+    }
+    
+    private init(): void {
+      // Si GSAP está disponible, usar animación mejorada
+      if (typeof (window as any).gsap !== 'undefined') {
+        this.initGsapAnimation();
+      } else {
+        this.initCssAnimation();
+      }
+    }
+    
+    private initGsapAnimation(): void {
+      if (!this.textElement) return;
+      
+      const totalWidth = this.textElement.offsetWidth;
+      const singleLoopWidth = totalWidth / 2;
+      const speed = parseFloat(
+        getComputedStyle(this.container).getPropertyValue('--speed') || '15'
+      );
+      
+      const gsap = (window as any).gsap;
+      gsap.set(this.textElement, { x: 0 });
+      
+      this.animation = gsap.to(this.textElement, {
+        x: -singleLoopWidth,
+        duration: speed,
+        repeat: -1,
+        ease: "none"
+      });
+    }
+    
+    private initCssAnimation(): void {
+      if (!this.textElement) return;
+      
+      // La animación CSS ya está configurada en el style
+      const speed = this.container.dataset.speed || '15';
+      this.textElement.style.setProperty('--speed', `${speed}s`);
+    }
+    
+    // Método para limpiar la animación si es necesario
+    public destroy(): void {
+      if (this.animation && typeof (window as any).gsap !== 'undefined') {
+        this.animation.kill();
+      }
+    }
+  }
+  
+  // Inicializar componentes cuando el DOM esté listo
+  document.addEventListener('DOMContentLoaded', () => {
+    const containers = document.querySelectorAll<HTMLElement>('.line-blue-container');
+    containers.forEach(container => {
+      new LineBlueComponent(container);
+    });
+  });
+  
+  // Para SPA routing o componentes dinámicos
+  document.addEventListener('astro:page-load', () => {
+    const containers = document.querySelectorAll<HTMLElement>('.line-blue-container');
+    containers.forEach(container => {
+      if (!container.dataset.initialized) {
+        new LineBlueComponent(container);
+        container.dataset.initialized = 'true';
+      }
+    });
+  });
+</script>
