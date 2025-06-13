@@ -1,0 +1,207 @@
+---
+const links = [
+  {
+    name: "INICIO",
+    href: "/",
+  },
+  {
+    name: "GALERIA",
+    href: "/galeria",
+  },
+  {
+    name: "NOSOTROS",
+    href: "/nosotros",
+  },
+  {
+    name: "CONTACTO",
+    href: "/contacto",
+  },
+  {
+    name: "AGENDA",
+    href: "/agenda",
+  },
+];
+---
+
+<nav class="fixed z-50 top-0 left-0 right-0 mx-8 mt-4">
+  <div class="flex justify-between items-center">
+    <div class="flex items-center gap-6 bg-primary-blue px-4 py-2">
+      <!-- Botón de menú -->
+      <div 
+        id="menu-button"
+        class="font-unbounded font-semibold text-lg cursor-pointer text-white"
+      >
+        MENU
+      </div>
+      
+      <!-- Contenedor de links con animación - ESTADO INICIAL OCULTO -->
+      <div 
+        id="menu-container"
+        class="flex items-center gap-8 w-0 h-0 p-0 opacity-0 overflow-hidden"
+        style="width: 0; height: 0; padding: 0; opacity: 0;"
+      >
+        {links.map((link, index) => (
+          <a 
+            href={link.href} 
+            class="menu-link font-unbounded font-semibold cursor-pointer flex items-center opacity-0 text-white"
+            style="opacity: 0; transform: translateX(-20px);"
+            data-index={index}
+          >
+            {link.name}
+          </a>
+        ))}
+      </div>
+    </div>
+    
+    <!-- Botón de ingresar -->
+    <button class="bg-primary-blue text-white px-6 py-2 font-semibold font-unbounded">
+      INGRESAR
+    </button>
+  </div>
+</nav>
+
+<script>
+  import { gsap } from "gsap";
+
+  // Variables globales
+  let isMenuOpen = false;
+  const menuContainer = document.getElementById('menu-container');
+  const menuButton = document.getElementById('menu-button');
+  const menuLinks = document.querySelectorAll('.menu-link');
+
+  // Configuración inicial con GSAP
+  if (menuContainer) {
+    gsap.set(menuContainer, {
+      width: 0,
+      height: 0,
+      padding: 0,
+      opacity: 0,
+      overflow: "hidden"
+    });
+  }
+
+  // Configurar links iniciales
+  menuLinks.forEach((link) => {
+    gsap.set(link, {
+      opacity: 0,
+      x: -20
+    });
+  });
+
+  // Función para animar la apertura del menú
+  function openMenu() {
+    const tl = gsap.timeline();
+    
+    // Animar la expansión del contenedor
+    tl.to(menuContainer, {
+      width: "auto",
+      height: "auto",
+      padding: "0 8px 0 0",
+      opacity: 1,
+      duration: 0.5,
+      ease: "power2.out"
+    });
+
+    // Animar la aparición de cada link secuencialmente
+    menuLinks.forEach((link, index) => {
+      tl.to(link, {
+        opacity: 1,
+        x: 0,
+        duration: 0.3,
+        ease: "power2.out"
+      }, "-=0.3");
+    });
+  }
+
+  // Función para animar el cierre del menú
+  function closeMenu() {
+    const tl = gsap.timeline();
+    
+    // Animar la desaparición de los links
+    tl.to(menuLinks, {
+      opacity: 0,
+      x: -20,
+      duration: 0.2,
+      stagger: 0.05
+    });
+
+    // Animar la contracción del contenedor
+    tl.to(menuContainer, {
+      width: 0,
+      height: 0,
+      padding: 0,
+      opacity: 0,
+      duration: 0.3,
+      ease: "power2.in"
+    }, "-=0.1");
+  }
+
+  // Función para manejar el hover en los links
+  function handleLinkHover(link: HTMLElement) {
+    const originalText = link.textContent;
+    const spans = link.querySelectorAll('span');
+    
+    // Si ya existen los spans, no crear nuevos
+    if (spans.length === 0) {
+      link.innerHTML = `
+        <div style="position: relative; overflow: hidden; display: inline-block; height: 1.5em;">
+          <span style="display: block; color: #3b82f6; transition: transform 0.1s ease; line-height: 1.5;">${originalText}</span>
+          <span style="position: absolute; top: 100%; left: 0; display: block; color: #3b82f6; transform: translateY(0); transition: transform 0.1s ease; line-height: 1.5;">${originalText}</span>
+        </div>
+      `;
+    }
+
+    const firstSpan = link.querySelector('span:first-child');
+    const secondSpan = link.querySelector('span:last-child');
+
+    // Animar la rotación hacia arriba
+    gsap.to(firstSpan, {
+      y: -24,
+      duration: 0.1,
+      ease: "power2.out"
+    });
+
+    gsap.to(secondSpan, {
+      y: -24,
+      duration: 0.1,
+      ease: "power2.out"
+    });
+  }
+
+  // Función para manejar cuando el mouse sale del link
+  function handleLinkLeave(link: HTMLElement) {
+    const firstSpan = link.querySelector('span:first-child');
+    const secondSpan = link.querySelector('span:last-child');
+
+    // Animar el regreso a la posición original
+    gsap.to(firstSpan, {
+      y: 0,
+      duration: 0.1,
+      ease: "power2.out"
+    });
+
+    gsap.to(secondSpan, {
+      y: 0,
+      duration: 0.1,
+      ease: "power2.out"
+    });
+  }
+
+  // Event listeners
+  if (menuButton) {
+    menuButton.addEventListener('click', () => {
+      if (isMenuOpen) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+      isMenuOpen = !isMenuOpen;
+    });
+  }
+
+  // Agregar event listeners para hover en los links
+  menuLinks.forEach((link) => {
+    link.addEventListener('mouseenter', () => handleLinkHover(link as HTMLElement));
+    link.addEventListener('mouseleave', () => handleLinkLeave(link as HTMLElement));
+  });
+</script>
