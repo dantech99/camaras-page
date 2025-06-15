@@ -6,11 +6,13 @@ import { PhotographerGrid } from "../landing/photographer-landing";
 import { SliderGallery } from "../landing/slider-gallery";
 import { TestimonialCarousel } from "../landing/testimonial-carousel";
 import { BrandsCarousel } from "../landing/brands-carousel";
+import { Line } from "../landing/line";
 
 export const HomeScreen = () => {
   return (
     <>
       <HeroSection />
+      <Line />
       <SliderGallery />
       <AboutLanding />
       <PhotographerGrid />
