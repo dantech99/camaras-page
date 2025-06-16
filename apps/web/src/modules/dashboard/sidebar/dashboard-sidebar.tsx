@@ -15,6 +15,7 @@ import {
   TicketIcon,
   User,
 } from "lucide-react";
+import { IconInnerShadowTop } from "@tabler/icons-react"
 
 import { NavAdmins } from "./nav-projects";
 import { NavSecondary } from "./nav-secondary";
@@ -155,27 +156,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>
         <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
-              <a href="#">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary-blue text-sidebar-primary-foreground">
-                  <Command className="size-4" />
-                </div>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">
-                    Las Cámaras del Dragón
-                  </span>
-                  <span className="truncate text-xs">Panel Administrativo</span>
-                </div>
-              </a>
-            </SidebarMenuButton>
+          <SidebarMenuItem className="flex items-center gap-2 font-semibold">
+            <IconInnerShadowTop size={20} />
+            Dashboard
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent className="overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
-        {isAdmin && <NavAdmins projects={administradores} label="Administrador"/>}
-        {isPhotographer && <NavAdmins projects={photographer} label="Fotógrafos"/>}
-        {isUser && <NavAdmins projects={endUsers} label="Usuarios"/>}
+        {isAdmin && <NavAdmins projects={administradores} />}
+        {isPhotographer && <NavAdmins projects={photographer} />}
+        {isUser && <NavAdmins projects={endUsers} />}
         {
           isPhotographer || isUser ? (
             <NavSecondary items={data.navSecondary} className="mt-auto" />
