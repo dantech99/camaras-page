@@ -18,13 +18,13 @@ export default function AboutSection() {
           </h2>
         </div>
 
-        <div className="w-full h-px bg-blue-500/30 mb-16"></div>
+        <div className="w-full h-px bg-primary mb-16"></div>
 
         <div className="grid lg:grid-cols-3 gap-12 lg:gap-16">
           <div className="lg:col-span-1">
             <div className="">
               <div className="flex items-start justify-between">
-                <p className="text-lg md:text-xl leading-relaxed text-gray-200 font-light flex-1 font-unbounded">
+                <p className="text-lg md:text-xl leading-relaxed text-muted-foreground font-light flex-1 font-unbounded">
                   <strong className="text-primary-blue font-unbounded text-2xl">
                     "
                   </strong>
@@ -49,7 +49,7 @@ export default function AboutSection() {
                 <br />
                 MENTORING
               </h3>
-              <p className="text-gray-300 leading-relaxed font-light">
+              <p className="text-muted-foreground leading-relaxed font-light">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio
                 minus expedita consectetur, temporibus totam, inventore aut
                 nobis dicta laudantium dolor omnis recusandae similique quo
@@ -63,7 +63,7 @@ export default function AboutSection() {
                 <br />
                 TALENT POOL
               </h3>
-              <p className="text-gray-300 leading-relaxed font-light">
+              <p className="muted-foreground leading-relaxed font-light">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Consectetur voluptas ut maxime iste nobis enim quidem dolorum
                 suscipit impedit eos, ipsum, quam natus fugit minima? Quidem
