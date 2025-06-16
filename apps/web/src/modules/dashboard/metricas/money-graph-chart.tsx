@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import { TrendingUp } from "lucide-react"
-import { CartesianGrid, Line, LineChart, XAxis } from "recharts"
+import { TrendingUp } from "lucide-react";
+import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 
 import {
   Card,
@@ -10,14 +10,14 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@camaras/ui/src/components/card"
+} from "@camaras/ui/src/components/card";
 
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@camaras/ui/src/components/chart"
+} from "@camaras/ui/src/components/chart";
 
 const chartData = [
   { day: "Día 1", totalAmount: 186 },
@@ -27,24 +27,29 @@ const chartData = [
   { day: "Día 5", totalAmount: 209 },
 ];
 
-const totalAmountSold = chartData.reduce((sum, item) => sum + item.totalAmount, 0);
+const totalAmountSold = chartData.reduce(
+  (sum, item) => sum + item.totalAmount,
+  0
+);
 
 const chartConfig = {
   totalAmount: {
     label: "Desktop",
-    color: "var(--color-chart-4)",
+    color: "var(--color-chart-1)",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
 export function MoneyGraphChart() {
   return (
-    <Card>
+    <Card
+      className="bg-gradient-to-t from-primary/5 to-card dark:bg-card shadow-xs cursor-pointer"
+      data-slot="card"
+    >
       <CardHeader className="py-4">
-        <CardTitle>
-          Ventas totales en dinero
-        </CardTitle>
+        <CardTitle>Ventas totales en dinero</CardTitle>
         <CardDescription>
-          Enero - Junio 2024 · Total vendido: ${totalAmountSold.toLocaleString("es-CO")}
+          Enero - Junio 2024 · Total vendido: $
+          {totalAmountSold.toLocaleString("es-CO")}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -72,10 +77,10 @@ export function MoneyGraphChart() {
             <Line
               dataKey="totalAmount"
               type="natural"
-              stroke="var(--color-chart-4)"
+              stroke="var(--color-chart-1)"
               strokeWidth={2}
               dot={{
-                fill: "var(--color-chart-4)",
+                fill: "var(--color-chart-1)",
               }}
               activeDot={{
                 r: 6,
@@ -93,5 +98,5 @@ export function MoneyGraphChart() {
         </div>
       </CardFooter>
     </Card>
-  )
+  );
 }

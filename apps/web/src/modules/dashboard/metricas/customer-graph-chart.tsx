@@ -60,7 +60,10 @@ export function CustomerGraphChart() {
   }, []);
 
   return (
-    <Card className="flex flex-col">
+    <Card
+      className="bg-gradient-to-t from-primary/5 to-card dark:bg-card shadow-xs cursor-pointer"
+      data-slot="card"
+    >
       <CardHeader className="items-center py-4">
         <CardTitle>Total de usuarios atendidos</CardTitle>
         <CardDescription>SOFA 2025</CardDescription>

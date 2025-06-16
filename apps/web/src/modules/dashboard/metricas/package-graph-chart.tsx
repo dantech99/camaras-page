@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import { TrendingUp } from "lucide-react"
-import { Bar, BarChart, CartesianGrid, XAxis, LabelList } from "recharts"
+import { TrendingUp } from "lucide-react";
+import { Bar, BarChart, CartesianGrid, XAxis, LabelList } from "recharts";
 
 import {
   Card,
@@ -10,14 +10,14 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@camaras/ui/src/components/card"
+} from "@camaras/ui/src/components/card";
 
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@camaras/ui/src/components/chart"
+} from "@camaras/ui/src/components/chart";
 
 const chartData = [
   { day: "Día 1", salesPackage: 186 },
@@ -27,22 +27,26 @@ const chartData = [
   { day: "Día 5", salesPackage: 209 },
 ];
 
-const totalSalesPackage = chartData.reduce((sum, item) => sum + item.salesPackage, 0);
+const totalSalesPackage = chartData.reduce(
+  (sum, item) => sum + item.salesPackage,
+  0
+);
 
 const chartConfig = {
   salesPackage: {
     label: "Paquetes vendidos: ",
-    color: "var(--color-chart-4)",
+    color: "var(--color-chart-1)",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
 export function PackageGraphChart() {
   return (
-    <Card>
+    <Card
+      className="bg-gradient-to-t from-primary/5 to-card dark:bg-card shadow-xs cursor-pointer"
+      data-slot="card"
+    >
       <CardHeader className="py-4">
-        <CardTitle>
-          Paquetes vendidos en SOFA
-        </CardTitle>
+        <CardTitle>Paquetes vendidos en SOFA</CardTitle>
         <CardDescription>
           Enero - Junio 2024 · Total vendidos: {totalSalesPackage}
         </CardDescription>
@@ -68,7 +72,7 @@ export function PackageGraphChart() {
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
-            <Bar dataKey="salesPackage" fill="var(--color-chart-4)" radius={8}>
+            <Bar dataKey="salesPackage" fill="var(--color-chart-1)" radius={8}>
               <LabelList
                 position="top"
                 offset={12}
