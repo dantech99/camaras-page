@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@camaras/ui/src/components/button";
+import { Button, buttonVariants } from "@camaras/ui/src/components/button";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import { cn } from "@camaras/ui/src/lib/utils";
+import { authClient } from "@camaras/auth/client";
 
 const links = [
   {
@@ -29,16 +31,27 @@ const links = [
 ];
 
 // Componente para el efecto hover de los links
-const AnimatedLink = ({ href, children, index }: { href: string; children: string; index: number }) => {
+const AnimatedLink = ({
+  href,
+  children,
+  index,
+}: {
+  href: string;
+  children: string;
+  index: number;
+}) => {
   return (
-    <Link href={href} className="relative overflow-hidden inline-block h-6 flex items-center">
+    <Link
+      href={href}
+      className="relative overflow-hidden inline-block h-6 flex items-center"
+    >
       <motion.div
         className="font-unbounded font-semibold text-white cursor-pointer"
         whileHover="hover"
         initial="initial"
         variants={{
           initial: { y: 0 },
-          hover: { y: -24 }
+          hover: { y: -24 },
         }}
         transition={{ duration: 0.1, ease: "easeOut" }}
       >
@@ -55,6 +68,10 @@ const AnimatedLink = ({ href, children, index }: { href: string; children: strin
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { data: session } = authClient.useSession();
+
+  const role = session?.user?.role;
+  console.log(role);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -63,37 +80,34 @@ export function Navbar() {
   return (
     <nav className="fixed z-50 top-0 left-0 right-0 m-8">
       <div className="flex justify-between items-center h-12">
-        <div className="flex items-center bg-primary-blue px-4 py-2 h-full">
+        <div className="flex items-center bg-primary-blue">
           {/* Botón de menú */}
-          <button
-            onClick={toggleMenu}
-            className="font-unbounded font-semibold text-lg cursor-pointer text-white whitespace-nowrap"
-          >
+          <Button onClick={toggleMenu} variant="landing">
             MENU
-          </button>
-          
+          </Button>
+
           {/* Contenedor de links con animación */}
           <div className="flex items-center h-full">
             <AnimatePresence mode="wait">
               {isMenuOpen && (
                 <motion.div
-                  initial={{ 
-                    width: 0, 
-                    opacity: 0
+                  initial={{
+                    width: 0,
+                    opacity: 0,
                   }}
-                  animate={{ 
-                    width: "auto", 
-                    opacity: 1
+                  animate={{
+                    width: "auto",
+                    opacity: 1,
                   }}
-                  exit={{ 
-                    width: 0, 
-                    opacity: 0
+                  exit={{
+                    width: 0,
+                    opacity: 0,
                   }}
-                  transition={{ 
-                    duration: 0.3, 
+                  transition={{
+                    duration: 0.3,
                     ease: "easeInOut",
                     width: { duration: 0.3 },
-                    opacity: { duration: 0.15 }
+                    opacity: { duration: 0.15 },
                   }}
                   className="flex items-center gap-8 overflow-hidden ml-6"
                 >
@@ -106,7 +120,7 @@ export function Navbar() {
                       transition={{
                         duration: 0.2,
                         delay: index * 0.05,
-                        ease: "easeOut"
+                        ease: "easeOut",
                       }}
                       className="flex items-center"
                     >
@@ -120,11 +134,41 @@ export function Navbar() {
             </AnimatePresence>
           </div>
         </div>
-        
-        {/* Botón de ingresar */}
-        <Button className="bg-primary-blue text-white px-6 py-2 font-semibold font-unbounded">
-          INGRESAR
-        </Button>
+
+        {role === "admin" ? (
+          <Link
+            href="/admin"
+            className={cn(
+              buttonVariants({
+                variant: "landing",
+              })
+            )}
+          >
+            {session.user?.name.toUpperCase()}
+          </Link>
+        ) : role === "photographer" ? (
+          <Link
+            href="/photographer"
+            className={cn(
+              buttonVariants({
+                variant: "landing",
+              })
+            )}
+          >
+            {session.user?.name.toUpperCase()}
+          </Link>
+        ) : (
+          <Link
+            href="/auth"
+            className={cn(
+              buttonVariants({
+                variant: "landing",
+              })
+            )}
+          >
+            Iniciar sesión
+          </Link>
+        )}
       </div>
     </nav>
   );
