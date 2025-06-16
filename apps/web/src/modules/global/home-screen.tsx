@@ -7,6 +7,7 @@ import { SliderGallery } from "../landing/slider-gallery";
 import { TestimonialCarousel } from "../landing/testimonial-carousel";
 import { BrandsCarousel } from "../landing/brands-carousel";
 import { Line } from "../landing/line";
+import AboutSection from "../landing/about-section";
 
 export const HomeScreen = () => {
   return (
@@ -14,8 +15,9 @@ export const HomeScreen = () => {
       <HeroSection />
       <Line />
       <SliderGallery />
-      <AboutLanding />
-      <PhotographerGrid />
+      <AboutSection />
+      
+      {/* <PhotographerGrid /> */}
       <GalleryPhotographer />
       <TestimonialCarousel />
       <FAQSection />
