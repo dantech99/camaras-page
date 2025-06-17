@@ -46,13 +46,10 @@ export function ResponsiveUpdateCupon({ coupon }: { coupon: Coupon }) {
   const DesktopDialog = () => (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button
-          className="text-primary-blue"
-          variant={"ghost"}
-          size={"icon"}
-        >
-          <Pencil />
-        </Button>
+        <Button className="text-primary-blue" variant={"ghost"}>
+          <Pencil className="size-4 mr-2" />
+          <span>Editar</span>
+        </Button> 
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -71,12 +68,9 @@ export function ResponsiveUpdateCupon({ coupon }: { coupon: Coupon }) {
   const MobileDrawer = () => (
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>
-        <Button
-          className="text-primary-blue"
-          variant={"ghost"}
-          size={"icon"}
-        >
-          <Pencil />
+        <Button className="text-primary-blue" variant={"ghost"}>
+          <Pencil className="size-4 mr-2" />
+          <span>Editar</span>
         </Button>
       </DrawerTrigger>
       <DrawerContent className="h-screen flex flex-col overflow-y-auto px-4 py-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">

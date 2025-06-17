@@ -42,9 +42,7 @@ import {
 
 import {
   MoreHorizontal,
-  Users,
   Trash2,
-  Edit,
   Users2,
   AlertCircle,
   RefreshCw,

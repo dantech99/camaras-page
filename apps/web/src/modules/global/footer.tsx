@@ -33,7 +33,7 @@ const navigationLinks = [
 ];
 
 const secondaryLinks = [
-  { label: "TyC", href: "#" },
+  { label: "TERMINOS Y CONDICIONES", href: "#" },
   { label: "POLITICAS DE PRIVACIDAD", href: "#" },
   { label: "CONTACTO", href: "#" },
 ];
