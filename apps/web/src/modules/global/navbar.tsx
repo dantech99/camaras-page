@@ -71,7 +71,6 @@ export function Navbar() {
   const { data: session } = authClient.useSession();
 
   const role = session?.user?.role;
-  console.log(role);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);

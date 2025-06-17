@@ -21,7 +21,7 @@ export default function DashboardLayout({
     <Providers>
       <SidebarProvider>
         <AppSidebar />
-        <SidebarInset>
+        <SidebarInset className="px-4">
           <DashboardNavbar />
           {children}
         </SidebarInset>
