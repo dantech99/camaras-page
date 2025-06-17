@@ -32,9 +32,6 @@ const createPaqueteSchema = z.object({
     .number()
     .min(1, { message: "La cantidad de fotos es requerida" }),
   image: z.instanceof(File, { message: "La imagen es requerida" }),
-  descriptionBullets: z
-    .array(z.string())
-    .min(1, { message: "Se requiere al menos una descripción" }),
 });
 
 export function CreatePaqueteForm() {
@@ -51,31 +48,8 @@ export function CreatePaqueteForm() {
       description: "",
       price: 0,
       photoCount: 0,
-      descriptionBullets: [],
     },
   });
-
-  const photos = form.watch("descriptionBullets");
-
-  const addDotsDescription = () => {
-    if (!photoInput.trim()) return;
-    if (photos.includes(photoInput)) return;
-    form.setValue("descriptionBullets", [...photos, photoInput]);
-    setPhotoInput("");
-  };
-
-  const removeDotsDescription = (index: number) => {
-    const updatedPhotos = [...photos];
-    updatedPhotos.splice(index, 1);
-    form.setValue("descriptionBullets", updatedPhotos);
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      addDotsDescription();
-    }
-  };
 
   function handleImageChange(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
@@ -96,12 +70,7 @@ export function CreatePaqueteForm() {
   async function onSubmit(values: z.infer<typeof createPaqueteSchema>) {
     try {
       setIsLoading(true);
-      await PackageService.create({
-        ...values,
-        descriptionBullets: values.descriptionBullets.map((content) => ({
-          content,
-        })),
-      });
+      await PackageService.create(values);
       await refetch();
       form.reset();
       setPreviewImage(null);
@@ -235,55 +204,6 @@ export function CreatePaqueteForm() {
               />
             </div>
           </div>
-          <FormField
-            control={form.control}
-            name="descriptionBullets"
-            render={() => (
-              <FormItem className="col-span-2">
-                <FormLabel>Características del paquete</FormLabel>
-                <div className="space-y-4">
-                  <div className="flex flex-wrap gap-2 mb-2">
-                    {photos.map((photo, index) => (
-                      <Badge
-                        key={index}
-                        variant="secondary"
-                        className="px-3 py-1.5"
-                      >
-                        {photo}
-                        <button
-                          type="button"
-                          onClick={() => removeDotsDescription(index)}
-                          className="ml-2 text-muted-foreground hover:text-foreground"
-                        >
-                          <X className="h-3 w-3" />
-                          <span className="sr-only">Eliminar {photo}</span>
-                        </button>
-                      </Badge>
-                    ))}
-                  </div>
-
-                  <div className="flex gap-2">
-                    <Input
-                      placeholder="Agregar característica (ej: Fotos en alta resolución)"
-                      value={photoInput}
-                      onChange={(e) => setPhotoInput(e.target.value)}
-                      onKeyDown={handleKeyDown}
-                    />
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="icon"
-                      onClick={addDotsDescription}
-                      disabled={!photoInput.trim()}
-                    >
-                      <Plus className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
         </div>
         <Button
           type="submit"

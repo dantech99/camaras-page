@@ -40,10 +40,6 @@ interface UpdatePaqueteFormProps {
 const updatePaqueteSchema = z.object({
   name: z.string().min(1, { message: "El nombre es requerido" }),
   description: z.string().min(1, { message: "La descripción es requerida" }),
-  features: z
-    .array(z.string())
-    .min(1, { message: "Se requiere al menos una descripción" })
-    .max(10, { message: "Se permiten un máximo de 10 descripciones" }),
   price: z.number().min(1, { message: "El precio es requerido" }),
   photosCount: z.number().min(1, { message: "La cantidad de fotos es requerida" }),
   image: z.any().optional(),
@@ -65,35 +61,9 @@ export function UpdatePaqueteForm({ pack, onSuccess }: UpdatePaqueteFormProps) {
       description: pack.description,
       price: pack.price,
       photosCount: pack.photoCount,
-      features: pack.features.map(bullet => bullet.content),
       isActive: pack.isActive
     }
   })
-
-  const features = form.watch("features")
-
-  const addDotsDescription = () => {
-    if (!photoInput.trim()) return
-
-    if (features.includes(photoInput)) return
-
-    form.setValue("features", [...features, photoInput])
-
-    setPhotoInput("")
-  }
-
-  const removeDotsDescription = (index: number) => {
-    const updatedFeatures = [...features]
-    updatedFeatures.splice(index, 1)
-    form.setValue("features", updatedFeatures)
-  }
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      e.preventDefault()
-      addDotsDescription()
-    }
-  }
 
   function handleImageChange(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
@@ -116,7 +86,6 @@ export function UpdatePaqueteForm({ pack, onSuccess }: UpdatePaqueteFormProps) {
     try {
       setIsLoading(true)
       const formData = {
-        descriptionBullets: data.features,
         description: data.description,
         name: data.name,
         photoCount: data.photosCount.toString(),
@@ -127,7 +96,8 @@ export function UpdatePaqueteForm({ pack, onSuccess }: UpdatePaqueteFormProps) {
           : {})
       }
 
-      await PackageService.update(pack.id, formData)
+      const response = await PackageService.update(pack.id, formData)
+      console.log(response)
       await refetch()
       toast.success("Paquete actualizado correctamente")
       onSuccess?.()
@@ -256,51 +226,6 @@ export function UpdatePaqueteForm({ pack, onSuccess }: UpdatePaqueteFormProps) {
               />
             </div>
           </div>
-          <FormField
-            control={form.control}
-            name="features"
-            render={() => (
-              <FormItem className="col-span-2">
-                <FormLabel>Fotos incluidas</FormLabel>
-                <div className="space-y-4">
-                  <div className="flex flex-wrap gap-2 mb-2">
-                    {features.map((feature, index) => (
-                      <Badge key={index} variant="secondary" className="px-3 py-1.5">
-                        {feature}
-                        <button
-                          type="button"
-                          onClick={() => removeDotsDescription(index)}
-                          className="ml-2 text-muted-foreground hover:text-foreground"
-                        >
-                          <X className="h-3 w-3" />
-                          <span className="sr-only">Eliminar {feature}</span>
-                        </button>
-                      </Badge>
-                    ))}
-                  </div>
-
-                  <div className="flex gap-2">
-                    <Input
-                      placeholder="Agregar tipo de foto (ej: Foto grupal, 3 fotos únicas)"
-                      value={photoInput}
-                      onChange={(e) => setPhotoInput(e.target.value)}
-                      onKeyDown={handleKeyDown}
-                    />
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="icon"
-                      onClick={addDotsDescription}
-                      disabled={!photoInput.trim()}
-                    >
-                      <Plus className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
         </div>
         <Button type="submit" disabled={isLoading} className="w-full">
           {isLoading ? "Actualizando..." : "Actualizar"}

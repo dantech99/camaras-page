@@ -56,11 +56,12 @@ export function ResponsiveUpdatePaquete({ pack }: { pack: PhotographersPackages 
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button
-          className="text-primary-blue"
-          variant={"ghost"}
-          size={"icon"}
+          variant="ghost"
+          className="cursor-pointer"
+          size={"sm"}
         >
           <Pencil />
+          Editar
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[90vw] md:max-w-[50vw] lg:max-w-[40vw]">
@@ -79,10 +80,12 @@ export function ResponsiveUpdatePaquete({ pack }: { pack: PhotographersPackages 
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>
         <Button
-          variant={"ghost"}
-          className="text-primary-blue"
+          variant="ghost"
+          className="cursor-pointer"
+          size={"sm"}
         >
           <Pencil />
+          Editar
         </Button>
       </DrawerTrigger>
       <DrawerContent className="h-screen flex flex-col overflow-y-auto px-4 py-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
@@ -98,10 +101,10 @@ export function ResponsiveUpdatePaquete({ pack }: { pack: PhotographersPackages 
           </div>
         </div>
         <DrawerFooter className="mt-6 flex justify-end">
-          <Button
+          <Button 
             variant="outline"
             className="rounded-full cursor-pointer"
-            onClick={() => setIsOpen(false)}
+                  onClick={() => setIsOpen(false)}
           >
             Cancelar
           </Button>

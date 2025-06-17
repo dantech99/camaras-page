@@ -57,7 +57,6 @@ model Package {
   price              Float
   photoCount         Int              @default(0)
   discountPercentage Float            @default(0)
-  features           PackageFeature[]
   sales              Sale[]
   isActive           Boolean          @default(true)
   deletedAt          DateTime?
@@ -65,16 +64,6 @@ model Package {
 
   @@map("package")
 }
-
-model PackageFeature {
-  id        String  @id @default(uuid())
-  packageId String
-  content   String
-  package   Package @relation(fields: [packageId], references: [id])
-
-  @@map("package_feature")
-}
-
 model Discount {
   id                 String   @id @default(uuid())
   code               String   @unique

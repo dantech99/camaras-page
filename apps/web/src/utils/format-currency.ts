@@ -1,5 +1,5 @@
-export function formatCurrency(currency: string) {
-  const num = parseFloat(currency);
+export function formatCurrency(currency: string | number) {
+  const num = parseFloat(currency.toString());
 
   if (isNaN(num)) {
     return "N/A";

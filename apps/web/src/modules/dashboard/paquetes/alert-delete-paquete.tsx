@@ -45,8 +45,9 @@ export function AlertDetelePaquete({ id, name }: { id: string; name: string }) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="ghost" className="text-red-400 hover:text-red-500" size={"icon"}>
+        <Button variant="ghost" className="cursor-pointer text-red-400 hover:text-red-500" size={"sm"}>
           <Trash />
+          Eliminar
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
