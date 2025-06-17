@@ -19,11 +19,13 @@ export function AvailableDays() {
         <Link
           key={day.id}
           href={`/photographer/horarios/${day.id}`}
-          className="p-4 rounded-lg border"
+          className="p-4 rounded-lg border bg-card shadow-sm"
         >
-          {capitalizeMonth(format(parseISO(day.date), "d 'de' MMMM 'del' yyyy", {
-            locale: es,
-          }))}
+          {capitalizeMonth(
+            format(parseISO(day.date), "d 'de' MMMM 'del' yyyy", {
+              locale: es,
+            })
+          )}
         </Link>
       ))}
     </div>

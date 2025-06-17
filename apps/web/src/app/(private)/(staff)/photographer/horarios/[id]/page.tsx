@@ -1,4 +1,3 @@
-// pages/SessionPage.tsx
 "use client";
 
 import { useParams } from "next/navigation";
@@ -35,21 +34,123 @@ export default function SessionPage() {
     removeTimeSlot
   } = useTimeSlots(day || undefined);
 
+  // Función personalizada para actualizar un time slot y mantener orden
+  const handleUpdateTimeSlot = (index: number, field: keyof TimeSlot, value: string) => {
+    const updatedSlots = [...timeSlots];
+    updatedSlots[index] = { ...updatedSlots[index], [field]: value };
+    
+    // Solo reordenar si se modificó la hora de inicio
+    if (field === 'startTime' || field === 'startMinute' || field === 'ampmStart') {
+      setTimeSlots(sortTimeSlots(updatedSlots));
+    } else {
+      setTimeSlots(updatedSlots);
+    }
+  };
+  const getUsedStartTimes = (excludeIndex?: number) => {
+    return timeSlots
+      .filter((_, index) => index !== excludeIndex)
+      .map(slot => `${slot.startTime}:${slot.startMinute}:${slot.ampmStart}`);
+  };
+
+  // Función para calcular los valores por defecto del siguiente horario
+  const getNextSlotDefaults = () => {
+    if (timeSlots.length === 0) {
+      return {
+        startTime: "09",
+        startMinute: "00",
+        endTime: "10",
+        endMinute: "00",
+        ampmStart: "AM",
+        ampmEnd: "AM",
+      };
+    }
+
+    // Obtener el último slot
+    const lastSlot = timeSlots[timeSlots.length - 1];
+    
+    // Usar la hora de fin del último slot como hora de inicio del nuevo
+    const startTime = lastSlot.endTime;
+    const startMinute = lastSlot.endMinute;
+    const ampmStart = lastSlot.ampmEnd;
+
+    // Calcular hora de fin (una hora después)
+    let endHour = parseInt(startTime);
+    let ampmEnd = ampmStart;
+
+    endHour += 1;
+    
+    // Manejar el cambio de AM/PM
+    if (endHour > 12) {
+      endHour = 1;
+      ampmEnd = ampmStart === "AM" ? "PM" : "AM";
+    } else if (endHour === 12 && ampmStart === "AM") {
+      ampmEnd = "PM";
+    }
+
+    return {
+      startTime,
+      startMinute,
+      endTime: String(endHour).padStart(2, "0"),
+      endMinute: startMinute,
+      ampmStart,
+      ampmEnd,
+    };
+  };
+
+  // Función para convertir hora a minutos desde medianoche para comparación
+  const timeToMinutes = (hour: string, minute: string, ampm: string): number => {
+    let h = parseInt(hour);
+    const m = parseInt(minute);
+    
+    // Convertir a formato 24 horas
+    if (ampm === 'AM' && h === 12) {
+      h = 0;
+    } else if (ampm === 'PM' && h !== 12) {
+      h += 12;
+    }
+    
+    return h * 60 + m;
+  };
+
+  // Función para ordenar los time slots cronológicamente
+  const sortTimeSlots = (slots: TimeSlot[]): TimeSlot[] => {
+    return [...slots].sort((a, b) => {
+      const timeA = timeToMinutes(a.startTime, a.startMinute, a.ampmStart);
+      const timeB = timeToMinutes(b.startTime, b.startMinute, b.ampmStart);
+      return timeA - timeB;
+    });
+  };
+
+  // Función para agregar un nuevo horario con valores por defecto
+  const handleAddTimeSlot = () => {
+    if (!day) return;
+
+    const defaults = getNextSlotDefaults();
+    
+    const newSlot: TimeSlot = {
+      ...defaults,
+      availableDayId: day.id,
+    };
+
+    setTimeSlots(prev => sortTimeSlots([...prev, newSlot]));
+  };
+
   // Inicializar timeSlots cuando se carga el día
   useEffect(() => {
     if (day?.timeSlots) {
-      setTimeSlots(
-        day.timeSlots.map((slot) => ({
-          id: slot.id,
-          startTime: slot.start.split(':')[0] || "09",
-          startMinute: slot.start.split(':')[1] || "00",
-          endTime: slot.end.split(':')[0] || "10",
-          endMinute: slot.end.split(':')[1] || "00",
-          ampmStart: slot.ampmStart,
-          ampmEnd: slot.ampmEnd,
-          availableDayId: slot.availableDayId,
-        }))
-      );
+      const initialSlots = day.timeSlots.map((slot) => ({
+        id: slot.id,
+        startTime: slot.start.split(':')[0] || "09",
+        startMinute: slot.start.split(':')[1] || "00",
+        endTime: slot.end.split(':')[0] || "10",
+        endMinute: slot.end.split(':')[1] || "00",
+        ampmStart: slot.ampmStart,
+        ampmEnd: slot.ampmEnd,
+        availableDayId: slot.availableDayId,
+      }));
+      
+      // Ordenar los slots al cargar
+      setTimeSlots(sortTimeSlots(initialSlots));
     } else if (day && day.timeSlots.length === 0) {
       // Si no hay horarios, agregar uno por defecto
       setTimeSlots([
@@ -82,11 +183,11 @@ export default function SessionPage() {
       }
     }
 
-    // Eliminar del estado local
-    removeTimeSlot(index);
+    // Eliminar del estado local y mantener orden
+    const updatedSlots = timeSlots.filter((_, i) => i !== index);
+    setTimeSlots(sortTimeSlots(updatedSlots));
   };
 
-  // Guardar horarios
   const saveTimeSlots = async () => {
     if (!day) return;
 
@@ -150,13 +251,14 @@ export default function SessionPage() {
             key={`${slot.id || "new"}-${index}`}
             slot={slot}
             index={index}
-            onUpdate={updateTimeSlot}
+            onUpdate={handleUpdateTimeSlot}
             onRemove={handleRemoveTimeSlot}
             isOnlySlot={timeSlots.length === 1}
+            usedStartTimes={getUsedStartTimes(index)}
           />
         ))}
 
-        <AddTimeSlotButton onAdd={() => addTimeSlot(day || undefined)} />
+        <AddTimeSlotButton onAdd={handleAddTimeSlot} />
         
         <SaveButton 
           onSave={saveTimeSlots} 
@@ -167,7 +269,6 @@ export default function SessionPage() {
   );
 }
 
-// components/PageHeader.tsx
 function PageHeader() {
   return (
     <div className="space-y-2">
@@ -181,7 +282,6 @@ function PageHeader() {
   );
 }
 
-// components/AddTimeSlotButton.tsx
 interface AddTimeSlotButtonProps {
   onAdd: () => void;
 }
@@ -199,7 +299,6 @@ function AddTimeSlotButton({ onAdd }: AddTimeSlotButtonProps) {
   );
 }
 
-// components/SaveButton.tsx
 interface SaveButtonProps {
   onSave: () => void;
   isSubmitting: boolean;
@@ -211,7 +310,7 @@ function SaveButton({ onSave, isSubmitting }: SaveButtonProps) {
       <Button
         onClick={onSave}
         disabled={isSubmitting}
-        className="bg-black hover:bg-gray-800"
+        className="w-full"
       >
         {isSubmitting ? (
           <>
