@@ -1,13 +1,10 @@
-"use client";
-
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@camaras/ui/src/components/accordion";
-import { Button } from "@camaras/ui/src/components/button";
-import Link from "next/link";
+
 
 export function FAQSection() {
   const faqItems = [
@@ -63,7 +60,7 @@ export function FAQSection() {
               <AccordionItem
                 key={index}
                 value={`item-${index}`}
-                className="border-zinc-800 last:border-b-0"
+                className="border-zinc-800 last:border-b-0 font-unbounded"
               >
                 <AccordionTrigger className="text-left py-4 hover:no-underline hover:text-gray-300 transition-colors cursor-pointer">
                   <span className="font-medium text-base md:text-lg text-gray-200">

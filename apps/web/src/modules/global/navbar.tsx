@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import { Button, buttonVariants } from "@camaras/ui/src/components/button";
-import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@camaras/ui/src/lib/utils";
 import { authClient } from "@camaras/auth/client";
+import Link from "next/link";
 
 const links = [
   {
@@ -166,7 +166,7 @@ export function Navbar() {
               })
             )}
           >
-            Iniciar sesión
+            INICIAR SESIÓN
           </Link>
         )}
       </div>
