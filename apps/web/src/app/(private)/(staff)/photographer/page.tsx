@@ -5,7 +5,7 @@ import { TabMetrics } from "@/modules/dashboard/metricas/tab-metrics";
 
 export default function MetricasPage() {
   return (
-    <div className="px-4 py-2 space-y-4">
+    <div className="space-y-4">
       <div className="grid grid-cols-1 2xl:grid-cols-3 gap-4">
         <PackageGraphChart />
         <MoneyGraphChart />

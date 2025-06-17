@@ -211,8 +211,8 @@ function SaveButton({ onSave, isSubmitting }: SaveButtonProps) {
       <Button
         onClick={onSave}
         disabled={isSubmitting}
-        className="bg-black hover:bg-gray-800"
-      >
+        className="w-full"
+>
         {isSubmitting ? (
           <>
             <Loader2 className="h-4 w-4 mr-2 animate-spin" />

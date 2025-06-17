@@ -73,13 +73,14 @@ export function TimeSlotCard({
   };
 
   return (
-    <div className="border rounded-lg p-4 shadow-sm relative">
+    <div className="border rounded-lg p-4 relative bg-card shadow-sm"
+      data-slot="card">
       {/* Botón eliminar en esquina superior derecha */}
       <Button
-        variant="outline"
+        variant="ghost"
         size="icon"
         onClick={handleRemove}
-        className="absolute top-2 right-2 text-red-600 hover:text-red-700 hover:bg-red-50"
+        className="absolute top-2 right-2 text-red-600"
         disabled={isOnlySlot || isDeleting}
       >
         {isDeleting ? (
