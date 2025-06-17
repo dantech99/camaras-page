@@ -1,4 +1,4 @@
-export default function AboutSection() {
+export function AboutSection() {
   return (
     <div className="min-h-screen w-full">
       <div className="p-8 lg:py-24">
