@@ -70,17 +70,18 @@ export function CreatePaqueteForm() {
   async function onSubmit(values: z.infer<typeof createPaqueteSchema>) {
     try {
       setIsLoading(true);
-      await PackageService.create(values);
+      const response = await PackageService.create(values);
+      console.log(response);
       await refetch();
       form.reset();
       setPreviewImage(null);
       setPhotoInput("");
-      toast("El paquete de fotos fue creado", {
+      toast.success("El paquete de fotos fue creado", {
         description: "Ahora puedes verlo en la tabla de paquetes",
         duration: 3000,
       });
     } catch (error) {
-      toast("Error al crear el paquete", {
+      toast.error("Error al crear el paquete", {
         description: "Hubo un error al crear el paquete",
       });
     } finally {

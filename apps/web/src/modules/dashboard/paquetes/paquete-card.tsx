@@ -1,9 +1,5 @@
 import {
   Card,
-  CardHeader,
-  CardContent,
-  CardTitle,
-  CardDescription,
 } from "@camaras/ui/src/components/card";
 import { ResponsiveUpdatePaquete } from "./responsive-update-paquete";
 import { AlertDetelePaquete } from "./alert-delete-paquete";
@@ -12,27 +8,18 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
-  DropdownMenuItem,
 } from "@camaras/ui/src/components/dropdown-menu";
 import {
   MoreVertical,
   Camera,
-  Star,
   DollarSign,
   CheckCircle,
-  Edit,
-  Trash2,
 } from "lucide-react";
 import { formatCurrency } from "@/utils/format-currency";
 
 interface PhotographersPackages {
   price: number;
   discountPercentage: number;
-  features: {
-    id: string;
-    packageId: string;
-    content: string;
-  }[];
   name: string;
   id: string;
   description: string;
@@ -85,24 +72,6 @@ export function PaqueteCard({ pack }: { pack: PhotographersPackages }) {
                 <span className="text-sm">{formatCurrency(pack.price)}</span>
               </div>
             </div>
-
-            {pack.features.length > 0 && (
-              <div className="space-y-1">
-                {pack.features.slice(0, 3).map((feature) => (
-                  <div key={feature.id} className="flex items-start gap-2">
-                    <CheckCircle className="w-3 h-3 text-primary-blue mt-0.5 flex-shrink-0" />
-                    <span className="text-xs">
-                      {feature.content}
-                    </span>
-                  </div>
-                ))}
-                {pack.features.length > 3 && (
-                  <span className="text-xs">
-                    +{pack.features.length - 3} más...
-                  </span>
-                )}
-              </div>
-            )}
           </div>
         </div>
       </div>

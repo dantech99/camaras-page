@@ -44,8 +44,8 @@ export function DashboardNavbar() {
   }
 
   return (
-    <header className="flex shrink-0 items-center gap-2 p-2">
-      <div className="flex items-center gap-2 px-1">
+    <header className="flex shrink-0 items-center gap-2 py-2">
+      <div className="flex items-center gap-2">
         <SidebarTrigger className="-ml-1" />
         <Separator orientation="vertical" className="mr-2 h-4" />
         <Breadcrumb>
