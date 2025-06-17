@@ -16,7 +16,6 @@ export class PackagesService {
       price: number;
       photoCount: number;
       image: File;
-      descriptionBullets: { content: string }[];
     },
     userId: string
   ) {
@@ -27,7 +26,6 @@ export class PackagesService {
         price,
         photoCount,
         image,
-        descriptionBullets,
       } = data;
 
       const photographer = await prisma.user.findUnique({
@@ -64,9 +62,6 @@ export class PackagesService {
           isActive: true,
           discountPercentage: 0,
           imageUrl: imageUrl,
-          features: {
-            create: descriptionBullets,
-          },
         },
       });
 
@@ -107,9 +102,6 @@ export class PackagesService {
           photographerId: photographer.id,
           deletedAt: null,
         },
-        include: {
-          features: true,
-        },
       });
 
       const formattedPackages = packages.map((pkg) => ({
@@ -146,7 +138,6 @@ export class PackagesService {
       price: number;
       photoCount: number;
       image?: File;
-      descriptionBullets: { content: string }[];
       isActive: boolean;
     },
     userId: string
@@ -158,7 +149,6 @@ export class PackagesService {
         price,
         photoCount,
         image,
-        descriptionBullets,
         isActive,
       } = data;
 
@@ -175,7 +165,6 @@ export class PackagesService {
           id,
           photographerId: photographer.id,
         },
-        include: { features: true },
       });
 
       if (!existingPackage) {
@@ -205,13 +194,6 @@ export class PackagesService {
           photoCount,
           isActive,
           imageUrl,
-          features: {
-            deleteMany: {},
-            create: descriptionBullets,
-          },
-        },
-        include: {
-          features: true,
         },
       });
 

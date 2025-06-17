@@ -1,24 +1,5 @@
 import { apiClient } from "@/utils/api-connection";
 
-interface CreatePackagePhotoDto {
-  name: string;
-  description: string;
-  price: number;
-  photoCount: number;
-  image: File;
-  descriptionBullets: { content: string }[];
-}
-
-interface UpdatePackageDto {
-  name: string;
-  description: string;
-  price: string;
-  photoCount: string;
-  image?: File;
-  descriptionBullets: string[];
-  isActive: boolean;
-}
-
 export const PackageService = {
   getAll: async () => {
     const response = await apiClient.package.index.get({
@@ -30,7 +11,13 @@ export const PackageService = {
     return response.data;
   },
 
-  create: async (dto: CreatePackagePhotoDto) => {
+  create: async (dto: {
+    name: string;
+    description: string;
+    price: number;
+    photoCount: number;
+    image: File;
+  }) => {
     const response = await apiClient.package.index.post(
       {
         name: dto.name,
@@ -38,7 +25,6 @@ export const PackageService = {
         description: dto.description,
         price: dto.price.toString(),
         photoCount: dto.photoCount.toString(),
-        descriptionBullets: JSON.stringify(dto.descriptionBullets),
       },
       {
         fetch: {
@@ -50,15 +36,19 @@ export const PackageService = {
     return response.data;
   },
 
-  update: async (id: string, body: UpdatePackageDto) => {
+  update: async (id: string, body: {
+    name: string;
+    description: string;
+    price: string;
+    photoCount: string;
+    image?: File;
+    isActive: boolean;
+  }) => {
     const updateData = {
       name: body.name,
       description: body.description,
       price: body.price,
       photoCount: body.photoCount,
-      descriptionBullets: JSON.stringify(
-        body.descriptionBullets.map((content) => ({ content }))
-      ),
       isActive: body.isActive,
       ...(body.image ? { image: body.image } : {}),
     };

@@ -1,7 +1,30 @@
-import { Card } from "@camaras/ui/src/components/card";
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  CardTitle,
+  CardDescription,
+} from "@camaras/ui/src/components/card";
 import { ResponsiveUpdatePaquete } from "./responsive-update-paquete";
 import { AlertDetelePaquete } from "./alert-delete-paquete";
 import { Badge } from "@camaras/ui/src/components/badge";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+  DropdownMenuItem,
+} from "@camaras/ui/src/components/dropdown-menu";
+import {
+  MoreVertical,
+  Camera,
+  Star,
+  DollarSign,
+  CheckCircle,
+  Edit,
+  Trash2,
+} from "lucide-react";
+import { formatCurrency } from "@/utils/format-currency";
+
 interface PhotographersPackages {
   price: number;
   discountPercentage: number;
@@ -12,8 +35,8 @@ interface PhotographersPackages {
   }[];
   name: string;
   id: string;
-  photographerName: string;
   description: string;
+  photographerName: string;
   imageUrl: string;
   photoCount: number;
   isActive: boolean;
@@ -21,44 +44,78 @@ interface PhotographersPackages {
 
 export function PaqueteCard({ pack }: { pack: PhotographersPackages }) {
   return (
-    <div className="relative w-full h-full">
-      <Card key={pack.id} className="h-full overflow-hidden border rounded-lg shadow-sm flex flex-col py-0">
-        <div className="relative w-full aspect-[3/4]">
-          <img
-            src={pack.imageUrl || "/placeholder.svg?height=600&width=450"}
-            alt={pack.name}
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+    <Card
+      className="aspect-[3/5] p-2 relative"
+      data-slot="card"
+    >
+      <div className="relative overflow-hidden rounded-lg h-full">
+        <img
+          src={pack.imageUrl}
+          alt={pack.name}
+          className="w-full h-full object-cover"
+        />
 
-          <div className="absolute top-0 right-0 p-4 space-x-2">
-            <ResponsiveUpdatePaquete pack={pack} />
-            <AlertDetelePaquete id={pack.id} name={pack.name} />
-          </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent" />
 
-          <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-            <h3 className="text-xl font-bold">{pack.name}</h3>
+        {pack.isActive && (
+          <Badge className="absolute top-3 left-3">
+            <CheckCircle className="w-3 h-3 mr-1" />
+            Activo
+          </Badge>
+        )}
 
-            <div className="flex items-center justify-between mt-2">
-              <span className="text-2xl font-bold">${Number(pack.price).toLocaleString()}</span>
-              <Badge className="text-sm">{pack.photoCount} fotos</Badge>
+        <div className="absolute bottom-0 left-0 right-0 p-4 text-left">
+          <div className="space-y-2">
+            <div>
+              <h3 className="font-bold text-xl leading-tight">
+                {pack.name}
+              </h3>
+              <p className="text-sm mt-1">
+                {pack.description}
+              </p>
             </div>
+
+            <div className="flex items-center gap-2 justify-between">
+              <div className="flex items-center gap-1">
+                <Camera className="w-4 h-4 text-primary-blue" />
+                <span className="text-sm">{pack.photoCount} fotos</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <DollarSign className="w-4 h-4 text-primary-blue" />
+                <span className="text-sm">{formatCurrency(pack.price)}</span>
+              </div>
+            </div>
+
+            {pack.features.length > 0 && (
+              <div className="space-y-1">
+                {pack.features.slice(0, 3).map((feature) => (
+                  <div key={feature.id} className="flex items-start gap-2">
+                    <CheckCircle className="w-3 h-3 text-primary-blue mt-0.5 flex-shrink-0" />
+                    <span className="text-xs">
+                      {feature.content}
+                    </span>
+                  </div>
+                ))}
+                {pack.features.length > 3 && (
+                  <span className="text-xs">
+                    +{pack.features.length - 3} más...
+                  </span>
+                )}
+              </div>
+            )}
           </div>
         </div>
+      </div>
 
-        <div className="flex-grow pb-4 px-4">
-          <p className="text-sm text-muted-foreground">{pack.description}</p>
-
-          <ul className="mt-3 space-y-1">
-            {pack.features.map((dot, index) => (
-              <li key={index} className="flex items-start gap-2 text-sm">
-                <span className="text-primary-blue">•</span>
-                <span>{dot.content}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </Card>
-    </div>
+      <DropdownMenu>
+        <DropdownMenuTrigger className="absolute top-4 right-4 p-1 rounded-full bg-background/80 backdrop-blur-sm border border-border/50 hover:bg-background transition-colors">
+          <MoreVertical className="w-4 h-4" />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="flex flex-col">
+          <ResponsiveUpdatePaquete pack={pack} />
+          <AlertDetelePaquete id={pack.id} name={pack.name} />
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </Card>
   );
 }
