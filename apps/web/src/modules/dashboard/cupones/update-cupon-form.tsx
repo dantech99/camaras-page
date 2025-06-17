@@ -163,7 +163,7 @@ export function UpdateCouponForm({ coupon }: { coupon: Coupon }) {
                   <FormLabel>Selecciona la fecha de expiración</FormLabel>
                   <FormControl>
                     <Popover>
-                      <PopoverTrigger asChild className="w-full rounded-full">
+                      <PopoverTrigger asChild className="w-full">
                         <Button
                           variant={"outline"}
                           className={cn(
@@ -221,8 +221,7 @@ export function UpdateCouponForm({ coupon }: { coupon: Coupon }) {
         </div>
         <Button
           type="submit"
-          className="w-full rounded-full mt-4 cursor-pointer"
-          variant="outline"
+          className="w-full mt-4 cursor-pointer"
         >
           {isLoading ? "Actualizando cupón..." : "Actualizar Cupón"}
         </Button>

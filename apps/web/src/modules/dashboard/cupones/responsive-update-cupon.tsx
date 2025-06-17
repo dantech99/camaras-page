@@ -46,8 +46,8 @@ export function ResponsiveUpdateCupon({ coupon }: { coupon: Coupon }) {
   const DesktopDialog = () => (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="text-primary-blue" variant={"ghost"}>
-          <Pencil className="size-4 mr-2" />
+        <Button className="w-full flex justify-start px-2" variant={"ghost"}>
+          <Pencil className="mr-2 h-4 w-4" />
           <span>Editar</span>
         </Button> 
       </DialogTrigger>
@@ -55,7 +55,7 @@ export function ResponsiveUpdateCupon({ coupon }: { coupon: Coupon }) {
         <DialogHeader>
           <DialogTitle>Actualiza tu cupón</DialogTitle>
           <DialogDescription>
-            Rellena con la información actualizada para tu paquete
+            Rellena con la información actualizada para tu cupón
           </DialogDescription>
         </DialogHeader>
         <div>
@@ -68,8 +68,8 @@ export function ResponsiveUpdateCupon({ coupon }: { coupon: Coupon }) {
   const MobileDrawer = () => (
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>
-        <Button className="text-primary-blue" variant={"ghost"}>
-          <Pencil className="size-4 mr-2" />
+        <Button className="w-full flex justify-start px-2" variant={"ghost"}>
+          <Pencil className="mr-2 h-4 w-4" />
           <span>Editar</span>
         </Button>
       </DrawerTrigger>
