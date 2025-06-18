@@ -75,7 +75,7 @@ const getStatusBadgeVariant = (isActive: boolean) => {
 const formatDate = (date: Date | string | undefined) => {
   if (!date) return "N/A";
   try {
-    const dateObj = typeof date === 'string' ? new Date(date) : date;
+    const dateObj = typeof date === "string" ? new Date(date) : date;
     return format(dateObj, "dd/MM/yyyy", { locale: es });
   } catch (error) {
     return "Fecha inválida";
@@ -86,7 +86,7 @@ const formatDate = (date: Date | string | undefined) => {
 const formatDateTime = (date: Date | string | undefined) => {
   if (!date) return "N/A";
   try {
-    const dateObj = typeof date === 'string' ? new Date(date) : date;
+    const dateObj = typeof date === "string" ? new Date(date) : date;
     return format(dateObj, "dd/MM/yyyy HH:mm", { locale: es });
   } catch (error) {
     return "Fecha inválida";
@@ -208,7 +208,10 @@ const CouponTableRow = ({ cupon }: { cupon: Coupon }) => {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                  <AlertDialogAction onClick={handleDelete} className="bg-destructive hover:bg-destructive/90">
+                  <AlertDialogAction
+                    onClick={handleDelete}
+                    className="bg-destructive hover:bg-destructive/90"
+                  >
                     Eliminar
                   </AlertDialogAction>
                 </AlertDialogFooter>
@@ -228,7 +231,11 @@ const CouponCard = ({ cupon }: { cupon: Coupon }) => {
   };
 
   return (
-    <Card key={cupon.id} className="shadow-sm hover:shadow-md transition-shadow" data-slot="card">
+    <Card
+      key={cupon.id}
+      className="shadow-sm hover:shadow-md transition-shadow"
+      data-slot="card"
+    >
       <CardContent className="p-4">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-3 flex-1">
@@ -238,7 +245,9 @@ const CouponCard = ({ cupon }: { cupon: Coupon }) => {
               </AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0">
-              <div className="font-semibold text-foreground truncate">{cupon.code}</div>
+              <div className="font-semibold text-foreground truncate">
+                {cupon.code}
+              </div>
               <div className="text-sm text-muted-foreground flex items-center gap-1 mt-1">
                 <Percent className="h-3 w-3" />
                 {cupon.discountPercentage}% de descuento
@@ -278,7 +287,10 @@ const CouponCard = ({ cupon }: { cupon: Coupon }) => {
                   </AlertDialogHeader>
                   <AlertDialogFooter>
                     <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                    <AlertDialogAction onClick={handleDelete} className="bg-destructive hover:bg-destructive/90">
+                    <AlertDialogAction
+                      onClick={handleDelete}
+                      className="bg-destructive hover:bg-destructive/90"
+                    >
                       Eliminar
                     </AlertDialogAction>
                   </AlertDialogFooter>
@@ -287,7 +299,7 @@ const CouponCard = ({ cupon }: { cupon: Coupon }) => {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        
+
         <div className="mt-4 grid grid-cols-2 gap-3 text-xs">
           <div className="space-y-1">
             <div className="text-muted-foreground">Expira:</div>
