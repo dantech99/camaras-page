@@ -108,7 +108,7 @@
   --popover-foreground: var(--foreground);
 
   /* Primary */
-  --primary: oklch(78.9% 0.154 211.53); /* Azul base */
+  --primary: oklch(79.652% 0.13956 213.261); /* Azul base */
   --primary-blue: var(--primary);
   --primary-foreground: oklch(0.15 0.01 285.885); /* Alto contraste en fondo azul */
 

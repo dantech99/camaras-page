@@ -6,41 +6,6 @@ import { PhotographerCard } from "./photographer-card";
 import { usePhotographers } from "@/hooks/use-photographers";
 import { Skeleton } from "@camaras/ui/src/components/skeleton";
 
-// const photographers = [
-//   {
-//     name: "Carlos Mendoza",
-//     image:
-//       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000",
-//     role: "Fotógrafo Cosplay",
-//     description:
-//       "Hola me llamo Carlos y tomo fotos en Camaras del Dragon.png muchas gracias",
-//   },
-//   {
-//     name: "Carlos Hernandez",
-//     image:
-//       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000",
-//     role: "Fotógrafo Cosplay",
-//     description:
-//       "Hola me llamo Carlos y tomo fotos en Camaras del Dragon.png muchas gracias",
-//   },
-//   {
-//     name: "Carlos Pietro",
-//     image:
-//       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000",
-//     role: "Fotógrafo Cosplay",
-//     description:
-//       "Hola me llamo Carlos y tomo fotos en Camaras del Dragon.png muchas gracias",
-//   },
-//   {
-//     name: "Carlos Sanchez",
-//     image:
-//       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000",
-//     role: "Fotógrafo Cosplay",
-//     description:
-//       "Hola me llamo Carlos y tomo fotos en Camaras del Dragon.png muchas gracias",
-//   },
-// ];
-
 export function PhotographerGrid() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
