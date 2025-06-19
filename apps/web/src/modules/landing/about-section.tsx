@@ -1,15 +1,15 @@
 export function AboutSection() {
   return (
-    <div className="min-h-screen w-full">
+    <div className="w-full">
       <div className="p-8 lg:py-24">
         <div className="space-y-4">
           <h2 className="text-4xl lg:text-6xl font-black leading-tight mb-2">
-            <span className="text-primary-blue font-unbounded">
+            <span className="text-primary-blue font-unbounded text-2xl">
               LAS MEJORES FOTOS
             </span>{" "}
-            <span className="text-primary-blue/80 font-unbounded">&</span>
+            <span className="text-primary-blue/80 font-unbounded text-2xl">&</span>
             <br />
-            <span className="text-primary-blue font-unbounded">
+            <span className="text-primary-blue font-unbounded text-2xl">
               LOS MEJORES FOTÓGRAFOS
             </span>
           </h2>
