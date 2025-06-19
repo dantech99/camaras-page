@@ -11,6 +11,7 @@ import { usersRouter } from "@camaras/api/src/modules/users/users.route";
 import { dayRouter } from "@camaras/api/src/modules/day/day.route";
 import { timeRouter } from "@camaras/api/src/modules/time/time.route";
 import { saleRouter } from "@camaras/api/src/modules/sales/sale.route";
+import { otpRoutes } from "@camaras/api/src/modules/otp/otp.routes";
 
 export const api = new Elysia({
   prefix: "/api",
@@ -31,6 +32,7 @@ export const api = new Elysia({
   .use(profileRouter)
   .use(dayRouter)
   .use(timeRouter)
-  .use(saleRouter);
+  .use(saleRouter)
+  .use(otpRoutes);
 
 export type Api = typeof api;

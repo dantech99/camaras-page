@@ -23,6 +23,12 @@ interface SaleStore {
   discountCode: string;
   discountId: string;
 
+  phoneNumber: string;
+  isVerified: boolean;
+  email: string;
+  name: string;
+  character: string;
+
   methodPayment: PaymentMethod;
 }
 
@@ -40,6 +46,11 @@ interface SaleStoreActions {
   setDayId: (id: string) => void;
   setTimeSlot: (timeSlot: string) => void;
   setTimeSlotId: (id: string) => void;
+  setPhoneNumber: (phoneNumber: string) => void;
+  setIsVerified: (isVerified: boolean) => void;
+  setEmail: (email: string) => void;
+  setName: (name: string) => void;
+  setCharacter: (character: string) => void;
 }
 
 export const useSaleStore = create<SaleStore & SaleStoreActions>((set) => ({
@@ -55,6 +66,11 @@ export const useSaleStore = create<SaleStore & SaleStoreActions>((set) => ({
   timeSlotId: "",
   discountCode: "",
   discountId: "",
+  phoneNumber: "",
+  name: "",
+  character: "",
+  isVerified: false,
+  email: "",
   methodPayment: PaymentMethod.CASH,
 
   setPhotographerId: (id: string) => set({ photographerId: id }),
@@ -70,4 +86,9 @@ export const useSaleStore = create<SaleStore & SaleStoreActions>((set) => ({
   setDayId: (id: string) => set({ dayId: id }),
   setTimeSlot: (timeSlot: string) => set({ timeSlot }),
   setTimeSlotId: (id: string) => set({ timeSlotId: id }),
+  setPhoneNumber: (phoneNumber: string) => set({ phoneNumber }),
+  setName: (name: string) => set({ name }),
+  setCharacter: (character: string) => set({ character }),
+  setIsVerified: (isVerified: boolean) => set({ isVerified }),
+  setEmail: (email: string) => set({ email }),
 }));

@@ -24,40 +24,36 @@ export function SelectPhotographer() {
           <p>No hay fotógrafos disponibles</p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
           {data?.photographers?.map((photographer) => (
             <Card
               key={photographer.id}
-              className={`flex flex-col rounded-xl overflow-hidden transition-all hover:shadow-xl cursor-pointer ${photographerId === photographer.id ? "border-2 border-primary-blue" : "border-2"}`}
+              className={`aspect-[3/5] p-1 relative ${photographerId === photographer.id ? "border-2 border-primary-blue" : "border-2"}`}
               onClick={() => {
                 setPhotographerId(photographer.id);
                 setPhotographerName(photographer.name);
               }}
             >
-              <div className="relative w-full aspect-[3/4] overflow-hidden">
-                {photographer.image ? (
-                  <img
-                    src={photographer.image || "/placeholder.svg"}
-                    alt={photographer.name}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center bg-gray-900">
-                    <UserIcon className="w-16 h-16 text-gray-600" />
+              <div className="relative w-full h-full overflow-hidden rounded-lg">
+                <img
+                  src={photographer.image || "/placeholder.svg"}
+                  alt={photographer.name}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent" />
+
+                <div className="absolute bottom-0 left-0 right-0 p-4 text-left">
+                  <div className="space-y-2">
+                    <div>
+                      <h3 className="font-bold text-xl leading-tight">
+                        {photographer.name}
+                      </h3>
+                      <p className="text-sm mt-1">
+                        {photographer.email}
+                      </p>
+                    </div>
                   </div>
-                )}
-              </div>
-
-              <div className="p-4 flex flex-col gap-2">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-semibold text-white truncate">
-                    {photographer.name}
-                  </h3>
                 </div>
-
-                <p className="text-sm text-gray-500 truncate">
-                  {photographer.email}
-                </p>
               </div>
             </Card>
           ))}
