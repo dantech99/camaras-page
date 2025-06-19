@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@camaras/ui/src/lib/utils";
 import { authClient } from "@camaras/auth/client";
 import Link from "next/link";
+import { X, Menu } from "lucide-react";
 
 const links = [
   {
@@ -30,19 +31,20 @@ const links = [
   },
 ];
 
-// Componente para el efecto hover de los links
+// Componente para el efecto hover de los links en desktop
 const AnimatedLink = ({
   href,
   children,
-  index,
+  onClick,
 }: {
   href: string;
   children: string;
-  index: number;
+  onClick?: () => void;
 }) => {
   return (
     <Link
       href={href}
+      onClick={onClick}
       className="relative overflow-hidden inline-block h-6 flex items-center"
     >
       <motion.div
@@ -67,108 +69,252 @@ const AnimatedLink = ({
 };
 
 export function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDesktopMenuOpen, setIsDesktopMenuOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { data: session } = authClient.useSession();
 
   const role = session?.user?.role;
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+  const toggleDesktopMenu = () => {
+    setIsDesktopMenuOpen(!isDesktopMenuOpen);
+  };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
+
+  const getUserDashboardLink = () => {
+    if (role === "admin") return "/admin";
+    if (role === "photographer") return "/photographer";
+    if (role === "user") return "/user";
+    return "/company";
   };
 
   return (
-    <nav className="fixed z-50 top-0 left-0 right-0 m-8">
-      <div className="flex justify-between items-center h-12">
-        <div className="flex items-center bg-primary-blue">
-          {/* Botón de menú */}
-          <Button onClick={toggleMenu} variant="landing">
-            MENU
-          </Button>
+    <>
+      {/* Desktop Navbar */}
+      <nav className="fixed z-50 top-0 left-0 right-0 m-8 hidden lg:block">
+        <div className="flex justify-between items-center h-12">
+          <div className="flex items-center bg-primary-blue">
+            {/* Botón de menú desktop */}
+            <Button 
+              onClick={toggleDesktopMenu} 
+              variant="landing"
+              className="font-unbounded"
+            >
+              MENU
+            </Button>
 
-          {/* Contenedor de links con animación */}
-          <div className="flex items-center h-full">
-            <AnimatePresence mode="wait">
-              {isMenuOpen && (
-                <motion.div
-                  initial={{
-                    width: 0,
-                    opacity: 0,
-                  }}
-                  animate={{
-                    width: "auto",
-                    opacity: 1,
-                  }}
-                  exit={{
-                    width: 0,
-                    opacity: 0,
-                  }}
-                  transition={{
-                    duration: 0.3,
-                    ease: "easeInOut",
-                    width: { duration: 0.3 },
-                    opacity: { duration: 0.15 },
-                  }}
-                  className="flex items-center gap-8 overflow-hidden ml-6"
+            {/* Contenedor de links con animación */}
+            <div className="flex items-center h-full">
+              <AnimatePresence mode="wait">
+                {isDesktopMenuOpen && (
+                  <motion.div
+                    initial={{
+                      width: 0,
+                      opacity: 0,
+                    }}
+                    animate={{
+                      width: "auto",
+                      opacity: 1,
+                    }}
+                    exit={{
+                      width: 0,
+                      opacity: 0,
+                    }}
+                    transition={{
+                      duration: 0.3,
+                      ease: "easeInOut",
+                      width: { duration: 0.3 },
+                      opacity: { duration: 0.15 },
+                    }}
+                    className="flex items-center gap-8 overflow-hidden ml-6 pr-4"
+                  >
+                    {links.map((link, index) => (
+                      <motion.div
+                        key={link.name}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -20 }}
+                        transition={{
+                          duration: 0.2,
+                          delay: index * 0.05,
+                          ease: "easeOut",
+                        }}
+                        className="flex items-center"
+                      >
+                        <AnimatedLink href={link.href}>
+                          {link.name}
+                        </AnimatedLink>
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+
+          {/* Desktop Auth Button */}
+          {session ? (
+            <Link
+              href={getUserDashboardLink()}
+              className={cn(
+                buttonVariants({
+                  variant: "landing",
+                }),
+                "font-unbounded"
+              )}
+            >
+              {session.user?.name?.toUpperCase()}
+            </Link>
+          ) : (
+            <Link
+              href="/auth"
+              className={cn(
+                buttonVariants({
+                  variant: "landing",
+                }),
+                "font-unbounded"
+              )}
+            >
+              INICIAR SESIÓN
+            </Link>
+          )}
+        </div>
+      </nav>
+
+      {/* Mobile Navbar */}
+      <nav className="fixed z-50 top-0 left-0 right-0 m-4 lg:hidden">
+        <div className="flex justify-between items-center h-12 backdrop-blur-md rounded-lg px-4">
+          <Link 
+            href="/" 
+            className="font-unbounded font-semibold text-white text-lg tracking-tighter"
+          >
+            LCDD
+          </Link>
+          
+          <Button
+            onClick={toggleMobileMenu}
+            variant="ghost"
+            size="icon"
+            className="text-white hover:bg-white/20"
+          >
+            <Menu className="h-6 w-6" />
+          </Button>
+        </div>
+      </nav>
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-40 bg-background/95 backdrop-blur-md lg:hidden"
+            onClick={closeMobileMenu}
+          >
+            <div 
+              className="flex flex-col h-full"
+              onClick={(e) => e.stopPropagation()} // Prevenir cierre al hacer click en el contenido
+            >
+              {/* Mobile Header */}
+              <div className="flex justify-between items-center p-6 pt-8">
+                <Link 
+                  href="/" 
+                  className="font-unbounded font-semibold text-xl tracking-tighter"
+                  onClick={closeMobileMenu}
+                >
+                  LCDD
+                </Link>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={closeMobileMenu}
+                  className="relative overflow-hidden"
+                >
+                  <motion.div
+                    initial={{ rotate: -90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    transition={{ duration: 0.2, ease: "easeInOut" }}
+                    className="absolute inset-0 flex items-center justify-center"
+                  >
+                    <X className="h-6 w-6" />
+                  </motion.div>
+                </Button>
+              </div>
+
+              {/* Mobile Links */}
+              <div className="flex-1 flex flex-col justify-center px-6">
+                <motion.ul 
+                  className="space-y-8"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: 0.1 }}
                 >
                   {links.map((link, index) => (
-                    <motion.div
+                    <motion.li 
                       key={link.name}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -20 }}
                       transition={{
                         duration: 0.2,
-                        delay: index * 0.05,
+                        delay: 0.1 + index * 0.05,
                         ease: "easeOut",
                       }}
-                      className="flex items-center"
                     >
-                      <AnimatedLink href={link.href} index={index}>
+                      <Link
+                        href={link.href}
+                        className="font-unbounded text-3xl font-semibold tracking-tighter hover:text-muted-foreground transition-colors block"
+                        onClick={closeMobileMenu}
+                      >
                         {link.name}
-                      </AnimatedLink>
-                    </motion.div>
+                      </Link>
+                    </motion.li>
                   ))}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        </div>
+                </motion.ul>
+              </div>
 
-        {role === "admin" ? (
-          <Link
-            href="/admin"
-            className={cn(
-              buttonVariants({
-                variant: "landing",
-              })
-            )}
-          >
-            {session.user?.name.toUpperCase()}
-          </Link>
-        ) : role === "photographer" ? (
-          <Link
-            href="/photographer"
-            className={cn(
-              buttonVariants({
-                variant: "landing",
-              })
-            )}
-          >
-            {session.user?.name.toUpperCase()}
-          </Link>
-        ) : (
-          <Link
-            href="/auth"
-            className={cn(
-              buttonVariants({
-                variant: "landing",
-              })
-            )}
-          >
-            INICIAR SESIÓN
-          </Link>
+              {/* Mobile Auth Button */}
+              <motion.div 
+                className="p-6 pb-8"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: 0.2 }}
+              >
+                {session ? (
+                  <Link
+                    href={getUserDashboardLink()}
+                    className={cn(
+                      buttonVariants({ variant: "default" }),
+                      "w-full text-center font-unbounded"
+                    )}
+                    onClick={closeMobileMenu}
+                  >
+                    {session.user?.name?.toUpperCase()}
+                  </Link>
+                ) : (
+                  <Link
+                    href="/auth"
+                    className={cn(
+                      buttonVariants({ variant: "default" }),
+                      "w-full text-center font-unbounded"
+                    )}
+                    onClick={closeMobileMenu}
+                  >
+                    INICIAR SESIÓN
+                  </Link>
+                )}
+              </motion.div>
+            </div>
+          </motion.div>
         )}
-      </div>
-    </nav>
+      </AnimatePresence>
+    </>
   );
 }

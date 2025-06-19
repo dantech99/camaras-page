@@ -7,9 +7,10 @@ import { SelectPackage } from "@/modules/agenda/select-package";
 import { SelectDay } from "@/modules/agenda/select-day";
 import { Button } from "@camaras/ui/src/components/button";
 import { SelectPaymentMethod } from "@/modules/agenda/select-payment-method";
-import { ConfirmPayment } from "@/modules/agenda/confirm-payment";
+import { UserData } from "@/modules/agenda/user-data";
 import { useSaleStore } from "@/modules/agenda/store/sale.store";
 import { toast } from "sonner";
+import { ConfirmPayment } from "@/modules/agenda/confirm-payment";
 
 export default function AgendaPage() {
   const methods = GlobalStepper.useStepper();
@@ -43,6 +44,18 @@ export default function AgendaPage() {
           return;
         }
         break;
+      case "fifth":
+        
+        if (!saleStore.name || !saleStore.phoneNumber || !saleStore.character) {
+          toast.error("Por favor, completa todos los campos antes de continuar.");
+          return;
+        }
+
+        if (!saleStore.isVerified) {
+          toast.error("Por favor, ingresa tu correo electrónico antes de continuar.");
+          return;
+        }
+        break;
       default:
         break;
     }
@@ -52,37 +65,43 @@ export default function AgendaPage() {
 
   return (
     <GlobalStepper.Scoped>
-      <div className="flex flex-col items-center justify-center h-[100dvh] max-w-6xl mx-auto p-4">
-        <div className="w-full space-y-2">
+      <div className="flex flex-col h-[calc(100dvh-8rem)] p-8 mt-28">
+        {/* Progress bar y títulos - siempre arriba */}
+        <div className="w-full space-y-2 flex-shrink-0">
           <Progress value={methods.current.percentage} />
           <p className="text-2xl font-bold">{methods.current.title}</p>
           <p className="text-sm text-gray-500">{methods.current.description}</p>
         </div>
-        <div className="flex items-center w-full justify-center gap-4">
-          <div className="flex flex-col w-full h-full">
-            <div className="w-full py-4">
+
+        {/* Contenido principal - ocupa el espacio restante con overflow */}
+        <div className="flex-1 overflow-y-auto py-4 min-h-0">
+          <div className="flex items-center w-full justify-center">
+            <div className="w-full">
               {methods.switch({
                 first: () => <SelectPhotographer />,
                 second: () => <SelectPackage />,
                 third: () => <SelectDay />,
                 fourth: () => <SelectPaymentMethod />,
-                fifth: () => <ConfirmPayment />,
+                fifth: () => <UserData />,
+                sixth: () => <ConfirmPayment />,
               })}
             </div>
-            <div className="flex gap-2 w-full justify-between ">
-              <Button
-                onClick={() => methods.prev()}
-                disabled={methods.current.id === "first"}
-              >
-                Atrás
-              </Button>
-              {methods.current.id !== "fifth" && (
-                <Button onClick={handleNext}>
-                  Siguiente
-                </Button>
-              )}
-            </div>
           </div>
+        </div>
+
+        {/* Botones - siempre en el bottom */}
+        <div className="flex-shrink-0 flex justify-between gap-4 pt-4">
+          <Button
+            onClick={() => methods.prev()}
+            disabled={methods.current.id === "first"}
+          >
+            Atrás
+          </Button>
+          {methods.current.id !== "sixth" && (
+            <Button onClick={handleNext}>
+              Siguiente
+            </Button>
+          )}
         </div>
       </div>
     </GlobalStepper.Scoped>

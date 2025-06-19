@@ -1,5 +1,5 @@
 import { PrismaClient } from "@camaras/database";
-import { betterAuth, map } from "better-auth";
+import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { admin, anonymous, openAPI, organization } from "better-auth/plugins";
 import {
@@ -64,7 +64,7 @@ export const auth = betterAuth({
         return finalUser?.role === "admin";
       },
     }),
-    anonymous(),
+    anonymous()
   ],
   advanced: {
     crossSubDomainCookies: {

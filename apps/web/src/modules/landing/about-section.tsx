@@ -1,6 +1,6 @@
 export function AboutSection() {
   return (
-    <div className="min-h-screen w-full bg-black">
+    <div className="min-h-screen w-full">
       <div className="p-8 lg:py-24">
         <div className="space-y-4">
           <h2 className="text-4xl lg:text-6xl font-black leading-tight mb-2">

@@ -7,7 +7,6 @@ import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { capitalizeMonth } from "@/utils/capitalize-month";
 import { parseISO } from "date-fns";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@camaras/ui/src/components/accordion";
 import { Button } from "@camaras/ui/src/components/button";
 
 export function SelectDay() {
@@ -23,43 +22,52 @@ export function SelectDay() {
                     </div>
                 ) : isError ? (
                     <div className="flex items-center justify-center p-4">
-                        <p>Error al cargar los días disponibles</p>
+                        <p className="text-red-500">Error al cargar los días disponibles</p>
                     </div>
                 ) : availableDays?.availableDays?.length === 0 ? (
                     <div className="flex items-center justify-center p-4">
-                        <p>No hay días disponibles</p>
+                        <p className="text-gray-500">No hay días disponibles</p>
                     </div>
                 ) : (
-                    <Accordion type="single" collapsible className="flex flex-col gap-4">
+                    <div className="space-y-6">
                         {availableDays?.availableDays?.map((day) => (
-                            <AccordionItem value={day.day} key={day.day}>
-                                <AccordionTrigger>
+                            <div key={day.day} className="space-y-3">
+                                {/* Label del día */}
+                                <h3 className="text-lg font-semibold border-b pb-2">
                                     {capitalizeMonth(format(parseISO(day.day), "d 'de' MMMM 'del' yyyy", {
                                         locale: es,
                                     }))}
-                                </AccordionTrigger>
-                                <AccordionContent>
-                                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                                        {day.timeSlots.map((slot) => (
-                                            <Button
-                                                key={slot.id}
-                                                variant="outline"
-                                                className={`flex flex-col rounded-xl overflow-hidden transition-all hover:shadow-xl cursor-pointer ${timeSlotId === slot.id ? "border-2 border-primary-blue" : "border-2"}`}
-                                                onClick={() => {
-                                                    setDay(day.day)
-                                                    setDayId(day.dayId)
-                                                    setTimeSlotId(slot.id)
-                                                    setTimeSlot(`${slot.start} ${slot.ampmStart} - ${slot.end} ${slot.ampmEnd}`)
-                                                }}
-                                                >
-                                                {slot.start} {slot.ampmStart} - {slot.end} {slot.ampmEnd}
-                                            </Button>
-                                        ))}
-                                    </div>
-                                </AccordionContent>
-                            </AccordionItem>
+                                </h3>
+                                
+                                {/* Horarios disponibles */}
+                                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                                    {day.timeSlots.map((slot) => (
+                                        <Button
+                                            key={slot.id}
+                                            variant="outline"
+                                            className={`
+                                                flex items-center justify-center p-3 rounded-lg 
+                                                transition-all duration-200 hover:shadow-md cursor-pointer
+                                                font-medium text-sm
+                                                ${timeSlotId === slot.id 
+                                                    ? "border-2 border-primary-blue bg-primary-blue/10 text-primary-blue shadow-sm" 
+                                                    : "border"
+                                                }
+                                            `}
+                                            onClick={() => {
+                                                setDay(day.day)
+                                                setDayId(day.dayId)
+                                                setTimeSlotId(slot.id)
+                                                setTimeSlot(`${slot.start} ${slot.ampmStart} - ${slot.end} ${slot.ampmEnd}`)
+                                            }}
+                                        >
+                                            {slot.start} {slot.ampmStart} - {slot.end} {slot.ampmEnd}
+                                        </Button>
+                                    ))}
+                                </div>
+                            </div>
                         ))}
-                    </Accordion>
+                    </div>
                 )
             }
         </div>

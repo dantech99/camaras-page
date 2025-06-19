@@ -19,6 +19,9 @@ export function ConfirmPayment() {
     packageId,
     dayId,
     timeSlotId,
+    character,
+    name,
+    phoneNumber,
   } = useSaleStore();
   const [discountCode, setDiscountCode] = useState("");
   const [discountApplied, setDiscountApplied] = useState(false);
@@ -61,6 +64,9 @@ export function ConfirmPayment() {
         timeSlotId,
         price: finalPrice,
         methodPayment,
+        character,
+        name,
+        phoneNumber,
       });
       if (response && response.status === 200) {
         toast.success("Compra confirmada");
@@ -111,6 +117,18 @@ export function ConfirmPayment() {
                 ? packagePrice.toFixed(2)
                 : packagePrice}
             </span>
+          </div>
+          <div className="flex justify-between items-center py-2 border-b border-primary-foreground">
+            <span className="font-bold">Personaje:</span>
+            <span className="">{character}</span>
+          </div>
+          <div className="flex justify-between items-center py-2 border-b border-primary-foreground">
+            <span className="font-bold">Nombre:</span>
+            <span className="">{name}</span>
+          </div>
+          <div className="flex justify-between items-center py-2 border-b border-primary-foreground">
+            <span className="font-bold">Telefono:</span>
+            <span className="">{phoneNumber}</span>
           </div>
 
           {discountApplied && (
