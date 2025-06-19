@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion"
 import { FaWhatsapp } from "react-icons/fa";
-
 import { Button } from "@camaras/ui/src/components/button"
 import { CalendarFold } from "lucide-react";
 
