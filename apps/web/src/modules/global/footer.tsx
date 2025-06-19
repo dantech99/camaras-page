@@ -82,7 +82,7 @@ const AnimatedLink = ({
 
 export function Footer() {
   return (
-    <footer className="text-primary-blue overflow-hidden bg-black w-full">
+    <footer className="text-primary-blue overflow-hidden w-full">
       <div className="w-full">
         <div className="px-4 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-12">
           <div className="max-w-8xl mx-auto">

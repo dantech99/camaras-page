@@ -8,13 +8,13 @@ import { CalendarFold } from "lucide-react";
 
 export function SchedulingSection() {
   return (
-    <div className="min-h-screen bg-black flex flex-col items-center justify-center px-4 py-8">
+    <div className="min-h-screen flex flex-col items-center justify-center px-4 py-8">
       <div className="text-center mb-8 md:mb-12 space-y-2 md:space-y-4 w-full max-w-7xl">
         {/* First line: YOU WISH TO */}
         <div className="flex justify-center">
           <div className="relative overflow-hidden inline-block">
             <motion.h1
-              className="font-medium font-unbounded text-primary-blue text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl tracking-wide"
+              className="font-medium font-unbounded text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl tracking-wide"
               initial={{ opacity: 1 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true, amount: 0.35 }}
@@ -45,7 +45,7 @@ export function SchedulingSection() {
         <div className="flex justify-center">
           <div className="relative overflow-hidden inline-block">
             <motion.h1
-              className="font-medium font-unbounded text-primary-blue text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl tracking-wide"
+              className="font-medium font-unbounded text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl tracking-wide"
               initial={{ opacity: 1 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true, amount: 0.35 }}
@@ -73,7 +73,7 @@ export function SchedulingSection() {
         </div>
 
         {/* Third line: PARTNER? */}
-        <div className="flex justify-center mt-4 md:mt-8">
+        <div className="flex justify-center">
           <div className="relative overflow-hidden inline-block">
             <motion.h1
               className="font-bold font-unbounded text-primary-blue text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl tracking-wider"
@@ -112,18 +112,17 @@ export function SchedulingSection() {
         transition={{ delay: 1.5, duration: 0.6 }}
       >
         <Button
-          variant="outline"
+          variant="landing"
           size="lg"
-          className="bg-transparent border-primary-blue text-primary-blue hover:bg-primary-blue hover:text-black px-4 md:px-8 py-3 text-xs sm:text-sm font-medium tracking-wide focus:outline-none focus:ring-0 focus:border-primary-blue"
+          className="rounded-none"
         >
           <FaWhatsapp />
-
           CONTACTANOS
         </Button>
         <Button
-          variant="outline"
+          variant="landingSecondary"
           size="lg"
-          className="bg-transparent border-primary-blue text-primary-blue hover:bg-primary-blue hover:text-black px-4 md:px-8 py-3 text-xs sm:text-sm font-medium tracking-wide focus:outline-none focus:ring-0 focus:border-primary-blue"
+          className="rounded-none"
         >
           <CalendarFold />
           AGENDAR
