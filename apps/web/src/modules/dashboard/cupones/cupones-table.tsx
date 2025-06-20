@@ -336,7 +336,7 @@ export function CuponesTable() {
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-2xl font-semibold">
           <Users2 className="h-6 w-6" />
-          Cupones ({cupones.length})
+          Cupones ({isLoading ? "..." : cupones.length})
         </CardTitle>
         <CardDescription>
           Gestiona y filtra cupones por código, descuento o estado

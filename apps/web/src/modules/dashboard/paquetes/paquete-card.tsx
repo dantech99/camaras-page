@@ -45,7 +45,7 @@ export function PaqueteCard({ pack }: { pack: PhotographersPackages }) {
         <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent" />
 
         {pack.isActive && (
-          <Badge className="absolute top-3 left-3">
+          <Badge className="absolute top-3 left-3 text-white">
             <CheckCircle className="w-3 h-3 mr-1" />
             Activo
           </Badge>
