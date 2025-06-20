@@ -9,6 +9,7 @@ import { Line } from "../landing/line";
 import { AboutSection } from "../landing/about-section";
 import { BrandsCarousel } from "../landing/brand-carousel";
 import { SchedulingSection } from "../landing/scheduling-section";
+import { TeamSection } from "../landing/team";
 
 export const HomeScreen = () => {
   return (
@@ -17,11 +18,12 @@ export const HomeScreen = () => {
       <Line />
       <SliderGallery />
       <AboutSection />
+      <TeamSection />
       <SchedulingSection />
       
       {/* <PhotographerGrid /> */}
       <GalleryPhotographer />
-      <TestimonialCarousel />
+      {/* <TestimonialCarousel /> */}
       <FAQSection />
       {/* <BrandsCarousel /> */}
     </>

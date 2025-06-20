@@ -2,13 +2,12 @@
 
 import { motion } from "framer-motion"
 import { FaWhatsapp } from "react-icons/fa";
-
 import { Button } from "@camaras/ui/src/components/button"
 import { CalendarFold } from "lucide-react";
 
 export function SchedulingSection() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-4 py-8">
+    <div className="flex flex-col items-center justify-center px-4 py-8 lg:py-24 space-y-4">
       <div className="text-center mb-8 md:mb-12 space-y-2 md:space-y-4 w-full max-w-7xl">
         {/* First line: YOU WISH TO */}
         <div className="flex justify-center">
@@ -19,7 +18,7 @@ export function SchedulingSection() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true, amount: 0.35 }}
             >
-              ¿QUIERES AGENDAR
+              ¿QUIERES
             </motion.h1>
 
             {/* Animated stripe for first line */}
@@ -30,7 +29,7 @@ export function SchedulingSection() {
                 x: ["0%", "-100%", "-100%"],
                 opacity: [1, 1, 0],
               }}
-              viewport={{ once: true, amount: 0.35 }}
+              viewport={{ once: true, amount: 0.5 }}
               transition={{
                 delay: 0,
                 duration: 1.2,
@@ -76,7 +75,7 @@ export function SchedulingSection() {
         <div className="flex justify-center">
           <div className="relative overflow-hidden inline-block">
             <motion.h1
-              className="font-bold font-unbounded text-primary-blue text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl tracking-wider"
+              className="font-bold font-unbounded text-primary-blue text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl tracking-wider"
               initial={{ opacity: 1 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true, amount: 0.35 }}
