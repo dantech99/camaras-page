@@ -119,8 +119,10 @@ model Sale {
   package   Package @relation(fields: [packageId], references: [id])
   packageId String
 
-  buyer   User   @relation("buyer", fields: [buyerId], references: [id])
-  buyerId String
+  buyerPhoneNumber String
+  buyerName        String
+  buyerEmail       String
+  buyerCharacter   String
 
   discountCode       Discount? @relation("discountCode", fields: [discountCodeId], references: [id])
   discountCodeId     String?

@@ -14,19 +14,13 @@ export class SaleService {
         dayId: string;
         timeSlotId: string;
         price: number;
-        methodPayment: "CASH" | "CREDIT_CARD" | "NEQUI";
-    }, userId: string) {
+        methodPayment: "CASH" | "NEQUI";
+        buyerPhoneNumber: string;
+        buyerName: string;
+        buyerEmail: string;
+        buyerCharacter: string;
+    }) {
         try {
-            // Encontrar al usuario y que tenga rol de user
-            const user = await this.prisma.user.findUnique({
-                where: {
-                    id: userId,
-                },
-            });
-            if (!user || user.role !== "user") {
-                throw new Error("User not found or not authorized");
-            }
-
             // Validar el fotografo
             await this.validatePhotographer(data.photographerId);
             
@@ -56,46 +50,29 @@ export class SaleService {
             
 
             // Crear la venta
-            const sale = await this.prisma.sale.create({
-                data: {
-                    buyer: {
-                        connect: {
-                            id: user.id,
-                        },
-                    },
-                    photographer: {
-                        connect: {
-                            id: data.photographerId,
-                        },
-                    },
-                    package: {
-                        connect: {
-                            id: data.packageId,
-                        },
-                    },
-                    discountCode: {
-                        connect: {
-                            id: data.discountCodeId,
-                        },
-                    },
-                    day: {
-                        connect: {
-                            id: data.dayId,
-                        },
-                    },
-                    timeSlot: {
-                        connect: {
-                            id: data.timeSlotId,
-                        },
-                    },
-                    price: data.price,
-                    discountPercentage: discountPercentage,
-                    finalPrice: finalPrice,
-                    methodPayment: data.methodPayment,
-                    paymentConfirmation: confirmPayment,
-                    saleStatus: status,
-                },
-            });
+            const saleData: any = {
+                photographer: { connect: { id: data.photographerId } },
+                package: { connect: { id: data.packageId } },
+                day: { connect: { id: data.dayId } },
+                timeSlot: { connect: { id: data.timeSlotId } },
+                price: data.price,
+                discountPercentage: discountPercentage,
+                finalPrice: finalPrice,
+                methodPayment: data.methodPayment,
+                paymentConfirmation: confirmPayment,
+                saleStatus: status,
+                buyerPhoneNumber: data.buyerPhoneNumber,
+                buyerName: data.buyerName,
+                buyerEmail: data.buyerEmail,
+                buyerCharacter: data.buyerCharacter,
+            };
+
+            if (data.discountCodeId) {
+                saleData.discountCode = { connect: { id: data.discountCodeId } };
+                saleData.discountCodeId = data.discountCodeId;
+            }
+
+            const sale = await this.prisma.sale.create({ data: saleData });
 
             // Marcar como booked el time slot
             await this.prisma.timeSlot.update({
@@ -126,11 +103,10 @@ export class SaleService {
                 },
                 select: {
                     id: true,
-                    buyer: {
-                        select: {
-                            name: true,
-                        },
-                    },
+                    buyerPhoneNumber: true,
+                    buyerName: true,
+                    buyerEmail: true,
+                    buyerCharacter: true,
                     saleStatus: true,
                     package: {
                         select: {
@@ -152,7 +128,7 @@ export class SaleService {
             });
             const formattedSales = sales.map(sale => ({
                 id: sale.id,
-                buyerName: sale.buyer.name,
+                buyerName: sale.buyerName,
                 status: sale.saleStatus,
                 packageName: sale.package.name,
                 price: sale.finalPrice,
@@ -173,17 +149,14 @@ export class SaleService {
         try {
             const sales = await this.prisma.sale.findMany({
                 where: {
-                    buyerId: userId,
+                    buyerPhoneNumber: userId,
                 },
                 select: {
                     id: true,
-                    buyer: {
-                        select: {
-                            name: true,
-                            email: true,
-                            phoneNumber: true,
-                        },
-                    },
+                    buyerPhoneNumber: true,
+                    buyerName: true,
+                    buyerEmail: true,
+                    buyerCharacter: true,
                     saleStatus: true,
                     package: {
                         select: {
@@ -223,14 +196,10 @@ export class SaleService {
                 },
                 select: {
                     id: true,
-                    buyer: {
-                        select: {
-                            name: true,
-                            email: true,
-                            phoneNumber: true,
-                            id: true,
-                        }
-                    },
+                    buyerPhoneNumber: true,
+                    buyerName: true,
+                    buyerEmail: true,
+                    buyerCharacter: true,
                     package: {
                         select: {
                             name: true,
@@ -290,7 +259,7 @@ export class SaleService {
             const sale = await this.prisma.sale.findUnique({
                 where: {
                     id: saleId,
-                    buyerId: userId,
+                    buyerPhoneNumber: userId,
                 },
             });
             return {

@@ -8,8 +8,7 @@ export const saleRouter = new Elysia({
 })
 .use(betterAuth)
 .use(saleModule)
-.post("/", ({ saleService, user, body }) => saleService.createSale(body, user.id), {
-    auth: true,
+.post("/", ({ saleService, body }) => saleService.createSale(body), {
     body: t.Object({
         photographerId: t.String(),
         packageId: t.String(),
@@ -19,22 +18,19 @@ export const saleRouter = new Elysia({
         price: t.Number(),
         methodPayment: t.Enum({
             CASH: "CASH",
-            CREDIT_CARD: "CREDIT_CARD",
             NEQUI: "NEQUI",
         }),
+        buyerPhoneNumber: t.String(),
+        buyerName: t.String(),
+        buyerEmail: t.String(),
+        buyerCharacter: t.String(),
     }),
 })
 .get("/photographer", ({ saleService, user }) => saleService.getSalesByPhotographer(user.id), {
     photographer: true,
 })
-.get("/user", ({ saleService, user }) => saleService.getSalesByUser(user.id), {
-    auth: true,
-})
 .get("/photographer/:id", ({ saleService, params, user }) => saleService.getSaleByPhotographerAndId(params.id, user.id), {
     photographer: true,
-})
-.get("/user/:id", ({ saleService, params, user }) => saleService.getSaleByUserAndId(params.id, user.id), {
-    auth: true,
 })
 .post("/confirm/:id", ({ saleService, params, user }) => saleService.confirmSale(params.id, user.id), {
     photographer: true,
