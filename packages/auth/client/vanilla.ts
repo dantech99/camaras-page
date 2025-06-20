@@ -1,5 +1,5 @@
 import { createAuthClient as createAuthClientVanilla } from "better-auth/client"
-import { inferAdditionalFields } from "better-auth/client/plugins"
+import { inferAdditionalFields, phoneNumberClient } from "better-auth/client/plugins"
 import { adminClient } from "better-auth/client/plugins"
 import { auth } from "utils/auth"
 
@@ -8,5 +8,6 @@ export const authClientVanilla = createAuthClientVanilla({
     plugins: [
         inferAdditionalFields<typeof auth>(),
         adminClient(),
+        phoneNumberClient(),
     ]
 })

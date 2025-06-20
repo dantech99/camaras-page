@@ -2,7 +2,6 @@ import { create } from "zustand";
 
 export enum PaymentMethod {
   CASH = "CASH",
-  CREDIT_CARD = "CREDIT_CARD",
   NEQUI = "NEQUI",
 }
 

@@ -50,11 +50,6 @@ export default function AgendaPage() {
           toast.error("Por favor, completa todos los campos antes de continuar.");
           return;
         }
-
-        if (!saleStore.isVerified) {
-          toast.error("Por favor, ingresa tu correo electrónico antes de continuar.");
-          return;
-        }
         break;
       default:
         break;

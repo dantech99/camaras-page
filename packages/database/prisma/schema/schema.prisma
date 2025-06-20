@@ -49,7 +49,6 @@ model User {
   packages          Package[]
   discounts         Discount[]     @relation("discountPhotographer")
 
-  purchases      Sale[] @relation("buyer")
   cancelledSales Sale[] @relation("cancelledBy")
 
   createdAt DateTime

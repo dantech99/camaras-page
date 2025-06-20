@@ -1,3 +1,4 @@
+import { auth } from "@camaras/auth";
 import twilio from "twilio";
 
 const TWILIO_ACCOUNT_SID = process.env.TWILIO_SID;
@@ -9,9 +10,11 @@ const twilioClient = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 export class OtpService {
   async sendOtp(phoneNumber: string) {
     try {
-      await twilioClient.verify.v2.services(TWILIO_VERIFY_SERVICE_SID as string)
-        .verifications
-        .create({ to: phoneNumber, channel: 'sms' });
+      await auth.api.sendPhoneNumberOTP({
+        body: {
+          phoneNumber,
+        },
+      });
     } catch (error) {
       console.error(error);
       throw new Error("Failed to send OTP");

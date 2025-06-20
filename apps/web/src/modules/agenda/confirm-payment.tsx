@@ -21,6 +21,7 @@ export function ConfirmPayment() {
     timeSlotId,
     character,
     name,
+    email,
     phoneNumber,
   } = useSaleStore();
   const [discountCode, setDiscountCode] = useState("");
@@ -64,9 +65,10 @@ export function ConfirmPayment() {
         timeSlotId,
         price: finalPrice,
         methodPayment,
-        character,
-        name,
-        phoneNumber,
+        buyerCharacter: character,
+        buyerName: name,
+        buyerPhoneNumber: phoneNumber,
+        buyerEmail: email,
       });
       if (response && response.status === 200) {
         toast.success("Compra confirmada");

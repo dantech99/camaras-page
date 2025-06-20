@@ -4,14 +4,30 @@ export const SaleService = {
     create: async (data: {
         photographerId: string;
         packageId: string;
-        discountCodeId: string;
+        discountCodeId?: string;
         dayId: string;
         timeSlotId: string;
+        buyerCharacter: string;
+        buyerName: string;
+        buyerPhoneNumber: string;
+        buyerEmail: string;
         price: number;
-        methodPayment: "CASH" | "CREDIT_CARD" | "NEQUI";
+        methodPayment: "CASH" | "NEQUI";
     }) => {
         const response = await apiClient.sale.index.post(
-            data,
+            {
+                discountCodeId: data.discountCodeId,
+                photographerId: data.photographerId,
+                packageId: data.packageId,
+                dayId: data.dayId,
+                timeSlotId: data.timeSlotId,
+                buyerCharacter: data.buyerCharacter,
+                buyerName: data.buyerName,
+                buyerPhoneNumber: data.buyerPhoneNumber,
+                buyerEmail: data.buyerEmail,
+                price: data.price,
+                methodPayment: data.methodPayment,
+            },
             {
                 fetch: {
                     credentials: "include",
@@ -51,27 +67,6 @@ export const SaleService = {
                 }
             }
         );
-        return response.data;
-    },
-
-    // User
-    getSalesByUser: async () => {
-        const response = await apiClient.sale.user.get(
-            {
-                fetch: {
-                    credentials: "include",
-                }
-            }
-        );
-        return response.data;
-    },
-
-    getSalesByUserAndId: async (saleId: string) => {
-        const response = await apiClient.sale.user({ id: saleId }).get({
-            fetch: {
-                credentials: "include",
-            }
-        });
         return response.data;
     },
 }
