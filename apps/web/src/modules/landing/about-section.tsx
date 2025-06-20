@@ -3,19 +3,26 @@ export function AboutSection() {
     <div className="w-full">
       <div className="p-8 lg:py-24">
         <div className="space-y-4">
-          <h2 className="text-4xl lg:text-6xl font-black leading-tight mb-2">
-            <span className="text-primary-blue font-unbounded text-2xl">
-              LAS MEJORES FOTOS
-            </span>{" "}
-            <span className="text-primary-blue/80 font-unbounded text-2xl">&</span>
-            <br />
-            <span className="text-primary-blue font-unbounded text-2xl">
-              LOS MEJORES FOTÓGRAFOS
-            </span>
-          </h2>
-          <h2 className="text-2xl lg:text-4xl font-semibold text-white font-unbounded tracking-wide pb-8">
-            EN UN SOLO LUGAR
-          </h2>
+          <div className="space-y-4">
+            <h2 className="leading-tight mb-2 flex flex-col gap-2 sm:gap-3">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-4xl sm:text-5xl lg:text-7xl xl:text-8xl font-black font-unbounded text-primary-blue">
+                  LAS MEJORES FOTOS
+                </span>
+                <span className="text-4xl sm:text-5xl lg:text-7xl xl:text-8xl font-black font-unbounded text-primary-blue/80">
+                  &
+                </span>
+              </div>
+
+              <div className="text-4xl sm:text-5xl lg:text-7xl xl:text-8xl font-black font-unbounded text-primary-blue">
+                LOS MEJORES FOTÓGRAFOS
+              </div>
+            </h2>
+
+            <h2 className="text-2xl lg:text-4xl font-semibold text-white font-unbounded tracking-wide pb-8">
+              EN UN SOLO LUGAR
+            </h2>
+          </div>
         </div>
 
         <div className="w-full h-px bg-primary mb-16"></div>

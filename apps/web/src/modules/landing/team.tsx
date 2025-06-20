@@ -40,11 +40,12 @@ export function TeamSection() {
   };
 
   const cardsVariants = {
-    hidden: { opacity: 1 },
+    hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        duration: 0.1,
+        duration: 0.3,
+        delay: 0.2,
       },
     },
   };
@@ -72,8 +73,8 @@ export function TeamSection() {
       title: "Diseño Web",
       subtitle: "Experiencias digitales únicas",
       images: [
-        "/placeholder.svg?height=200&width=300",
-        "/placeholder.svg?height=200&width=300&text=Design+1",
+        "/images/testimonial/1.webp",
+        "/images/testimonial/2.webp",
         "/placeholder.svg?height=200&width=300&text=Design+2",
         "/placeholder.svg?height=200&width=300&text=Design+3",
       ],
@@ -82,8 +83,8 @@ export function TeamSection() {
       title: "Desarrollo",
       subtitle: "Código limpio y eficiente",
       images: [
-        "/placeholder.svg?height=200&width=300&text=Code",
-        "/placeholder.svg?height=200&width=300&text=Code+1",
+        "/images/testimonial/1.webp",
+        "/images/testimonial/2.webp",
         "/placeholder.svg?height=200&width=300&text=Code+2",
         "/placeholder.svg?height=200&width=300&text=Code+3",
       ],
@@ -92,8 +93,8 @@ export function TeamSection() {
       title: "Marketing",
       subtitle: "Estrategias que funcionan",
       images: [
-        "/placeholder.svg?height=200&width=300&text=Marketing",
-        "/placeholder.svg?height=200&width=300&text=Marketing+1",
+        "/images/testimonial/1.webp",
+        "/images/testimonial/2.webp",
         "/placeholder.svg?height=200&width=300&text=Marketing+2",
         "/placeholder.svg?height=200&width=300&text=Marketing+3",
       ],
@@ -102,19 +103,13 @@ export function TeamSection() {
       title: "Consultoría",
       subtitle: "Soluciones personalizadas",
       images: [
-        "/placeholder.svg?height=200&width=300&text=Consulting",
-        "/placeholder.svg?height=200&width=300&text=Consulting+1",
+        "/images/testimonial/1.webp",
+        "/images/testimonial/2.webp",
         "/placeholder.svg?height=200&width=300&text=Consulting+2",
         "/placeholder.svg?height=200&width=300&text=Consulting+3",
       ],
     },
   ];
-
-  const handleTextAnimationComplete = () => {
-    setTimeout(() => {
-      setShowCards(true);
-    }, 500);
-  };
 
   return (
     <>
@@ -127,8 +122,8 @@ export function TeamSection() {
                 variants={containerVariants}
                 initial="hidden"
                 whileInView="visible"
+                onViewportEnter={() => setShowCards(true)}
                 viewport={{ once: true, amount: 0.3 }}
-                onAnimationComplete={handleTextAnimationComplete}
                 className="text-center"
               >
                 <div className="flex flex-wrap justify-center gap-x-4 sm:gap-x-6 gap-y-2 sm:gap-y-3">
@@ -152,7 +147,7 @@ export function TeamSection() {
               variants={cardsVariants}
               initial="hidden"
               animate="visible"
-              className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-x-12 gap-y-16"
+              className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-x-16 gap-y-16"
             >
               {cards.map((card, index) => (
                 <Card key={index} card={card} variants={cardVariants} />
@@ -171,9 +166,17 @@ function Card({ card, variants }: { card: any; variants: any }) {
 
   const handleMouseEnter = () => {
     setIsHovering(true);
+    let imageIndex = 1;
+    setCurrentImageIndex(imageIndex);
+
     const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % card.images.length);
-    }, 300);
+      imageIndex = imageIndex + 1;
+      if (imageIndex >= card.images.length) {
+        imageIndex = 1;
+      }
+      setCurrentImageIndex(imageIndex);
+    }, 1000);
+
     (document.activeElement as any).imageInterval = interval;
   };
 
@@ -188,11 +191,11 @@ function Card({ card, variants }: { card: any; variants: any }) {
   return (
     <motion.div
       variants={variants}
-      className="rounded-2xl overflow-hidden hover:shadow-2xl transition-shadow duration-300 relative bg-white"
+      className="rounded-xl overflow-hidden hover:shadow-xl transition-shadow duration-300 relative"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="relative h-64 sm:h-72 md:h-80 lg:h-[22rem] xl:h-[24rem] overflow-hidden">
+      <div className="relative h-72 sm:h-80 md:h-96 lg:h-[24rem] overflow-hidden">
         <motion.img
           key={currentImageIndex}
           src={card.images[currentImageIndex]}
@@ -202,12 +205,12 @@ function Card({ card, variants }: { card: any; variants: any }) {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.3 }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-        <div className="absolute bottom-5 left-5 right-5">
-          <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 drop-shadow-lg leading-tight">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+        <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 right-3 sm:right-4">
+          <h3 className="text-lg sm:text-xl font-bold text-white mb-1 drop-shadow-lg leading-tight">
             {card.title}
           </h3>
-          <p className="text-white/90 text-base sm:text-lg drop-shadow-md leading-tight">
+          <p className="text-white/90 text-sm sm:text-base drop-shadow-md leading-tight">
             {card.subtitle}
           </p>
         </div>
