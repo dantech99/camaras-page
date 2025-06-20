@@ -38,6 +38,7 @@ import {
   AlertDialogCancel,
   AlertDialogAction,
 } from "@camaras/ui/src/components/alert-dialog";
+import { formatCurrency } from "@/utils/format-currency";
 
 export const TableVentas = () => {
   const { data, isLoading, isError, refetch } = useSalesPhotographer();
@@ -96,7 +97,7 @@ export const TableVentas = () => {
                 <TableCell className="text-center">
                   {sale.packageName}
                 </TableCell>
-                <TableCell className="text-center">{sale.price}</TableCell>
+                <TableCell className="text-center">$ {formatCurrency(sale.price)}</TableCell>
                 <TableCell className="text-center space-x-2">
                   <Button
                     variant="outline"

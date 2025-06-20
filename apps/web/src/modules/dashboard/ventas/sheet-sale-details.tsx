@@ -122,16 +122,16 @@ export function SheetSaleDetails({ saleId }: { saleId: string }) {
               <CardContent className="space-y-3">
                 <div className="flex items-center gap-2">
                   <User className="w-4 h-4 text-muted-foreground" />
-                  <span className="font-medium">{data.sale.buyer.name}</span>
+                  <span className="font-medium">{data.sale.buyerName}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Mail className="w-4 h-4 text-muted-foreground" />
-                  <span className="text-sm">{data.sale.buyer.email}</span>
+                  <span className="text-sm">{data.sale.buyerEmail}</span>
                 </div>
-                {data.sale.buyer.phoneNumber && (
+                {data.sale.buyerPhoneNumber && (
                   <div className="flex items-center gap-2">
                     <Phone className="w-4 h-4 text-muted-foreground" />
-                    <span className="text-sm">{data.sale.buyer.phoneNumber}</span>
+                    <span className="text-sm">{data.sale.buyerPhoneNumber}</span>
                   </div>
                 )}
               </CardContent>
