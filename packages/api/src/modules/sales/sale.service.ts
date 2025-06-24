@@ -95,11 +95,13 @@ export class SaleService {
         }
     }
 
-    async getSalesByPhotographer(photographerId: string) {
+    async getSales(userId: string) {
         try {
             const sales = await this.prisma.sale.findMany({
                 where: {
-                    photographerId,
+                    photographer: {
+                        id: userId,
+                    }
                 },
                 select: {
                     id: true,
@@ -114,6 +116,7 @@ export class SaleService {
                         },
                     },
                     finalPrice: true,
+                    paymentConfirmation: true,
                     discountCode: {
                         select: {
                             discountPercentage: true,
@@ -133,6 +136,7 @@ export class SaleService {
                 packageName: sale.package.name,
                 price: sale.finalPrice,
                 hasDiscount: !!sale.discountCode?.discountPercentage,
+                paymentConfirmation: sale.paymentConfirmation,
             }));
             return {
                 status: 200,
@@ -145,54 +149,14 @@ export class SaleService {
         }
     }
 
-    async getSalesByUser(userId: string) {
-        try {
-            const sales = await this.prisma.sale.findMany({
-                where: {
-                    buyerPhoneNumber: userId,
-                },
-                select: {
-                    id: true,
-                    buyerPhoneNumber: true,
-                    buyerName: true,
-                    buyerEmail: true,
-                    buyerCharacter: true,
-                    saleStatus: true,
-                    package: {
-                        select: {
-                            name: true,
-                        },
-                    },
-                    finalPrice: true,
-                    discountCode: {
-                        select: {
-                            discountPercentage: true,
-                        },
-                        where: {
-                            discountPercentage: {
-                                not: 0,
-                            },
-                        },
-                    },
-                },
-            });
-            return {
-                status: 200,
-                message: "Sales found",
-                sales,
-            }
-        } catch (error) {
-            console.log(error);
-            throw error;
-        }
-    }
-
-    async getSaleByPhotographerAndId(id: string, photographerId: string) {
+    async getSaleById(id: string, userId: string) {
         try {
             const sale = await this.prisma.sale.findUnique({
                 where: {
                     id,
-                    photographerId,
+                    photographer: {
+                        id: userId,
+                    },
                 },
                 select: {
                     id: true,
@@ -254,25 +218,6 @@ export class SaleService {
         }
     }
 
-    async getSaleByUserAndId(userId: string, saleId: string) {
-        try {
-            const sale = await this.prisma.sale.findUnique({
-                where: {
-                    id: saleId,
-                    buyerPhoneNumber: userId,
-                },
-            });
-            return {
-                status: 200,
-                message: "Sale found",
-                sale,
-            }
-        } catch (error) {
-            console.log(error);
-            throw error;
-        }
-    }
-
     async confirmSale(saleId: string, userId: string) {
         try {
             const sale = await this.prisma.sale.update({
@@ -288,6 +233,69 @@ export class SaleService {
             return {
                 status: 200,
                 message: "Sale confirmed",
+                sale,
+            }
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
+    async confirmPayment(saleId: string) {
+        try {
+            const sale = await this.prisma.sale.update({
+                where: {
+                    id: saleId,
+                },
+                data: {
+                    paymentConfirmation: true,
+                },
+            });
+            return {
+                status: 200,
+                message: "Payment confirmed",
+                sale,
+            }
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
+    async cancelSale(saleId: string) {
+        try {
+            const sale = await this.prisma.sale.update({
+                where: {
+                    id: saleId,
+                },
+                data: {
+                    saleStatus: SaleStatus.CANCELLED,
+                },
+            });
+            return {
+                status: 200,
+                message: "Sale cancelled",
+                sale,
+            }
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
+    async noShowSale(saleId: string) {
+        try {
+            const sale = await this.prisma.sale.update({
+                where: {
+                    id: saleId,
+                },
+                data: {
+                    saleStatus: SaleStatus.PARTIAL,
+                },
+            });
+            return {
+                status: 200,
+                message: "Sale no show",
                 sale,
             }
         } catch (error) {

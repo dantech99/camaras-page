@@ -37,9 +37,8 @@ export const SaleService = {
         return response.data;
     },
 
-    // Photographer
-    getSalesByPhotographer: async () => {
-        const response = await apiClient.sale.photographer.get(
+    getSales: async () => {
+        const response = await apiClient.sale.index.get(
             {
                 fetch: {
                     credentials: "include",
@@ -49,8 +48,8 @@ export const SaleService = {
         return response.data;
     },
 
-    getSalesByPhotographerAndId: async (saleId: string) => {
-        const response = await apiClient.sale.photographer({ id: saleId }).get({
+    getSaleById: async (saleId: string) => {
+        const response = await apiClient.sale({ id: saleId }).get({
             fetch: {
                 credentials: "include",
             }
@@ -60,6 +59,42 @@ export const SaleService = {
 
     confirmSale: async (saleId: string) => {
         const response = await apiClient.sale.confirm({ id: saleId }).post(
+            {},
+            {
+                fetch: {
+                    credentials: "include",
+                }
+            }
+        );
+        return response.data;
+    },
+
+    confirmPayment: async (saleId: string) => {
+        const response = await apiClient.sale.payment({ id: saleId }).post(
+            {},
+            {
+                fetch: {
+                    credentials: "include",
+                }
+            }
+        );
+        return response.data;
+    },
+
+    cancelSale: async (saleId: string) => {
+        const response = await apiClient.sale.cancel({ id: saleId }).post(
+            {},
+            {
+                fetch: {
+                    credentials: "include",
+                }
+            }
+        );
+        return response.data;
+    },
+
+    noShowSale: async (saleId: string) => {
+        const response = await apiClient.sale.noshow({ id: saleId }).post(
             {},
             {
                 fetch: {

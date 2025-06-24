@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { SaleService } from "@/services/sale-service";
 
-export const useSalesPhotographer = () => {
+export const useSales = () => {
     return useQuery({
-        queryKey: ["sales-photographer"],
-        queryFn: () => SaleService.getSalesByPhotographer(),
+        queryKey: ["sales"],
+        queryFn: () => SaleService.getSales(),
         staleTime: 1000 * 60 * 5,
         refetchOnWindowFocus: false,
         refetchOnMount: false,
@@ -12,21 +12,10 @@ export const useSalesPhotographer = () => {
     })
 };
 
-export const useSaleByPhotographerAndId = (id: string) => {
+export const useSaleById = (id: string) => {
     return useQuery({
-        queryKey: ["sale-photographer", id],
-        queryFn: () => SaleService.getSalesByPhotographerAndId(id),
-        staleTime: 1000 * 60 * 5,
-        refetchOnWindowFocus: false,
-        refetchOnMount: false,
-        refetchOnReconnect: false,
-    })
-}
-
-export const useSalesUser = () => {
-    return useQuery({
-        queryKey: ["sales-user"],
-        queryFn: () => SaleService.getSalesByUser(),
+        queryKey: ["sale", id],
+        queryFn: () => SaleService.getSaleById(id),
         staleTime: 1000 * 60 * 5,
         refetchOnWindowFocus: false,
         refetchOnMount: false,
