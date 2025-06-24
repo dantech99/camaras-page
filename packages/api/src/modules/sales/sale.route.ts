@@ -26,12 +26,22 @@ export const saleRouter = new Elysia({
         buyerCharacter: t.String(),
     }),
 })
-.get("/photographer", ({ saleService, user }) => saleService.getSalesByPhotographer(user.id), {
+.get("/", ({ saleService, user }) => saleService.getSales(user.id), {
     photographer: true,
 })
-.get("/photographer/:id", ({ saleService, params, user }) => saleService.getSaleByPhotographerAndId(params.id, user.id), {
+.get("/:id", ({ saleService, params, user }) => saleService.getSaleById(params.id, user.id), {
     photographer: true,
 })
 .post("/confirm/:id", ({ saleService, params, user }) => saleService.confirmSale(params.id, user.id), {
     photographer: true,
 })
+.post("/payment/:id", ({ saleService, params }) => saleService.confirmPayment(params.id), {
+    photographer: true,
+})
+.post("/cancel/:id", ({ saleService, params }) => saleService.cancelSale(params.id), {
+    photographer: true,
+})
+.post("/noshow/:id", ({ saleService, params }) => saleService.noShowSale(params.id), {
+    photographer: true,
+})
+
