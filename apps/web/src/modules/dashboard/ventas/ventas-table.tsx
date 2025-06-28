@@ -169,6 +169,9 @@ const EmptyState = () => (
 );
 
 const SaleTableRow = ({ sale }: { sale: Sale }) => {
+
+  console.log(sale)
+
   const handleDelete = () => {
     console.log("Eliminando venta:", sale.id);
   };

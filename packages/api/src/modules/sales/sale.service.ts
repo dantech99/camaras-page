@@ -30,49 +30,50 @@ export class SaleService {
             // Validar la fecha y su disponibilidad
             await this.validateDay(data.dayId, data.timeSlotId);
 
+            // Obtenemos el paquete:
+            const packageFound = await this.prisma.package.findUnique({
+                where: {
+                    id: data.packageId,
+                },
+            });
+
+            if (!packageFound) {
+                throw new Error("Package not found");
+            }
+
             // Validar el cupon solo si se envio
             let discountCode = null;
             let discountPercentage = 0;
-            let finalPrice = data.price;
+            let basePrice = packageFound.price;
+            let finalPrice = basePrice;
 
             if (data.discountCodeId) {
                 discountCode = await this.validateCoupon(data.discountCodeId);
+                console.log("Discount code", discountCode);
+                console.log("Price", data.price);
                 discountPercentage = discountCode.discountPercentage;
-                finalPrice = data.price - (data.price * discountCode.discountPercentage / 100);
-            }
-
-            let confirmPayment = false;
-            let status: SaleStatus = SaleStatus.PENDING;
-            if (data.methodPayment !== "CASH") {
-                confirmPayment = true;
-                status = SaleStatus.COMPLETED;
+                console.log("Discount percentage", discountPercentage);
+                finalPrice = basePrice - (basePrice * discountPercentage / 100);
+                console.log("Final price", finalPrice);
             }
             
-
-            // Crear la venta
-            const saleData: any = {
-                photographer: { connect: { id: data.photographerId } },
-                package: { connect: { id: data.packageId } },
-                day: { connect: { id: data.dayId } },
-                timeSlot: { connect: { id: data.timeSlotId } },
+            const sale = await this.prisma.sale.create({ data: {
+                photographerId: data.photographerId,
+                packageId: data.packageId,
+                dayId: data.dayId,
+                timeSlotId: data.timeSlotId,
                 price: data.price,
                 discountPercentage: discountPercentage,
                 finalPrice: finalPrice,
                 methodPayment: data.methodPayment,
-                paymentConfirmation: confirmPayment,
-                saleStatus: status,
+                paymentConfirmation: false,
+                saleStatus: SaleStatus.PENDING,
                 buyerPhoneNumber: data.buyerPhoneNumber,
                 buyerName: data.buyerName,
                 buyerEmail: data.buyerEmail,
                 buyerCharacter: data.buyerCharacter,
-            };
-
-            if (data.discountCodeId) {
-                saleData.discountCode = { connect: { id: data.discountCodeId } };
-                saleData.discountCodeId = data.discountCodeId;
-            }
-
-            const sale = await this.prisma.sale.create({ data: saleData });
+                discountCodeId: data.discountCodeId || null,
+            } });
 
             // Marcar como booked el time slot
             await this.prisma.timeSlot.update({

@@ -42,7 +42,10 @@ interface SaleData {
       price: number;
       photoCount: number;
     };
-    discountCode: string | null;
+    discountCode: {
+      discountPercentage: number;
+      code: string;
+    };
     finalPrice: number;
     saleStatus: string;
     paymentConfirmation: boolean;
@@ -77,6 +80,8 @@ export function VentasDetalles({
     isLoading: boolean;
     isError: boolean;
   };
+
+  console.log(data)
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("es-ES", {
@@ -319,7 +324,7 @@ export function VentasDetalles({
                         Código de descuento:
                       </span>
                       <span className="text-sm font-medium">
-                        {data.sale.discountCode}
+                        {data.sale.discountCode.code}
                       </span>
                     </div>
                   )}

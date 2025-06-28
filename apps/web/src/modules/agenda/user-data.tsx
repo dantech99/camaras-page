@@ -7,6 +7,8 @@ import { Label } from "@camaras/ui/src/components/label"
 import { Button } from "@camaras/ui/src/components/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@camaras/ui/src/components/card"
 import { Separator } from "@camaras/ui/src/components/separator"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@camaras/ui/src/components/dialog"
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@camaras/ui/src/components/input-otp"
 import { User, Phone, Mail, UserCircle, Shield, Send } from "lucide-react"
 import { authClientVanilla } from "@camaras/auth/client/vanilla"
 
@@ -27,7 +29,7 @@ export function UserData() {
   const [otpCode, setOtpCode] = useState("")
   const [isLoadingSendOTP, setIsLoadingSendOTP] = useState(false)
   const [isLoadingVerifyOTP, setIsLoadingVerifyOTP] = useState(false)
-  const [otpSent, setOtpSent] = useState(false)
+  const [showOTPDialog, setShowOTPDialog] = useState(false)
 
   const handleSendOTP = async () => {
     if (!phoneNumber) return
@@ -38,7 +40,7 @@ export function UserData() {
         phoneNumber,
       })
       console.log(response)
-      setOtpSent(true)
+      setShowOTPDialog(true)
     } catch (error) {
       console.error("Error sending OTP:", error)
     } finally {
@@ -57,6 +59,8 @@ export function UserData() {
       })
       console.log(response)
       setIsVerified(true)
+      setShowOTPDialog(false)
+      setOtpCode("")
     } catch (error) {
       console.error("Error verifying OTP:", error)
     } finally {
@@ -64,10 +68,15 @@ export function UserData() {
     }
   }
 
+  const handleResendOTP = async () => {
+    setOtpCode("")
+    await handleSendOTP()
+  }
+
   return (
     <div className="w-full max-w-4xl mx-auto p-4 space-y-6">
       {/* Información Personal */}
-      <Card className="bg-gradient-to-t from-primary/5 to-card dark:bg-card shadow-xs cursor-pointer py-4">
+      <Card className="bg-gradient-to-t from-primary/5 to-card shadow-xs cursor-pointer py-4">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <User className="h-5 w-5" />
@@ -90,7 +99,6 @@ export function UserData() {
                 className="w-full"
               />
             </div>
-
             <div className="space-y-2">
               <Label htmlFor="character" className="flex items-center gap-2">
                 <UserCircle className="h-4 w-4" />
@@ -110,7 +118,7 @@ export function UserData() {
       </Card>
 
       {/* Información de Contacto */}
-      <Card className="bg-gradient-to-t from-primary/5 to-card dark:bg-card shadow-xs cursor-pointer py-4">
+      <Card className="bg-gradient-to-t from-primary/5 to-card shadow-xs cursor-pointer py-4">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Mail className="h-5 w-5" />
@@ -163,12 +171,9 @@ export function UserData() {
                   onClick={handleSendOTP}
                   disabled={!phoneNumber || isLoadingSendOTP || isVerified}
                   className="sm:w-auto w-full"
-                  variant={otpSent ? "secondary" : "default"}
                 >
                   {isLoadingSendOTP ? (
                     "Enviando..."
-                  ) : otpSent ? (
-                    "OTP Enviado"
                   ) : (
                     <>
                       <Send className="h-4 w-4 mr-2" />
@@ -178,56 +183,69 @@ export function UserData() {
                 </Button>
               </div>
             </div>
-
-            {/* Verificación OTP */}
-            {otpSent && !isVerified && (
-              <div className="space-y-2 p-4 bg-blue-50 dark:bg-blue-950/20 rounded-lg border border-blue-200 dark:border-blue-800">
-                <Label htmlFor="otp" className="flex items-center gap-2 text-blue-700 dark:text-blue-300">
-                  <Shield className="h-4 w-4" />
-                  Código de Verificación
-                </Label>
-                <p className="text-sm text-blue-600 dark:text-blue-400 mb-3">
-                  Hemos enviado un código de verificación a tu teléfono
-                </p>
-                <div className="flex flex-col sm:flex-row gap-2">
-                  <Input
-                    id="otp"
-                    type="text"
-                    value={otpCode}
-                    onChange={(e) => setOtpCode(e.target.value)}
-                    placeholder="Ingresa el código de 6 dígitos"
-                    className="flex-1"
-                    maxLength={6}
-                  />
-                  <Button
-                    onClick={handleVerifyOTP}
-                    disabled={!otpCode || isLoadingVerifyOTP}
-                    className="sm:w-auto w-full"
-                  >
-                    {isLoadingVerifyOTP ? (
-                      "Verificando..."
-                    ) : (
-                      <>
-                        <Shield className="h-4 w-4 mr-2" />
-                        Verificar
-                      </>
-                    )}
-                  </Button>
-                </div>
-              </div>
-            )}
-
-            {isVerified && (
-              <div className="p-4 bg-green-50 dark:bg-green-950/20 rounded-lg border border-green-200 dark:border-green-800">
-                <div className="flex items-center gap-2 text-green-700 dark:text-green-300">
-                  <Shield className="h-4 w-4" />
-                  <span className="font-medium">Teléfono verificado exitosamente</span>
-                </div>
-              </div>
-            )}
           </div>
         </CardContent>
       </Card>
+
+      {/* Dialog para OTP */}
+      <Dialog open={showOTPDialog} onOpenChange={setShowOTPDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Shield className="h-5 w-5" />
+              Verificación de Teléfono
+            </DialogTitle>
+            <DialogDescription>
+              Hemos enviado un código de verificación de 6 dígitos a tu teléfono{" "}
+              <span className="font-medium">{phoneNumber}</span>
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="flex flex-col items-center space-y-6 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="otp-input" className="text-center block">
+                Código de Verificación
+              </Label>
+              <InputOTP maxLength={6} value={otpCode} onChange={(value) => setOtpCode(value)}>
+                <InputOTPGroup>
+                  <InputOTPSlot index={0} />
+                  <InputOTPSlot index={1} />
+                  <InputOTPSlot index={2} />
+                  <InputOTPSlot index={3} />
+                  <InputOTPSlot index={4} />
+                  <InputOTPSlot index={5} />
+                </InputOTPGroup>
+              </InputOTP>
+            </div>
+
+            <div className="flex flex-col w-full space-y-2">
+              <Button
+                onClick={handleVerifyOTP}
+                disabled={otpCode.length !== 6 || isLoadingVerifyOTP}
+                className="w-full"
+              >
+                {isLoadingVerifyOTP ? (
+                  "Verificando..."
+                ) : (
+                  <>
+                    <Shield className="h-4 w-4 mr-2" />
+                    Verificar Código
+                  </>
+                )}
+              </Button>
+
+              <Button
+                variant="outline"
+                onClick={handleResendOTP}
+                disabled={isLoadingSendOTP}
+                className="w-full bg-transparent"
+              >
+                {isLoadingSendOTP ? "Reenviando..." : "Reenviar Código"}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
