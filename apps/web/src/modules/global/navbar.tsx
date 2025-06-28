@@ -91,7 +91,7 @@ export function Navbar() {
     if (role === "admin") return "/admin";
     if (role === "photographer") return "/photographer";
     if (role === "user") return "/user";
-    return "/company";
+    return "/user";
   };
 
   return (
