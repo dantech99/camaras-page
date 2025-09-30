@@ -3,7 +3,7 @@
 import { useCountdown } from "@/hooks/use-countdown";
 
 // Calculamos la fecha objetivo una sola vez (8 días y 12 horas desde el 30 de septiembre de 2025)
-const TARGET_DATE = new Date('2025-10-08T12:00:00');
+const TARGET_DATE = new Date('2026-12-08T10:00:00');
 
 export function HeroSection() {
   const timeLeft = useCountdown(TARGET_DATE);
@@ -56,7 +56,7 @@ export function HeroSection() {
             />
             </div>
            
-            <h3 className="text-2xl font-semibold text-white mb-8">ACERCA DE SOFA 2025</h3>
+            <h3 className="text-2xl font-semibold text-white mb-8">SOFA 2026</h3>
             <div className="grid grid-cols-4 gap-4 text-center">
               <div>
                 <span className="text-4xl font-bold text-white block mb-2">{timeLeft.days}</span>
