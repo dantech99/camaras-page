@@ -135,7 +135,7 @@ export function Navbar() {
     <>
       {/* Desktop Navbar */}
       <nav className={cn(
-        "fixed z-50 top-0 left-0 right-0 m-8 hidden lg:block",
+        "fixed z-50 top-0 left-0 right-0 m-2 hidden lg:block",
         "transition-transform duration-300 mx-auto max-w-7xl",
         scrollDirection === "down" && scrollPosition > 50 ? "-translate-y-24" : "translate-y-0"
       )}>
