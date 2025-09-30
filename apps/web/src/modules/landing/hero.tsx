@@ -4,11 +4,11 @@ export function HeroSection() {
   return (
     <section 
       id="hero" 
-      className="h-screen w-full p-8 flex items-center mt-20 justify-start bg-gradient-to-br from-black to-primary-blue/20"
+      className="h-screen w-full p-8 flex items-center mt-16 justify-start bg-gradient-to-br from-black to-primary-blue/20"
     >
       <div className="w-full max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
         {/* Left Column - Text and Buttons */}
-        <div className="space-y-8">
+        <div className="space-y-1">
           <h1 className="text-lg md:text-xl font-medium text-[#00FFF0]">
             Las Cámaras del Dragón
           </h1>
