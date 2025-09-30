@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button, buttonVariants } from "@camaras/ui/src/components/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@camaras/ui/src/lib/utils";
@@ -31,6 +31,33 @@ const links = [
   },
 ];
 
+// hook para manejar el comportamiento al hacer scroll del nav
+const useScrollDirection = () => {
+  const [scrollDirection, setScrollDirection] = useState("up");
+  const [scrollPosition, setScrollPosition] = useState(0);
+
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+
+    const updateScrollDirection = () => {
+      const scrollY = window.scrollY;
+      const direction = scrollY > lastScrollY ? "down" : "up";
+      
+      // Only update if the scroll is more than 10px
+      if (Math.abs(scrollY - lastScrollY) > 10) {
+        setScrollDirection(direction);
+      }
+      setScrollPosition(scrollY);
+      lastScrollY = scrollY > 0 ? scrollY : 0;
+    };
+
+    window.addEventListener("scroll", updateScrollDirection);
+    return () => window.removeEventListener("scroll", updateScrollDirection);
+  }, []);
+
+  return { scrollDirection, scrollPosition };
+}
+
 // Componente para el efecto hover de los links en desktop
 const AnimatedLink = ({
   href,
@@ -45,7 +72,7 @@ const AnimatedLink = ({
     <Link
       href={href}
       onClick={onClick}
-      className="relative overflow-hidden inline-block h-6 flex items-center"
+      className="relative overflow-hidden  h-6 flex items-center"
     >
       <motion.div
         className="font-unbounded font-semibold text-white cursor-pointer"
@@ -72,6 +99,7 @@ export function Navbar() {
   const [isDesktopMenuOpen, setIsDesktopMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { data: session } = authClient.useSession();
+   const { scrollDirection, scrollPosition } = useScrollDirection();
 
   const role = session?.user?.role;
 
@@ -94,10 +122,23 @@ export function Navbar() {
     return "/user";
   };
 
+    // Add this effect to handle auto-closing
+  useEffect(() => {
+    if (scrollDirection === "down" && scrollPosition > 50) {
+      setIsDesktopMenuOpen(false);
+    } else if (scrollDirection === "up" && scrollPosition < 50) {
+      setIsDesktopMenuOpen(true);
+    }
+  }, [scrollDirection, scrollPosition]);
+
   return (
     <>
       {/* Desktop Navbar */}
-      <nav className="fixed z-50 top-0 left-0 right-0 m-8 hidden lg:block">
+      <nav className={cn(
+        "fixed z-50 top-0 left-0 right-0 m-8 hidden lg:block",
+        "transition-transform duration-300",
+        scrollDirection === "down" && scrollPosition > 50 ? "-translate-y-24" : "translate-y-0"
+      )}>
         <div className="flex justify-between items-center h-12">
           <div className="flex items-center bg-primary-blue">
             {/* Botón de menú desktop */}
@@ -219,9 +260,9 @@ export function Navbar() {
             className="fixed inset-0 z-40 bg-background/95 backdrop-blur-md lg:hidden"
             onClick={closeMobileMenu}
           >
-            <div 
-              className="flex flex-col h-full"
+            <div className="flex flex-col h-full"
               onClick={(e) => e.stopPropagation()} // Prevenir cierre al hacer click en el contenido
+              onKeyDown={(e) => e.stopPropagation()} // Prevenir cierre al presionar teclas en el contenido
             >
               {/* Mobile Header */}
               <div className="flex justify-between items-center p-6 pt-8">
@@ -251,7 +292,7 @@ export function Navbar() {
 
               {/* Mobile Links */}
               <div className="flex-1 flex flex-col justify-center px-6">
-                <motion.ul 
+      , ca          <motion.ul 
                   className="space-y-8"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
