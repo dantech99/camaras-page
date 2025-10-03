@@ -1,85 +1,72 @@
+"use client"
+
+import { useEffect, useState } from "react"
+
+const images = [
+  "/images/slider-hero/1.webp",
+  "/images/slider-hero/2.webp",
+  "/images/slider-hero/3.webp"
+]
+
 export function AboutSection() {
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length)
+    }, 3500)
+
+    return () => clearInterval(interval)
+  }, [])
+
   return (
-    <div className="w-full">
-      <div className="p-8 lg:py-24">
-        <div className="space-y-4">
-          <div className="space-y-4">
-            <h2 className="leading-tight mb-2 flex flex-col gap-2 sm:gap-3">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="text-4xl sm:text-5xl lg:text-7xl xl:text-8xl font-black font-unbounded text-primary-blue">
-                  LAS MEJORES FOTOS
-                </span>
-                <span className="text-4xl sm:text-5xl lg:text-7xl xl:text-8xl font-black font-unbounded text-primary-blue/80">
-                  &
-                </span>
-              </div>
-
-              <div className="text-4xl sm:text-5xl lg:text-7xl xl:text-8xl font-black font-unbounded text-primary-blue">
-                LOS MEJORES FOTÓGRAFOS
-              </div>
-            </h2>
-
-            <h2 className="text-2xl lg:text-4xl font-semibold text-white font-unbounded tracking-wide pb-8">
-              EN UN SOLO LUGAR
-            </h2>
+    <section className="relative h-screen w-full overflow-hidden bg-black">
+      {/* Background Image Slider */}
+      <div className="absolute inset-0">
+        {images.map((image, index) => (
+          <div
+            key={index}
+            className="absolute inset-0 transition-all duration-1000 ease-in-out"
+            style={{
+              transform: `translateX(${(index - currentIndex) * 100}%)`,
+              opacity: index === currentIndex ? 1 : 0,
+            }}
+          >
+            <img
+              src={image || "/placeholder.svg"}
+              alt={`Photography slide ${index + 1}`}
+              className="h-full w-full object-cover"
+            />
+            {/* Dark overlay */}
+            <div className="absolute inset-0 bg-black/60" />
           </div>
-        </div>
-
-        <div className="w-full h-px bg-primary mb-16"></div>
-
-        <div className="grid lg:grid-cols-3 gap-12 lg:gap-16">
-          <div className="lg:col-span-1">
-            <div className="">
-              <div className="flex items-start justify-between">
-                <p className="text-lg md:text-xl leading-relaxed text-muted-foreground font-light flex-1 font-unbounded">
-                  <strong className="text-primary-blue font-unbounded text-2xl">
-                    "
-                  </strong>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Facere iste aperiam est. Corporis, nostrum. Nobis quidem sed
-                  iste rem incidunt, minima ab molestiae tenetur beatae, officia
-                  harum, sapiente hic voluptatum.
-                  <strong className="text-primary-blue font-unbounded text-2xl">
-                    "
-                  </strong>
-                  <br />
-                  -Dalai Lama
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="lg:col-span-2 grid md:grid-cols-2 gap-12">
-            <div>
-              <h3 className="text-xl md:text-2xl font-bold text-primary-blue font-unbounded pb-2 tracking-wide">
-                TAILORED EXPERTS
-                <br />
-                MENTORING
-              </h3>
-              <p className="text-muted-foreground leading-relaxed font-light">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio
-                minus expedita consectetur, temporibus totam, inventore aut
-                nobis dicta laudantium dolor omnis recusandae similique quo
-                cupiditate cumque! Excepturi ad quo ipsa?
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-xl md:text-2xl font-bold text-primary-blue font-unbounded pb-2 tracking-wide">
-                CREATIVE INDUSTRY
-                <br />
-                TALENT POOL
-              </h3>
-              <p className="muted-foreground leading-relaxed font-light">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Consectetur voluptas ut maxime iste nobis enim quidem dolorum
-                suscipit impedit eos, ipsum, quam natus fugit minima? Quidem
-                distinctio earum rem magni!
-              </p>
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
-    </div>
-  );
+
+      {/* Content */}
+      <div className="relative z-10 flex h-full flex-col items-center justify-between px-4 py-12 md:px-8 md:py-16 lg:px-16">
+        {/* Header */}
+        <div className="w-full max-w-7xl text-center">
+          <h1 className="font-unbounded text-balance font-black uppercase leading-tight tracking-tight text-cyan-400 text-4xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
+            Las mejores fotos & los mejores fotógrafos
+          </h1>
+          <p className="font-unbounded mt-4 text-lg font-bold uppercase tracking-wider text-white sm:text-xl md:mt-6 md:text-2xl">
+            En un solo lugar
+          </p>
+        </div>
+
+        {/* Quote */}
+        <div className="mt-16 w-full max-w-3xl px-4 text-center md:mt-24 lg:mt-32">
+          <blockquote className="font-unbounded text-balance italic text-white text-base sm:text-lg md:text-xl lg:text-2xl">
+            "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere iste aperiam est. Corporis, nostrum. Nobis
+            quidem sed iste rem incidunt, minima ab molestiae tenetur beatae, officia harum, sapiente hic voluptatum."
+          </blockquote>
+          <p className="font-unbounded mt-6 font-semibold text-white text-sm sm:text-base md:mt-8 md:text-lg">-Dalai Lama</p>
+        </div>
+
+        {/* Bottom spacer */}
+        <div className="h-8" />
+      </div>
+    </section>
+  )
 }
