@@ -21,11 +21,11 @@ export const HomeScreen = () => {
       <TeamSection />
       <SchedulingSection />
       
-      {/* <PhotographerGrid /> */}
+      
       <GalleryPhotographer />
-      {/* <TestimonialCarousel /> */}
+      
       <FAQSection />
-      {/* <BrandsCarousel /> */}
+      
     </>
   );
 };
