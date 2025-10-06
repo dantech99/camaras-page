@@ -64,6 +64,7 @@ model Package {
 
   @@map("package")
 }
+
 model Discount {
   id                 String   @id @default(uuid())
   code               String   @unique
