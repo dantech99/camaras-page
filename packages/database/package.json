@@ -9,13 +9,13 @@
     "@types/bun": "latest"
   },
   "peerDependencies": {
-    "typescript": "5.5.4"
+    "typescript": "5.5.4"     
   },
   "dependencies": {
     "@prisma/client": "6.6.0",
     "prisma": "^6.6.0"
   },
   "prisma": {
-    "schema": "prisma/schema"
+    "schema": "prisma/schema.prisma"
   }
 }
