@@ -114,7 +114,7 @@ export function TeamSection() {
   return (
     <>
       <div className="px-4 sm:px-10 lg:px-24 py-12 sm:py-20">
-        <div className="max-w-9xl mx-auto ">
+        <div className="max-w-7xl mx-auto ">
           {/* Texto animado grande y responsivo */}
           <div className="flex items-center justify-center min-h-[300px] sm:min-h-[400px] lg:min-h-[500px] mb-16 sm:mb-24">
             <div className="px-4 p-8 sm:p-14 md:p-20 w-full max-w-5xl flex items-center justify-center">
