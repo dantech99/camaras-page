@@ -1,11 +1,305 @@
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["prismaSchemaFolder"]
-  output          = "../generated/database"
+  provider = "prisma-client-js"
+  output   = "../generated/database"
 }
 
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
+}
+
+// Enums
+enum AuditAction {
+  ROLE_UPDATE
+  DISCOUNT_CREATED
+  PACKAGE_UPDATED
+  FUNDS_TRANSFER
+  USER_STATUS_CHANGED
+  PACKAGE_CREATED
+  DISCOUNT_DEACTIVATED
+  TRANSACTION_REFUND
+}
+
+enum AuditEntity {
+  USER
+  DISCOUNT
+  PACKAGE
+  TRANSACTION
+  ORGANIZATION
+}
+
+enum PaymentMethod {
+  CASH
+  CREDIT_CARD
+  NEQUI
+}
+
+enum SaleStatus {
+  PENDING
+  COMPLETED
+  CANCELLED
+  PARTIAL
+}
+
+// Auth Models
+model User {
+  id String @id
+
+  // Información general
+  name         String
+  image        String?
+  description  String?
+  facebookUrl  String?
+  instagramUrl String?
+  tiktokUrl    String?
+
+  // Información adicional
+  nameTag     String?
+  website     String?
+  location    String?
+  phoneNumber String?
+
+  // Better Auth 
+  email               String
+  emailVerified       Boolean
+  phoneNumberVerified Boolean?
+  isAnonymous         Boolean?
+  role                String?
+  banned              Boolean?
+  banReason           String?
+  banExpires          DateTime?
+
+  // Relaciones
+  accounts          Account[]
+  sessions          Session[]
+  members           Member[]
+  invitations       Invitation[]
+  auditLogs         AuditLog[]     @relation("AuditLogActor")
+  receivedAuditLogs AuditLog[]     @relation("AuditLogTarget")
+  availableDays     AvailableDay[]
+  sales             Sale[]
+  packages          Package[]
+  discounts         Discount[]     @relation("discountPhotographer")
+
+  cancelledSales Sale[] @relation("cancelledBy")
+
+  createdAt DateTime
+  updatedAt DateTime
+
+  @@unique([email])
+  @@unique([phoneNumber])
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime
+  updatedAt DateTime
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  activeOrganizationId String?
+  impersonatedBy       String?
+
+  @@unique([token])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime
+  updatedAt             DateTime
+
+  @@map("account")
+}
+
+model Verification {
+  id         String    @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+
+  @@map("verification")
+}
+
+model Organization {
+  id          String       @id
+  name        String
+  slug        String?
+  logo        String?
+  createdAt   DateTime
+  metadata    String?
+  members     Member[]
+  invitations Invitation[]
+
+  @@unique([slug])
+  @@map("organization")
+}
+
+model Member {
+  id             String       @id
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role           String
+  createdAt      DateTime
+
+  @@map("member")
+}
+
+model Invitation {
+  id             String       @id
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  email          String
+  role           String?
+  status         String
+  expiresAt      DateTime
+  inviterId      String
+  user           User         @relation(fields: [inviterId], references: [id], onDelete: Cascade)
+
+  @@map("invitation")
+}
+
+// Business Models
+model AuditLog {
+  id         String      @id @default(uuid())
+  actor      User        @relation("AuditLogActor", fields: [actorId], references: [id])
+  actorId    String
+  action     AuditAction
+  entityType AuditEntity
+  entityId   String
+  details    Json?
+  createdAt  DateTime    @default(now())
+
+  targetUser   User?   @relation("AuditLogTarget", fields: [targetUserId], references: [id])
+  targetUserId String?
+
+  @@index([entityType])
+  @@index([action])
+  @@map("audit_log")
+}
+
+model Package {
+  id                 String           @id @default(uuid())
+  photographerId     String
+  name               String
+  description        String
+  imageUrl           String
+  price              Float
+  photoCount         Int              @default(0)
+  discountPercentage Float            @default(0)
+  sales              Sale[]
+  isActive           Boolean          @default(true)
+  deletedAt          DateTime?
+  photographer       User             @relation(fields: [photographerId], references: [id])
+
+  @@map("package")
+}
+
+model Discount {
+  id                 String   @id @default(uuid())
+  code               String   @unique
+  discountPercentage Float
+  expirationDate     DateTime
+  photographerId     String
+  isActive           Boolean  @default(true)
+  createdat          DateTime @default(now())
+
+  sales        Sale[] @relation("discountCode")
+  photographer User   @relation("discountPhotographer", fields: [photographerId], references: [id])
+
+  userId String?
+
+  @@map("discount")
+}
+
+model AvailableDay {
+  id          String     @id @default(uuid())
+  date        String
+  isAvailable Boolean    @default(true)
+  userId      String
+  user        User       @relation(fields: [userId], references: [id])
+  timeSlots   TimeSlot[]
+  sales       Sale[]
+
+  @@map("available_day")
+}
+
+model TimeSlot {
+  id             String       @id @default(uuid())
+  start          String
+  end            String
+  ampmStart      String
+  ampmEnd        String
+  isBooked       Boolean      @default(false)
+  availableDayId String
+  availableDay   AvailableDay @relation(fields: [availableDayId], references: [id])
+
+  sales Sale[]
+
+  @@map("time_slot")
+}
+
+model Sale {
+  id String @id @default(uuid())
+
+  saleStatus SaleStatus @default(PENDING)
+
+  photographer   User   @relation(fields: [photographerId], references: [id])
+  photographerId String
+
+  package   Package @relation(fields: [packageId], references: [id])
+  packageId String
+
+  buyerPhoneNumber String
+  buyerName        String
+  buyerEmail       String
+  buyerCharacter   String
+
+  discountCode       Discount? @relation("discountCode", fields: [discountCodeId], references: [id])
+  discountCodeId     String?
+  discountPercentage Float
+
+  day   AvailableDay @relation(fields: [dayId], references: [id])
+  dayId String
+
+  timeSlotId String
+  timeSlot   TimeSlot @relation(fields: [timeSlotId], references: [id])
+
+  price      Float
+  finalPrice Float
+
+  cancelledAt   DateTime?
+  cancelledById String?
+  cancelledBy   User?     @relation("cancelledBy", fields: [cancelledById], references: [id])
+
+  methodPayment PaymentMethod
+
+  paymentConfirmation   Boolean   @default(false)
+  paymentConfirmationAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("sale")
 }
