@@ -108,6 +108,11 @@ export function CreatePaqueteForm() {
                     <div
                       className="relative w-full aspect-square border border-input rounded-md overflow-hidden cursor-pointer"
                       onClick={handleImageClick}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          handleImageClick();
+                        }
+                      }}
                     >
                       {previewImage ? (
                         <Image

@@ -114,7 +114,7 @@ export function TeamSection() {
   return (
     <>
       <div className="px-4 sm:px-10 lg:px-24 py-12 sm:py-20">
-        <div className="max-w-9xl mx-auto ">
+        <div className="max-w-7xl mx-auto ">
           {/* Texto animado grande y responsivo */}
           <div className="flex items-center justify-center min-h-[300px] sm:min-h-[400px] lg:min-h-[500px] mb-16 sm:mb-24">
             <div className="px-4 p-8 sm:p-14 md:p-20 w-full max-w-5xl flex items-center justify-center">
@@ -147,7 +147,7 @@ export function TeamSection() {
               variants={cardsVariants}
               initial="hidden"
               animate="visible"
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-12 sm:gap-x-12 sm:gap-y-16 lg:gap-x-8 lg:gap-y-12 xl:gap-x-12 xl:gap-y-16"
+              className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-3  xl:grid-cols-4 gap-x-8 gap-y-12 sm:gap-x-12 sm:gap-y-16 lg:gap-x-8 lg:gap-y-12 xl:gap-x-12 xl:gap-y-16"
             >
               {cards.map((card, index) => (
                 <Card key={index} card={card} variants={cardVariants} />
@@ -195,7 +195,7 @@ function Card({ card, variants }: { card: any; variants: any }) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="relative h-80 sm:h-96 md:h-[28rem] lg:h-[32rem] xl:h-[36rem] overflow-hidden">
+      <div className="relative h-[600px] overflow-hidden object-cover ">
         <motion.img
           key={currentImageIndex}
           src={card.images[currentImageIndex]}
@@ -215,16 +215,16 @@ function Card({ card, variants }: { card: any; variants: any }) {
           </p>
 
           {/* Botones */}
-          <div className="flex flex-row gap-3">
+          <div className="flex md:flex-col flex-row gap-2">
             <button
               type="button"
-              className="px-4 sm:px-6 py-2 sm:py-3 rounded-lg bg-white/20 text-white text-sm sm:text-base font-medium hover:bg-white/30 transition-colors backdrop-blur-sm flex-1"
+              className="p-2 rounded-lg bg-white/20 text-white text-sm sm:text-base  font-medium hover:bg-white/30 transition-colors backdrop-blur-sm flex-1 text-pretty capitalize cursor-pointer"
             >
               ACERCA DE MI
             </button>
             <button
               type="button"
-              className="px-4 sm:px-6 py-2 sm:py-3 rounded-lg bg-[#00FFF0] text-black text-sm sm:text-base font-medium hover:bg-[#00FFF0]/90 transition-colors flex-1"
+              className="p-2 rounded-lg bg-[#00FFF0] text-black text-pretty capitalize cursor-pointer font-medium hover:bg-[#5ffdf3]/90  transition-colors flex-1"
             >
               AGENDA CONMIGO
             </button>

@@ -24,7 +24,7 @@ export function PhotographerCard({
   return (
     <div
       className="relative overflow-hidden rounded-3xl aspect-9/16 w-full cursor-pointer shadow-2xl"
-      onClick={handleCardClick}
+      onClick={handleCardClick} 
     >
       <img
         src={
