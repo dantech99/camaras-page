@@ -81,8 +81,8 @@ export function GalleryPhotographer() {
   ];
 
   return (
-    <div className="relative w-full py-2 sm:py-6 md:py-10 px-2 sm:px-3 md:px-4 bg-gray-900">
-      <div className="max-w-6xl mx-auto">
+    <div className="relative w-full py-2 sm:py-6 md:py-10 px-2 sm:px-3 md:px-4 ">
+      <div className="max-w-7xl mx-auto">
         <div className="grid gap-8 sm:gap-4 md:gap-5 grid-cols-3 grid-rows-11 h-screen">
           {cosplayCards.map((card) => (
             <div
@@ -120,15 +120,6 @@ export function GalleryPhotographer() {
           ))}
         </div>
       </div>
-
-      <Link href="/gallery" className="inline-flex items-center gap-2 mt-20">
-        <Button
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10"
-          variant={"landing"}
-        >
-          Ver más fotos en nuestra galería
-        </Button>
-      </Link>
     </div>
   );
 }

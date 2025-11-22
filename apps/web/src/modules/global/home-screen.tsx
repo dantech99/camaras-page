@@ -10,6 +10,7 @@ import { AboutSection } from "../landing/about-section";
 import { BrandsCarousel } from "../landing/brand-carousel";
 import { SchedulingSection } from "../landing/scheduling-section";
 import { TeamSection } from "../landing/team";
+import { ButtonViewGallery } from "../landing/button-view-gallery";
 
 export const HomeScreen = () => {
   return (
@@ -23,6 +24,7 @@ export const HomeScreen = () => {
       
       
       <GalleryPhotographer />
+      <ButtonViewGallery />
       
       <FAQSection />
       
