@@ -1,10 +1,11 @@
 import Jumbotron from "@/modules/landing/jumbotron";
+import {SchedulingSection} from "@/modules/landing/scheduling-section";
 
 export default function NosotrosPage() {
   return (
     <>
       <Jumbotron title="NOSOTROS" description="Conoce al equipo detrás de la plataforma que conecta a los mejores fotógrafos de cosplay con las historias que merecen ser contadas." />
-      <div className="flex flex-col items-center py-18 max-w-6xl mx-auto p-4">
+      <div className="flex flex-col items-center py-18 max-w-7xl mx-auto p-4">
         <h1 className="text-4xl font-bold mb-4">NUESTRA <span className="text-primary-blue">MISION</span> </h1>
         <p className="text-lg text-white/80">
           Somos una empresa dedicada a la fotografía y la captura de momentos
@@ -24,6 +25,7 @@ export default function NosotrosPage() {
         </p>
         <img src="/images/about-us/team.jpg" alt="Nosotros" className="w-full h-80 object-cover" />
       </div>
+      <SchedulingSection />
     </>
   );
 }

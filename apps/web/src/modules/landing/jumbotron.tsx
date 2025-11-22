@@ -22,7 +22,7 @@ export default function Jumbotron({ title, description, backgroundImage }: Jumbo
 
       <div className="absolute inset-0 bg-gradient-to-r from-[#03030A]/95 via-[#09041A]/70 to-transparent" />
 
-      <div className="relative z-10 flex w-full flex-col justify-center gap-4 px-6 py-14 sm:px-12 sm:py-16 lg:px-20 lg:py-20">
+      <div className="relative z-10 flex w-full flex-col justify-center gap-4  mx-auto max-w-7xl ">
         <p className="text-sm font-semibold uppercase tracking-[0.3em] text-cyan-300 sm:text-base">
           Las Cámaras del Dragón
         </p>
