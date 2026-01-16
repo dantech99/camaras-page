@@ -54,6 +54,24 @@ export function CreatePaqueteForm() {
   function handleImageChange(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     if (file) {
+      // Validar tipo de archivo
+      const validTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+      if (!validTypes.includes(file.type)) {
+        toast.error("Tipo de archivo no válido", {
+          description: "Solo se permiten imágenes JPG, JPEG, PNG o WEBP",
+        });
+        return;
+      }
+
+      // Validar tamaño (máximo 10MB)
+      const maxSize = 10 * 1024 * 1024; // 10MB en bytes
+      if (file.size > maxSize) {
+        toast.error("Archivo muy grande", {
+          description: "La imagen no debe superar los 10MB",
+        });
+        return;
+      }
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreviewImage(reader.result as string);
@@ -81,8 +99,22 @@ export function CreatePaqueteForm() {
         duration: 3000,
       });
     } catch (error) {
+      console.error("Error al crear paquete:", error);
+
+      let errorMessage = "Hubo un error al crear el paquete";
+
+      if (error && typeof error === "object" && "message" in error) {
+        errorMessage = (error as { message: string }).message;
+      } else if (error && typeof error === "object" && "value" in error) {
+        const errorValue = (error as { value?: { message?: string } }).value;
+        if (errorValue?.message) {
+          errorMessage = errorValue.message;
+        }
+      }
+
       toast.error("Error al crear el paquete", {
-        description: "Hubo un error al crear el paquete",
+        description: errorMessage,
+        duration: 5000,
       });
     } finally {
       setIsLoading(false);
@@ -129,7 +161,7 @@ export function CreatePaqueteForm() {
                       <input
                         ref={fileInputRef}
                         type="file"
-                        accept="image/jpeg, image/jpg, image/png"
+                        accept="image/jpeg, image/jpg, image/png, image/webp"
                         onChange={handleImageChange}
                         className="hidden"
                       />
