@@ -6,18 +6,205 @@
 
 La aplicación está construida como un monorepo usando Turborepo, con arquitectura modular que incluye un frontend en Next.js, un backend en Elysia.js, y paquetes compartidos para UI, API, almacenamiento S3 y configuraciones TypeScript.
 
-## Arquitectura Técnica
+# Arquitectura Técnica
 
-### Estructura del Monorepo
+## 📁 Estructura del Proyecto - Camaras Page
 
-- **apps/web**: Aplicación frontend en Next.js 14+ con App Router, Tailwind CSS y componentes compartidos.
-- **apps/backend-worker**: Servicio backend en Elysia.js que maneja la lógica de negocio y APIs REST.
-- **packages/ui**: Biblioteca de componentes React compartida con componentes de Radix UI.
-- **packages/api**: Capa de servicios API con Elysia.js y validación TypeBox.
-- **packages/s3**: Utilidades para almacenamiento en S3 (compatible con Supabase).
-- **packages/typescript-config**: Configuraciones TypeScript compartidas para consistencia.
-- **packages/database**: Gestión de base de datos con Prisma.
-- **packages/auth**: Autenticación con Better Auth.
+Este documento describe la estructura completa del proyecto, los módulos de frontend y backend, y cómo se conectan entre sí.
+
+```
+┌─────────────────┐         ┌──────────────────┐         ┌─────────────────┐
+│   Frontend      │         │   Backend API    │         │   Database      │
+│  (Next.js)      │────────▶│   (Elysia)       │────────▶│   (Prisma)      │
+│                 │         │                  │         │                 │
+└─────────────────┘         └──────────────────┘         └─────────────────┘
+        │                            │
+        │                            │
+        ▼                            ▼
+  api-connection.ts          packages/api/
+  (Eden Treaty)              (Rutas y lógica)
+```
+
+## 🏗️ Arquitectura General
+
+Este es un **monorepo** usando **Turborepo** y **Bun** como package manager. La estructura está organizada en:
+
+```
+camaras-page/
+├── apps/              # Aplicaciones principales
+│   ├── web/          # Frontend (Next.js)
+│   └── backend-worker/  # Backend (Elysia)
+├── packages/         # Módulos compartidos
+│   ├── api/          # Lógica de API/Backend
+│   ├── auth/         # Sistema de autenticación
+│   ├── database/     # Prisma ORM y esquema
+│   ├── ui/           # Componentes UI compartidos
+│   ├── s3/           # Servicio de almacenamiento S3
+│   └── typescript-config/  # Configuraciones TypeScript
+```
+---
+
+## 🎨 FRONTEND (`apps/web`)
+
+### Estructura de Carpetas
+
+```
+apps/web/
+├── src/
+│   ├── app/                    # Next.js App Router
+│   │   ├── (auth)/             # Rutas de autenticación
+│   │   │   └── auth/
+│   │   ├── (private)/          # Rutas privadas (requieren autenticación)
+│   │   │   └── (staff)/        # Rutas de staff (admin/photographer)
+│   │   ├── (public)/           # Rutas públicas
+│   │   ├── layout.tsx          # Layout principal
+│   │   └── providers.tsx       # Providers de React Query, etc.
+│   │
+│   ├── modules/                # Módulos de la aplicación
+│   │   ├── agenda/             # Flujo de agendamiento
+│   │   │   ├── select-package.tsx
+│   │   │   ├── select-photographer.tsx
+│   │   │   ├── select-day.tsx
+│   │   │   ├── select-payment-method.tsx
+│   │   │   ├── user-data.tsx
+│   │   │   ├── confirm-payment.tsx
+│   │   │   └── store/          # Estado con Zustand
+│   │   │
+│   │   ├── auth/               # Autenticación
+│   │   │   ├── auth-screen.tsx
+│   │   │   ├── login-form.tsx
+│   │   │   └── register-form.tsx
+│   │   │
+│   │   ├── dashboard/          # Paneles de administración
+│   │   │   ├── admin/          # Panel de administrador
+│   │   │   │   └── metricas/   # Gráficas y métricas
+│   │   │   ├── cuenta/         # Gestión de cuenta
+│   │   │   ├── cupones/        # Gestión de cupones
+│   │   │   ├── horarios/       # Gestión de horarios
+│   │   │   ├── paquetes/       # Gestión de paquetes
+│   │   │   ├── users/          # Gestión de usuarios
+│   │   │   ├── ventas/         # Gestión de ventas
+│   │   │   ├── metricas/       # Métricas del fotógrafo
+│   │   │   └── sidebar/        # Navegación lateral
+│   │   │
+│   │   ├── global/             # Componentes globales
+│   │   │   ├── navbar.tsx
+│   │   │   ├── footer.tsx
+│   │   │   └── home-screen.tsx
+│   │   │
+│   │   └── landing/            # Página de inicio pública
+│   │       ├── hero.tsx
+│   │       ├── about-section.tsx
+│   │       ├── photographer-landing.tsx
+│   │       └── ...
+│   │
+│   ├── services/               # Servicios de API
+│   │   ├── package-service.ts
+│   │   ├── photographer-service.ts
+│   │   ├── sale-service.ts
+│   │   ├── day-service.ts
+│   │   ├── time-service.ts
+│   │   ├── coupon-service.ts
+│   │   ├── profile-service.ts
+│   │   └── users-service.ts
+│   │
+│   ├── hooks/                  # Custom React Hooks
+│   │   ├── use-packages.tsx
+│   │   ├── use-photographers.tsx
+│   │   ├── use-sale.tsx
+│   │   ├── use-profile.tsx
+│   │   └── ...
+│   │
+│   ├── utils/                  # Utilidades
+│   │   ├── api-connection.ts   # Cliente de API (Eden Treaty)
+│   │   ├── auth-connection.ts  # Cliente de autenticación
+│   │   └── ...
+│   │
+│   └── middleware.ts           # Middleware de Next.js (protección de rutas)
+│
+└── public/                     # Archivos estáticos
+    └── images/                 # Imágenes del sitio
+```
+
+### Módulos Principales del Frontend
+
+#### 1. **Módulo de Agenda** (`modules/agenda/`)
+- Flujo de agendamiento paso a paso (stepper)
+- Selección de paquete, fotógrafo, día y método de pago
+- Gestión del estado con Zustand (`store/sale.store.ts`)
+
+#### 2. **Módulo de Dashboard** (`modules/dashboard/`)
+- **Admin Dashboard**: Métricas generales, gestión de usuarios, cupones
+- **Photographer Dashboard**: Métricas personales, gestión de paquetes, horarios, ventas
+- **Cuenta**: Edición de perfil del usuario
+
+#### 3. **Módulo de Autenticación** (`modules/auth/`)
+- Login y registro de usuarios
+- Integración con Better Auth
+
+#### 4. **Módulo Landing** (`modules/landing/`)
+- Página pública de inicio
+- Galería de fotógrafos
+- Testimonios
+- Sección de FAQ
+
+---
+## ⚙️ BACKEND
+
+### 1. Backend Worker (`apps/backend-worker/`)
+
+**Propósito**: Servidor principal que ejecuta la API
+
+```typescript
+// apps/backend-worker/src/index.ts
+import { api } from "@camaras/api/src";
+import { swagger } from "@elysiajs/swagger";
+
+const app = new Elysia()
+  .use(api)                    // Usa la API definida en packages/api
+  .use(swagger({ path: "/api/swagger" }))
+  .listen(8080);
+```
+
+**Puerto**: `8080`
+**Framework**: Elysia.js
+**Documentación**: Swagger en `/api/swagger`
+
+---
+
+### 2. Package API (`packages/api/`)
+
+**Propósito**: Define toda la lógica del backend, rutas y endpoints
+
+```
+packages/api/
+├── src/
+│   ├── index.ts                # Exporta la API principal
+│   │
+│   ├── modules/                # Módulos del backend
+│   │   ├── packages/           # Gestión de paquetes
+│   │   │   ├── packages.route.ts    # Rutas HTTP
+│   │   │   ├── packages.module.ts   # Lógica de negocio 
+│   │   │   └── packages.service.ts  # Servicios/Repositorios
+│   │   │
+│   │   ├── photographers/      # Gestión de fotógrafos
+│   │   ├── sales/              # Gestión de ventas
+│   │   ├── day/                # Gestión de días disponibles
+│   │   ├── time/               # Gestión de slots de tiempo
+│   │   ├── coupon/             # Gestión de cupones
+│   │   ├── profile/            # Perfiles de usuario
+│   │   ├── users/              # Gestión de usuarios
+│   │   ├── otp/                # Códigos OTP (One-Time Password)
+│   │   ├── permissions/        # Sistema de permisos
+│   │   └── prisma/             # Configuración Prisma
+│   │
+│   ├── core/                   # Núcleo del sistema
+│   │   └── auth/               # Middleware de autenticación
+│   │
+│   └── utils/
+│       ├── betteAuthPlugin.ts  # Plugin de Better Auth para Elysia
+│       └── envs.ts             # Variables de entorno
+```
 
 ### Tecnologías Principales
 
